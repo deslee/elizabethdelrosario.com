@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "npm run build-config && nodemon",
     "build": "npm-run-all build-config build-next",
+    "now-build": "npm-run-all build-config build-next",
     "build-config": "tsc globalConfig.ts && renamer globalConfig.js --replace globalConfig.compiled.js --force",
     "build-next": "next build && tsc --project tsconfig.server.json",
     "start": "cross-env NODE_ENV=production node dist/server/index.js",

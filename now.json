@@ -1,0 +1,6 @@
+{
+    "name": "admin-elizabethdelrosariocom",
+    "builds": [
+        { "src": "dist/server/index.js", "use": "@now/node" }
+    ]
+}
