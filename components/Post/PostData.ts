@@ -1,4 +1,3 @@
-import { Omit } from '../../utils/TypeUtils';
 import { PostInput, Post } from 'schema';
 import * as yup from 'yup';
 import { PostInputShape } from '../../schema/validators';

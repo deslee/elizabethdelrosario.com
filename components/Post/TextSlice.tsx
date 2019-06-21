@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { TextSlice } from './PostData';
 import { TextField } from 'formik-material-ui';
 import { Field } from 'formik';
+import { nameof } from '../../utils/TypeUtils';
 
 interface Props {
     slice: TextSlice;
@@ -20,10 +21,10 @@ const TextSliceComponent = ({ name }: Props) => {
 
     return <>
         <Field
-            name={`${name}.text`}
+            name={`${name}.${nameof<TextSlice>('text')}`}
             type="text"
             component={TextField}
-            className={classes.textArea}
+            className={classes.textArea} 
             multiline
             fullWidth
             rowsMax={16}

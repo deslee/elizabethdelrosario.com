@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {Omit} from "../utils/TypeUtils";
 import Button, {ButtonProps} from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 

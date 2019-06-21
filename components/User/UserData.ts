@@ -1,4 +1,3 @@
-import {Omit} from "../../utils/TypeUtils";
 import {User} from "../../schema";
 
 export interface UserData {

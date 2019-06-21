@@ -1,4 +1,3 @@
-import {Omit} from "../../utils/TypeUtils";
 import {Asset} from "../../schema";
 import * as mime from 'mime-types';
 

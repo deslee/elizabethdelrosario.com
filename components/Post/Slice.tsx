@@ -42,7 +42,7 @@ const Slice = ({ slice, onRemoveSlice, onMoveUp, onMoveDown, name }: Props) => {
     const classes = useStyles();
     const [deleted, setDeleted] = React.useState(false);
 
-    const s = () => {
+    const renderSlice = () => {
         if (isTextSlice(slice)) {
             return <TextSliceComponent slice={slice} name={name} />
         } else if (isImagesSlice(slice)) {
@@ -77,7 +77,7 @@ const Slice = ({ slice, onRemoveSlice, onMoveUp, onMoveDown, name }: Props) => {
                         </div>
                     </Grid>
                     <Grid item xs={12}>
-                        {s()}
+                        {renderSlice()}
                     </Grid>
                 </Grid>
             </Paper>

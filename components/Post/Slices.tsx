@@ -54,7 +54,13 @@ const Slices = ({ slices }: Props) => {
                 return <>
                     <PoseGroup>
                         {[...slices, newSlice].map((slice, idx) => <Item key={slice.id}>
-                            <Slice name={`data.slices[${idx}]`} slice={slice} onRemoveSlice={() => remove(slices.indexOf(slice))} onMoveUp={() => idx > 0 && move(idx, idx - 1)} onMoveDown={() => idx < slices.length - 1 && move(idx, idx + 1)} />
+                            <Slice
+                                name={`data.slices[${idx}]`}
+                                slice={slice}
+                                onRemoveSlice={() => remove(slices.indexOf(slice))}
+                                onMoveUp={() => idx > 0 && move(idx, idx - 1)}
+                                onMoveDown={() => idx < slices.length - 1 && move(idx, idx + 1)}
+                            />
                         </Item>)}
                     </PoseGroup>
                     <div className={classes.addSliceAction}>
