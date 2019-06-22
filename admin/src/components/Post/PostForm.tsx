@@ -98,7 +98,7 @@ const PostForm = ({ isSubmitting, values, error, onDelete, type, dirty }: Props)
                             helperText={!!errors[name] ? errors[name] : "The date of the post"}
                             label="Date"
                             value={value}
-                            onChange={date => setFieldValue(name, date.toISOString())}
+                            onChange={date => date && setFieldValue(name, date.toISOString())}
                             onBlur={onBlur}
                             name={name}
                             error={!!errors[name]}

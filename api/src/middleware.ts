@@ -7,7 +7,7 @@ import globalConfig from "./globalConfig";
 import { binding } from "./schema";
 
 export default compose(
-    next => (req: http.IncomingMessage, res: http.ServerResponse) => {
+    (next: any) => (req: http.IncomingMessage, res: http.ServerResponse) => {
         (req as CustomRequest).binding = binding;
         (req as CustomRequest).config = globalConfig;
         next(req, res);
