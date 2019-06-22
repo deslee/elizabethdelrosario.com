@@ -2,6 +2,11 @@
     "version": 2,
     "name": "admin-elizabethdelrosariocom",
     "builds": [
-        { "src": "dist/server/index.js", "use": "@now/node" }
+        { "src": "microservices/graphql.js", "use": "@now/node" },
+        { "src": "microservices/frontend.js", "use": "@now/node" }
+    ],
+    "routes": [
+        { "src": "/graphql.*", "dest": "microservices/graphql.js" },
+        { "src": "/.*", "dest": "microservices/frontend.js" }
     ]
 }

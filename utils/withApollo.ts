@@ -9,7 +9,7 @@ import { IncomingMessage } from 'http';
 import { CustomApp } from '../pages/_app';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import ApolloClient from 'apollo-client';
-import { CustomRequest } from '../server/CustomRequestResponse';
+import { CustomRequest } from '../app/types/CustomRequest';
 import {CustomNextContext} from "./CustomNextContext";
 
 function parseCookies(req?: IncomingMessage, options = {}) {

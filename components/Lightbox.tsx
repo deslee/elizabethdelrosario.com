@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { HTMLAttributes } from "react";
 
-let ImageLightbox: undefined | React.ComponentType<{}> = undefined;
+let ImageLightbox: undefined | React.ComponentType<any> = undefined;
 if (typeof (window) !== 'undefined') {
     ImageLightbox = require('react-image-lightbox').default
 }

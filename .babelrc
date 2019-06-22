@@ -1,6 +1,29 @@
 {
-  "presets": [
-    "next/babel",
-    "@zeit/next-typescript/babel"
-  ]
+    "plugins": [
+        [
+            "babel-plugin-inline-json-import"
+        ],
+        [
+            "import-graphql",
+            {
+                "runtime": true
+            }
+        ],
+        [
+            "module-name-mapper",
+            {
+                "moduleNameMapper": {
+                    "^app/(.*)": "<pkgDir>/app/$1"
+                }
+            }
+        ]
+    ],
+    "presets": [
+        "next/babel",
+        "@zeit/next-typescript/babel"
+    ],
+    "ignore": [
+        "./database",
+        "./server"
+    ]
 }

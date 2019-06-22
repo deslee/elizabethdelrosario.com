@@ -7,7 +7,7 @@
     },
     "include": [
         "database/**/*.ts",
-        "globalConfig.ts",
+        "app/globalConfig.ts",
         "typeormConfig.ts"
     ]
 }

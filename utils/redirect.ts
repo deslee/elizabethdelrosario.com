@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import {CustomNextContext} from "./CustomNextContext";
+import { CustomNextContext } from './CustomNextContext';
 
 export default (context: CustomNextContext, target: string) => {
     if (context.res) {
