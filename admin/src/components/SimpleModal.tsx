@@ -28,7 +28,7 @@ const SimpleModal = ({asset, onClose = () => {}}: {asset: AssetWithData, onClose
     const classes = useStyle();
     const type = getAssetType(asset.uri);
     const mimeType = mime.lookup(asset.uri || '');
-    const cdnUri = `${process.env.s3bucketUrl}/${asset.uri}`;
+    const cdnUri = `${process.env.REACT_APP_S3_BUCKET_URL}/${asset.uri}`;
 
     React.useEffect(() => {
         function keydown(e: any) {

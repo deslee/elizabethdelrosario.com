@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import FilePicker from "../FilePicker";
 import {
     ASSET_LIST_QUERY,
@@ -18,10 +18,11 @@ import AssetListCard from "./AssetListCard";
 import {Grid} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import posed, { PoseGroup } from 'react-pose';
-const Item = posed(Grid)();
 import {EditAssetDialog} from "./EditAssetForm";
 import Lightbox from '../Lightbox';
 import SimpleModal from "../SimpleModal";
+
+const Item = posed(Grid)();
 
 interface ComponentProps {
 
@@ -112,7 +113,7 @@ const AssetList = ({ createAsset }: Props) => {
             {assetViewing !== undefined && getAssetType(assetViewing.uri) === 'IMAGE' && <Lightbox
                 open={true}
                 initialIndex={images.map(a => a.id).indexOf(assetViewing.id)}
-                images={images.map(asset => ({url: `${process.env.s3bucketUrl}/${asset.uri}`, alt: asset.data.description || ''}))}
+                images={images.map(asset => ({url: `${process.env.REACT_APP_S3_BUCKET_URL}/${asset.uri}`, alt: asset.data.description || ''}))}
                 onClose={() => setAssetViewing(undefined)}
             />}
             {assetViewing !== undefined && ['AUDIO', 'VIDEO'].indexOf(getAssetType(assetViewing.uri)) !== -1 && <SimpleModal asset={assetViewing} onClose={() => setAssetViewing(undefined)} />}

@@ -88,7 +88,7 @@ const AssetListCard = ({asset, onEditClicked = () => {}, actions, onAssetSelecte
             component={"img"}
             alt={asset.data.description}
             height="140"
-            image={`${process.env.s3bucketUrl}/${asset.uri}`}
+            image={`${process.env.REACT_APP_S3_BUCKET_URL}/${asset.uri}`}
             title={asset.data.name}
         />
     }
