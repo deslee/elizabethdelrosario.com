@@ -4,4 +4,3 @@ dist/
 
 config.*.json
 globalConfig.compiled.js
-.env
