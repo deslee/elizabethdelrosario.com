@@ -19,7 +19,7 @@ if (dev) {
 }
 const nextHandler = nextServer.getRequestHandler();
 
-const nextMiddleware = async (req: CustomRequest, res: CustomResponse) => {
+const nextApp = async (req: CustomRequest, res: CustomResponse) => {
     const parsedUrl = parse(req.url || '/', true);
     const { pathname, query } = parsedUrl;
 
@@ -46,6 +46,4 @@ const nextMiddleware = async (req: CustomRequest, res: CustomResponse) => {
 }
 
 // initialize custom request 
-export default (req: http.IncomingMessage, res: http.ServerResponse) => {
-    nextMiddleware(req as CustomRequest, res as CustomResponse)
-}
+export default middleware(nextApp)
