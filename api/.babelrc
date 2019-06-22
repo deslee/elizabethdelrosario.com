@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    "babel-plugin-import-graphql",
+    "babel-plugin-inline-json-import"
+  ],
+  "presets": [
+      ["@babel/preset-env", {
+          "targets": {
+              "node": "current"
+          }
+      }],
+      "@babel/preset-typescript"
+  ]
+}

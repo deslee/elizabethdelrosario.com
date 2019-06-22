@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { connect, FormikContext } from 'formik'
 
 interface ComponentProps {
@@ -21,7 +21,7 @@ const FormChangesGuard = ({message = "You have unsaved changes. Are you sure you
         };
         const nextEventHandler = (_: string) => {
             console.log('next');
-            if (confirm(message)) {
+            if (window.confirm(message)) {
                 // do nothing
             } else {
                 throw new Error("workaround");

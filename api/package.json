@@ -9,7 +9,7 @@
     "build": "tsc",
     "dev": "npm-run-all --parallel dev:watch dev:serve",
     "dev:watch": "babel --watch --extensions=\".ts\" src/ -d dist/",
-    "dev:serve": "node --inspect node_modules/micro-dev/bin/micro-dev.js --watch dist/ dev.js",
+    "dev:serve": "node --inspect node_modules/micro-dev/bin/micro-dev.js --watch dist/ src/dev.js",
     "schema:generate": "npm-run-all schema:generate-typedef schema:generate-binding",
     "schema:generate-typedef": "babel-node -r node_modules/dotenv/config --extensions \".ts\" ./generate-schema-script.ts ./src/schema/schema",
     "schema:generate-binding": "graphql-binding --language typescript --input ./src/schema/schema.graphql --outputBinding ./src/schema/types.ts && babel-node -r node_modules/dotenv/config --extensions \".ts\" ./patch-binding-script.ts ./src/schema/types.ts"

@@ -1,3 +1,4 @@
+import React from 'react'
 import {ImagesSlice, VideoSlice} from "./PostData";
 import {AssetType} from "../Asset/AssetData";
 import GenericAssetSlice from "./GenericAssetSlice";
