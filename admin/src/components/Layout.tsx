@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Badge, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme } from '@material-ui/core';
+import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Badge, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme, Link } from '@material-ui/core';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import ProfileIcon from '@material-ui/icons/AccountCircle';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import PostIcon from '@material-ui/icons/Notes';
@@ -13,12 +13,15 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import constants from '../Constants';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme'
-import {Query} from "react-apollo";
-import { Link as RouterLink } from "react-router-dom";
-import {GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables} from "./User/UserQueries";
+import { Query } from "react-apollo";
+import { Link as RouterLink, RouteComponentProps, withRouter } from "react-router-dom";
+import { GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables } from "./User/UserQueries";
 import Logout from "./Logout";
 import 'react-image-lightbox/style.css';
 import { routes } from '../pages/routes';
+import { compose } from 'recompose';
+import { Helmet } from "react-helmet";
+import { jsonToUserData } from './User/UserData';
 
 export const mainListItems = (
     <>
@@ -134,13 +137,17 @@ const useStyles = makeStyles(theme => ({
     },
     bottomDrawerList: {
     },
+    profileIcon: {
+    }
 }));
 
-interface Props {
+interface ComponentProps {
     children: React.ReactNode,
     title: string,
     requiresAuthentication?: boolean
 }
+
+type Props = ComponentProps & RouteComponentProps
 
 const darkTheme = createMuiTheme({
     ...theme,
@@ -149,7 +156,7 @@ const darkTheme = createMuiTheme({
     },
 });
 
-function Layout({title, children}: Props) {
+function Layout({ title, children, history }: Props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -159,63 +166,78 @@ function Layout({title, children}: Props) {
         setOpen(false);
     };
 
-    return <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({loading}) =>
-        loading ? <div>Loading</div> : <div className={classes.root}>
-            <CssBaseline/>
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap
-                                className={classes.title}>{title}</Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <ThemeProvider theme={darkTheme}>
-                <Drawer
-                    variant="permanent"
-                    classes={{
-                        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-                    }}
-                    open={open}
-                >
-                    <div className={classes.toolbarHeader}>
-                        <Typography variant="h6" className={classes.toolbarTitle}>Admin</Typography>
-                        <IconButton onClick={handleDrawerClose}>
-                            <ChevronLeftIcon/>
+    const getDisplayName = (data: GetCurrentUserResult | undefined) => {
+        if (data && data.user) {
+            var userData = jsonToUserData(data.user.data)
+            return userData.displayName ? userData.displayName : userData.firstName ? (userData.firstName + (userData.lastName && ' ' + userData.lastName)) : userData.lastName ? userData.lastName : data.user.email
+        } else {
+            return 'User'
+        }
+    }
+
+    return <>
+        <Helmet>
+            <title>{title}</title>
+        </Helmet>
+        <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) =>
+            loading ? <div>Loading</div> : <div className={classes.root}>
+                <CssBaseline />
+                <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+                    <Toolbar className={classes.toolbar}>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="Open drawer"
+                            onClick={handleDrawerOpen}
+                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                        >
+                            <MenuIcon />
                         </IconButton>
-                    </div>
-                    <Divider/>
-                    <List className={classes.topDrawerList}>{mainListItems}</List>
-                    <Logout>
-                        <List className={classes.bottomDrawerList}>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <LogoutIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Logout" />
-                            </ListItem>
-                        </List>
-                    </Logout>
-                </Drawer>
-            </ThemeProvider>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer}/>
-                {children}
-            </main>
-        </div>
-    }</Query>;
+                        <Typography component="h1" variant="h6" color="inherit" noWrap
+                            className={classes.title}>{title}</Typography>
+                        <IconButton color="inherit" className={classes.profileIcon} onClick={() => history.push(routes.profile.path)}>
+                            <ProfileIcon />
+                        </IconButton>
+                        <Link to={routes.profile.path} component={RouterLink} color="inherit">{getDisplayName(data)}</Link>
+                    </Toolbar>
+                </AppBar>
+                <ThemeProvider theme={darkTheme}>
+                    <Drawer
+                        variant="permanent"
+                        classes={{
+                            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                        }}
+                        open={open}
+                    >
+                        <div className={classes.toolbarHeader}>
+                            <Typography variant="h6" className={classes.toolbarTitle}>Admin</Typography>
+                            <IconButton onClick={handleDrawerClose}>
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </div>
+                        <Divider />
+                        <List className={classes.topDrawerList}>{mainListItems}</List>
+                        <Logout>
+                            <List className={classes.bottomDrawerList}>
+                                <ListItem button>
+                                    <ListItemIcon>
+                                        <LogoutIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Logout" />
+                                </ListItem>
+                            </List>
+                        </Logout>
+                    </Drawer>
+                </ThemeProvider>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} />
+                    {children}
+                </main>
+            </div>
+        }</Query>
+    </>;
 }
 
-export default Layout;
+export default compose<Props, ComponentProps>(
+    withRouter
+)(Layout);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Paper, Grid, makeStyles, Container } from '@material-ui/core';
-import UserInfo from '../components/UserInfo';
 
 const useStyles = makeStyles(theme => ({
     sheet: {
@@ -20,7 +19,6 @@ export default function Dashboard() {
             </Grid>
             <Grid item xs>
                 <Paper className={classes.sheet}>
-                    <UserInfo />
                 </Paper>
             </Grid>
         </Grid>

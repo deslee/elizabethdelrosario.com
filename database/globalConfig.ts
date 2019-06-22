@@ -10,7 +10,7 @@ const config = convict({
     },
     db: {
         host: {
-            format: 'ipaddress',
+            format: String,
             default: '127.0.0.1',
             env: 'DB_HOST'
         },

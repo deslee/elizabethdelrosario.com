@@ -1,10 +1,10 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
-import globalConfig from "../../globalConfig";
+import globalConfig from "../globalConfig";
 
 const user = globalConfig.db.regularUser.name;
 const currentUserId = `current_setting('claims.userId', true)::text`
 
-export class RoleLevelSecurity1559453602461 implements MigrationInterface {
+export class RowLevelSecurity1559453602461 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await this.enableRls(queryRunner, 'user', 'SELECT, INSERT');

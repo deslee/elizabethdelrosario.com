@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lerna": "^3.15.0"
+    "@types/react-helmet": "^5.0.8",
+    "lerna": "^3.15.0",
+    "react-helmet": "^5.2.1"
   },
   "devDependencies": {}
 }

@@ -1,9 +1,4 @@
 import React from 'react';
-// import DashboardPage from './DashboardPage'
-// import LoginPage from './LoginPage'
-// import SettingsPage from './SettingsPage'
-// import PostListingPage from './PostListingPage'
-// import AssetsListingPage from './AssetsListingPage'
 import { RouteProps } from 'react-router';
 import Loadable from 'react-loadable'
 
@@ -80,6 +75,14 @@ const _routes = {
         authorized: true,
         props: {},
         layout: 'Settings'
+    },
+    profile: {
+        path: '/admin/profile',
+        component: Loadable({
+            loader: () => import('./EditProfilePage'),
+            loading: () => (<div>Loading</div>)
+        }),
+        layout: 'Profile'
     }
 }
 

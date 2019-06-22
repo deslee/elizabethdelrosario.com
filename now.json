@@ -5,7 +5,13 @@
         "S3_UPLOAD_ACCESS_KEY_ID": "@s3_upload_access_key_id",
         "S3_UPLOAD_SECRET_ACCESS_KEY": "@s3_upload_secret_access_key",
         "S3_UPLOAD_BUCKET": "@s3_upload_bucket",
-        "JWT_SECRET": "@jwt_secret"
+        "JWT_SECRET": "@jwt_secret",
+        "DB_HOST": "dev.le3.io",
+        "DB_NAME": "elizabethdelrosariocom",
+        "DB_ADMIN_NAME": "postgres",
+        "DB_ADMIN_PASS": "@db_admin_pass",
+        "DB_USER_NAME": "beth_user",
+        "DB_USER_PASS": "@db_user_pass"
     },
     "builds": [
         {

@@ -12,11 +12,13 @@ const ormconfig: PostgresConnectionOptions = {
     logging: true,
     migrationsRun: false,
     entities: [
-        "database/entities/**/*"
+        "entities/**/*"
     ],
     migrations: [
-        "database/migrations/**/*"
+        "migrations/**/*"
     ]
 }
+
+console.log(ormconfig)
 
 module.exports = ormconfig;

@@ -1,5 +1,5 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
-import globalConfig from "../../globalConfig";
+import globalConfig from "../globalConfig";
 
 const tables = ['user', 'post', 'asset']
 

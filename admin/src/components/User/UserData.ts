@@ -1,7 +1,9 @@
 import {User} from "api";
 
 export interface UserData {
-    name: string
+    firstName?: string,
+    lastName?: string,
+    displayName?: string,
 }
 export type UserWithData = Omit<User, "data"> & {data: UserData}
 
@@ -9,11 +11,13 @@ export const jsonToUserData =(json: string) => {
     const rawUserData = JSON.parse(json);
     return {
         ...rawUserData
-    }
+    } as UserData
 };
 
 export const userDataToJson = (data: UserData) => {
     return JSON.stringify({
-        name: data.name
+        firstName: data.firstName,
+        lastName: data.lastName,
+        displayName: data.displayName,
     })
 };
