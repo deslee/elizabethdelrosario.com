@@ -1,4 +1,4 @@
-import {User} from "../../schema";
+import {User} from "../../app/schema";
 
 export interface UserData {
     name: string

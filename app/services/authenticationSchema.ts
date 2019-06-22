@@ -59,8 +59,10 @@ export const extendSchemaWithLogin = makeExtendSchemaPlugin(build => {
                                 query: build.$$isQuery,
                                 token: jwtToken
                             }
-                            context.res.setHeader('Set-Cookie', cookie.serialize('token', jwtToken, { maxAge: globalConfig.tokenExpirationSeconds * 1000, httpOnly: true, sameSite: true, secure: globalConfig.env !== 'development' }))
-                            context.res.setHeader('Set-Cookie', cookie.serialize(globalConfig.sessionIdHeaderName, session.token, { maxAge: globalConfig.tokenExpirationSeconds * 1000, httpOnly: false, sameSite: true, secure: globalConfig.env !== 'development' }))
+                            context.res.setHeader('Set-Cookie', [
+                                cookie.serialize('token', jwtToken, { maxAge: globalConfig.tokenExpirationSeconds * 1000, httpOnly: true, sameSite: true, secure: globalConfig.env !== 'development' }),
+                                cookie.serialize(globalConfig.sessionIdHeaderName, session.token, { maxAge: globalConfig.tokenExpirationSeconds * 1000, httpOnly: false, sameSite: true, secure: globalConfig.env !== 'development' })
+                            ])
                         } 
 
                         await pgClient.query("RELEASE SAVEPOINT graphql_mutation");
@@ -74,8 +76,10 @@ export const extendSchemaWithLogin = makeExtendSchemaPlugin(build => {
                     const pgClient = context.pgClient;
                     await pgClient.query("SAVEPOINT graphql_mutation");
                     try {
-                        context.res.setHeader('Set-Cookie', cookie.serialize('token', '', { maxAge: 0, httpOnly: true, sameSite: true, secure: globalConfig.env !== 'development' }))
-                        context.res.setHeader('Set-Cookie', cookie.serialize(globalConfig.sessionIdHeaderName, '', { maxAge: 0, httpOnly: false, sameSite: true, secure: globalConfig.env !== 'development' }))
+                        context.res.setHeader('Set-Cookie', [
+                            cookie.serialize('token', '', { maxAge: 0, httpOnly: true, sameSite: true, secure: globalConfig.env !== 'development' }),
+                            cookie.serialize(globalConfig.sessionIdHeaderName, '', { maxAge: 0, httpOnly: false, sameSite: true, secure: globalConfig.env !== 'development' })
+                        ])
                         
                         if (context.req.user) {
                             await pgClient.query(`SELECT app_hidden.logout()`);

@@ -10,10 +10,23 @@ import { CustomResponse } from '../types/CustomResponse';
 import contextFactory from '../services/contextFactory';
 import middleware from './middleware';
 
+const withTypescript = require('@zeit/next-typescript')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+})
+
 const route = pathMatch()
 
 const dev = globalConfig.env === 'development'
-const nextServer = next({ dev });
+const nextServer = next({
+    dev,
+    conf: withBundleAnalyzer(withTypescript({
+        env: {
+            sessionIdHeaderName: globalConfig.sessionIdHeaderName,
+            s3bucketUrl: `https://${globalConfig.awsS3UploadBucket}.s3.amazonaws.com`
+        }
+    }))
+});
 if (dev) {
     nextServer.prepare();
 }

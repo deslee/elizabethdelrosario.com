@@ -1,7 +1,7 @@
 import { makeWrapResolversPlugin } from "graphile-utils";
 import globalConfig from "../globalConfig";
 import { validateSession } from "./validateSession";
-import { AuthenticationError } from "apollo-server-core";
+import { AuthenticationError } from "apollo-server-micro";
 import { CustomContext } from "../types/CustomContext";
 import { validatorFactory } from "./validation";
 
@@ -16,7 +16,7 @@ export default makeWrapResolversPlugin(context => {
     // for mutations, we want to do XSRF validation on the header
     // TODO: find a better way to set a whitelist
     if (WHITELIST.indexOf(fieldName) === -1) {
-        const header = context.req.header(globalConfig.sessionIdHeaderName);
+        const header = context.req.headers[globalConfig.sessionIdHeaderName].toString()
         const session = await validateSession(header, context.req.user && context.req.user.userId)
         if (!session) {
             throw new AuthenticationError("XSRF check failed!");

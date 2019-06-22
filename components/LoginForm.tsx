@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginForm: React.FC<Props> = ({ mutate: login, client, onLogin = () => {} }) => {
-    const classes = useStyles();
+    const classes = useStyles({});
     return <>
         <Formik<LoginInput>
             initialValues={{ email: '', password: '' }}

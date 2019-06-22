@@ -1,6 +1,6 @@
 import { Binding, RegisterInput, UpdatePasswordInput, LoginInput } from "../schema";
 import globalConfig from "../globalConfig";
-import { UserInputError } from "apollo-server-core";
+import { UserInputError } from "apollo-server-micro";
 import { RegisterInputShape, UpdatePasswordInputShape, LoginInputShape } from "../validators";
 
 // server side validation

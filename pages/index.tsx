@@ -1,17 +1,57 @@
 import * as React from 'react';
+import {Typography, Paper, Grid, makeStyles, Container, WithStyles, Button} from '@material-ui/core';
+import UserInfo from '../components/UserInfo';
+import Register from '../components/Register';
+import Layout from '../components/Layout';
+import Logout from '../components/Logout';
+import withStyles from "@material-ui/core/styles/withStyles";
+import {CustomNextContext} from "../utils/CustomNextContext";
+import checkLoggedIn from "../utils/checkLoggedIn";
+import redirect from "../utils/redirect";
 
-class IndexComponent extends React.Component<any> {
-    static async getInitialProps({ req }) {
-        var posts = [];
+interface InitialProps {
+}
 
-        return {
-            foo: posts
+interface Props extends InitialProps, WithStyles {
+}
+
+class Index extends React.Component<Props> {
+    static async getInitialProps(ctx: CustomNextContext): Promise<InitialProps> {
+        console.log("IDX PROPS")
+        const loggedInUser = await checkLoggedIn(ctx.apolloClient);
+        if (!loggedInUser) {
+            redirect(ctx, "/login");
         }
+        return {}
     }
 
     render() {
-        return <div>{this.props.foo.length}</div>
+        const { classes } = this.props;
+        return <Layout title="Dashboard">
+            <Container maxWidth="lg">
+                <Grid container>
+                    <Grid item xs>
+                        <Paper className={classes.sheet}>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs>
+                        <Paper className={classes.sheet}>
+                            <UserInfo />
+                            <Logout>
+                                <Button>Logout</Button>
+                            </Logout>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Container>
+        </Layout>
     }
 }
 
-export default IndexComponent;
+
+export default withStyles(theme => ({
+    sheet: {
+        padding: theme.spacing(3, 2),
+        margin: theme.spacing(3, 2),
+    },
+}))(Index)

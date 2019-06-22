@@ -6,7 +6,7 @@ import {
     CreateAssetInput,
     CreateAssetPayload,
     UpdateAssetInput, UpdateAssetPayload
-} from "../../schema";
+} from "../../app/schema";
 
 export const AssetFragment = gql`
 fragment assetFragment on Asset {

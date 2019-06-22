@@ -1,6 +1,5 @@
 import globalConfig from '../globalConfig'
 import * as fs from 'fs';
-import { ApolloError } from 'apollo-server-core';
 import { createPostGraphileSchema, WithPostGraphileContextOptions, withPostGraphileContext } from 'postgraphile'
 import postGraphileOptions from '../services/postGraphileOptions';
 import makeRemoteExecutableSchema, { FetcherOperation } from 'graphql-tools/dist/stitching/makeRemoteExecutableSchema';
@@ -11,6 +10,7 @@ import { getPool } from '../services/dbPool';
 import { makeBindingClass } from 'graphql-binding';
 import { BindingConstructor, Binding } from './types';
 import cache from '../schema/schema.cache.json';
+import { ApolloError } from 'apollo-server-micro';
 
 const fetcher = async (operation: FetcherOperation) => {
     if (!operation.context || !operation.context.graphqlContext) {

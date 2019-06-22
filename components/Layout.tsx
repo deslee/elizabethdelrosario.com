@@ -10,9 +10,8 @@ import PostIcon from '@material-ui/icons/Notes';
 import AssetsIcon from '@material-ui/icons/Collections';
 import PageIcon from '@material-ui/icons/LibraryBooks';
 import SettingsIcon from '@material-ui/icons/Settings';
-import constants from '../constants';
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme'
+import theme, { appBarHeight, drawerWidth } from '../theme'
 import Link from 'next/link'
 import {Query} from "react-apollo";
 import {GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables} from "./User/UserQueries";
@@ -84,7 +83,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     appBar: {
-        height: constants.appBarHeight,
+        height: appBarHeight,
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
@@ -92,8 +91,8 @@ const useStyles = makeStyles(theme => ({
         }),
     },
     appBarShift: {
-        marginLeft: constants.drawerWidth,
-        width: `calc(100% - ${constants.drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -108,7 +107,7 @@ const useStyles = makeStyles(theme => ({
     drawerPaper: {
         position: 'relative',
         whiteSpace: 'nowrap',
-        width: constants.drawerWidth,
+        width: drawerWidth,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -158,7 +157,7 @@ const darkTheme = createMuiTheme({
 });
 
 function Layout({title, children}: Props) {
-    const classes = useStyles();
+    const classes = useStyles({});
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);

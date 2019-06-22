@@ -1,6 +1,6 @@
-import { PostInput, Post } from 'schema';
+import { PostInput, Post } from '../../app/schema';
 import * as yup from 'yup';
-import { PostInputShape } from '../../schema/validators';
+import { PostInputShape } from '../../app/validators';
 
 export type SliceState = 'NEW' | 'ACTIVE'
 export type SliceType = 'TEXT' | 'IMAGES' | 'VIDEO'

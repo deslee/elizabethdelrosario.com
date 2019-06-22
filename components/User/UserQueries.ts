@@ -1,6 +1,6 @@
 import { graphql, MutateProps, WithApolloClient, MutationFn } from 'react-apollo';
 import gql from "graphql-tag";
-import {Asset, AssetInput, CreateAssetInput, CreateAssetPayload, User} from "../../schema";
+import {Asset, AssetInput, CreateAssetInput, CreateAssetPayload, User} from "../../app/schema";
 
 export const UserFragment = gql`
 fragment userFragment on User {

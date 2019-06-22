@@ -1,5 +1,5 @@
 import { validatorFactory } from './validation';
-import { UserInputError } from 'apollo-server-core';
+import { UserInputError } from 'apollo-server-micro';
 import { ValidationError } from 'yup';
 import { CustomRequest } from '../types/CustomRequest';
 import { CustomResponse } from '../types/CustomResponse';

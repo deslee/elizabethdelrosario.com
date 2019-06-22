@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignInSide() {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -56,9 +56,9 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <div className={classes.form}>
               <LoginForm onLogin={() => Router.push('/')} />
-          </form>
+          </div>
             
             <Grid container>
               <Grid item xs>

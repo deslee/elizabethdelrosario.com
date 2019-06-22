@@ -1,4 +1,4 @@
-import {Asset} from "../../schema";
+import {Asset} from "../../app/schema";
 import * as mime from 'mime-types';
 
 export interface AssetData {
