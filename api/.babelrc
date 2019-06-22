@@ -1,14 +1,23 @@
 {
   "plugins": [
-    "babel-plugin-import-graphql",
-    "babel-plugin-inline-json-import"
+    "babel-plugin-inline-json-import",
+    [
+      "import-graphql",
+      {
+        "runtime": true
+      }
+    ]
   ],
   "presets": [
-      ["@babel/preset-env", {
-          "targets": {
-              "node": "current"
-          }
-      }],
-      "@babel/preset-typescript"
+    [
+      "@babel/preset-env",
+      {
+        "modules": "commonjs",
+        "targets": {
+          "node": "current"
+        }
+      }
+    ],
+    "@babel/preset-typescript"
   ]
 }

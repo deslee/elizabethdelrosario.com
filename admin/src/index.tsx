@@ -14,6 +14,9 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import AuthRoute from './pages/authRoute'; 
 import initApollo from './apollo';
 import { routeKeys, routes } from './pages/routes';
+import LoginPage from './pages/LoginPage';
+import Layout from './components/Layout';
+
 
 const client = initApollo({}, {
     getToken: () => cookie.parse(document.cookie, {})['token'],
@@ -28,11 +31,14 @@ ReactDOM.render(<ApolloProvider client={client}>
             <DialogProvider>
                 <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
                     <BrowserRouter>
-                        <Switch>{
-                            routeKeys.map(routeKey => {
-                                return <AuthRoute key={routeKey} {...routes[routeKey]} />
-                            })
-                        }</Switch>
+                        <Switch>
+                            <AuthRoute authorized={false} path="/admin/login" exact={true} component={LoginPage} />
+                            {
+                                routeKeys.map(routeKey => {
+                                    return <AuthRoute key={routeKey} {...routes[routeKey]} />
+                                })
+                            }
+                        </Switch>
                     </BrowserRouter>
                 </SnackbarProvider>
             </DialogProvider>

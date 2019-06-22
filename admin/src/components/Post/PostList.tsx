@@ -7,9 +7,10 @@ import { Grid, List, ListItem, Divider, Typography } from '@material-ui/core';
 import { Query } from 'react-apollo';
 import { PostWithData, jsonToPostData } from './PostData';
 import {POST_LIST_QUERY, GetPostListVariables, GetPostListResult} from './PostQueries';
+import { routes } from '../../pages/routes';
 
 interface ComponentProps {
-    type: string
+    type: 'POST' | 'PAGE'
     selected?: number
 }
 
@@ -50,7 +51,7 @@ const PostList = ({ type, selected }: Props) => {
             return <List>
                 {posts.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
                 {posts.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
-                    <ListItem button component={RouterLink} to={`/${type.toLowerCase()}s/${post.id}`} selected={post.id === selected}>
+                    <ListItem button component={RouterLink} to={type === 'POST' ? routes.posts.path.replace(routes.posts.params!.id, post.id.toString()) : routes.pages.path.replace(routes.pages.params!.id, post.id.toString())} selected={post.id === selected}>
                         <Grid container className={classes.row}>
                             <Grid container item xs>{post.data.title}</Grid>
                             <Grid container item xs={3}>{dayjs(post.date || undefined).format('MM/DD/YYYY')}</Grid>

@@ -18,34 +18,35 @@ import { Link as RouterLink } from "react-router-dom";
 import {GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables} from "./User/UserQueries";
 import Logout from "./Logout";
 import 'react-image-lightbox/style.css';
+import { routes } from '../pages/routes';
 
 export const mainListItems = (
     <>
-        <ListItem button component={RouterLink} to="/">
+        <ListItem button component={RouterLink} to={routes.home.path}>
             <ListItemIcon>
                 <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Site" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/posts">
+        <ListItem button component={RouterLink} to={routes.posts.path.replace(routes.posts.params!.id, '')}>
             <ListItemIcon>
                 <PostIcon />
             </ListItemIcon>
             <ListItemText primary="Posts" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/pages">
+        <ListItem button component={RouterLink} to={routes.pages.path.replace(routes.pages.params!.id, '')}>
             <ListItemIcon>
                 <PageIcon />
             </ListItemIcon>
             <ListItemText primary="Pages" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/assets">
+        <ListItem button component={RouterLink} to={routes.assets.path}>
             <ListItemIcon>
                 <AssetsIcon />
             </ListItemIcon>
             <ListItemText primary="Assets" />
         </ListItem>
-        <ListItem button component={RouterLink} to="/settings">
+        <ListItem button component={RouterLink} to={routes.settings.path}>
             <ListItemIcon>
                 <SettingsIcon />
             </ListItemIcon>

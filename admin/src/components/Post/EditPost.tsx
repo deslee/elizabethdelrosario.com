@@ -9,10 +9,11 @@ import { withUpdatePost, UpdatePostInjectedProps, GET_POST_QUERY, GetPostResult,
 import { Query, withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
 import { withRouter, RouteComponentProps } from 'react-router';
+import { routes } from '../../pages/routes';
 
 interface ComponentProps {
     postId: number;
-    type: string;
+    type: 'POST' | 'PAGE';
     children?: React.ReactNode;
 }
 
@@ -76,7 +77,11 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
                     props.setError(result.errors.map(e => e.message).join(', '))
                 } else {
                     props.resetForm();
-                    history.push('/posts')
+                    if (type === 'POST') {
+                        history.push(routes.posts.path.replace(routes.posts.params!.id, ''))
+                    } else {
+                        history.push(routes.pages.path.replace(routes.pages.params!.id, ''))
+                    }
                 }
             } catch(error) {
                 enqueueSnackbar(error.message, {

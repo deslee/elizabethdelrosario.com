@@ -3,10 +3,15 @@ import { Route, Redirect } from 'react-router';
 import { Route as RouteProps, routes } from './routes';
 import { Query } from 'react-apollo';
 import { GetCurrentUserResult, GetCurrentUserVariables, GET_CURRENT_USER_QUERY } from '../components/User/UserQueries';
+import Layout from '../components/Layout';
 
-type Props = RouteProps<React.ComponentType<any>>
+interface ComponentProps {
+    layout?: string
+}
 
-export default ({ authorized, props = {}, component: Component, ...routeProps }: Props) => {
+type Props = RouteProps & ComponentProps
+
+export default ({ authorized, layout, props = {}, component: Component, ...routeProps }: Props) => {
     return <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) => {
         if (loading) {
             return <div>loading</div>
@@ -14,10 +19,15 @@ export default ({ authorized, props = {}, component: Component, ...routeProps }:
 
         if (!authorized || (data && data.user && data.user.id)) {
             return <Route {...routeProps} render={(routeProps) => {
-                return <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />
+                const component = <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />;
+                if (layout) {
+                    return <Layout title={layout}>{component}</Layout>
+                } else {
+                    return component
+                }
             } } />
         }
 
-        return <Redirect to={routes.login.path} />
+        return <Redirect to="/admin/login" />
     }}</Query>
 }

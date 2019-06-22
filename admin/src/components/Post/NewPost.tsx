@@ -7,10 +7,11 @@ import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY } from './Post
 import { useSnackbar } from 'notistack';
 import compose from 'recompose/compose';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { routes } from '../../pages/routes';
 
 
 interface ComponentProps {
-    type: string;
+    type: 'POST' | 'PAGE';
 }
 
 type Props = ComponentProps & CreatePostInjectedProps & RouteComponentProps
@@ -52,7 +53,13 @@ const NewPost = ({ type, mutate, history }: Props) => {
                 }
                 if (result && result.data && result.data.createPost && result.data.createPost.post && result.data.createPost.post.id) {
                     actions.resetForm();
-                    history.push(`/${type.toLowerCase()}s/${result.data.createPost.post.id}`)
+                    if (type === 'POST') {
+                        const { path, params = {} } = routes.posts;
+                        history.push(path.replace(params['id'], result.data.createPost.post.id.toString()))
+                    } else {
+                        const { path, params = {} } = routes.pages;
+                        history.push(path.replace(params['id'], result.data.createPost.post.id.toString()))
+                    }
                 }
                 enqueueSnackbar('Success!', {
                     variant: 'success'

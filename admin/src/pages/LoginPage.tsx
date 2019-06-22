@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LoginForm from '../components/LoginForm';
 import { withRouter, RouteComponentProps } from 'react-router';
+import { routes } from './routes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,7 +62,7 @@ const LoginPage = (props: Props) => {
             Sign in
           </Typography>
           <div className={classes.form}>
-            <LoginForm onLogin={() => props.history.replace('/')} />
+            <LoginForm onLogin={() => props.history.replace(routes.home.path)} />
           </div>
           <Grid container>
             <Grid item xs>
