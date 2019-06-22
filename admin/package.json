@@ -4,17 +4,48 @@
   "private": true,
   "homepage": "http://example.com/admin",
   "dependencies": {
+    "@material-ui/core": "^4.1.1",
+    "@material-ui/icons": "^4.2.0",
+    "@material-ui/pickers": "^3.1.1",
+    "@types/apollo-upload-client": "^8.1.2",
+    "@types/cookie": "^0.3.3",
     "@types/jest": "24.0.15",
+    "@types/mime-types": "^2.1.0",
     "@types/node": "12.0.10",
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
+    "@types/recompose": "^0.30.6",
+    "@types/uuid": "^3.4.4",
+    "@types/yup": "^0.26.17",
+    "api": "file:../api",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-context": "^1.0.18",
+    "apollo-link-error": "^1.1.11",
+    "apollo-upload-client": "^10.0.1",
+    "clsx": "^1.0.4",
+    "cookie": "^0.4.0",
+    "dayjs": "^1.8.14",
+    "formik": "^1.5.7",
+    "formik-material-ui": "0.0.18",
+    "graphql": "^14.3.1",
+    "graphql-tag": "^2.10.1",
+    "notistack": "^0.8.6",
     "react": "^16.8.6",
+    "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",
+    "react-image-lightbox": "^5.1.0",
+    "react-pose": "^4.0.8",
+    "react-post": "^1.0.3",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.2"
+    "recompose": "^0.30.0",
+    "typescript": "^3.5.2",
+    "uuid": "^3.3.2",
+    "yup": "^0.27.0"
   },
+  "proxy": "http://localhost:3000",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -34,5 +65,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
   }
 }

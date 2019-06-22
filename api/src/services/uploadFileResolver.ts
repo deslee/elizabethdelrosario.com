@@ -1,14 +1,13 @@
-import * as S3 from 'aws-sdk/clients/s3';
-import * as path from 'path';
-import * as fs from 'fs'
-import * as AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
+import fs from 'fs'
+import AWS from 'aws-sdk';
 import globalConfig from '../globalConfig'
-import * as uuid from 'uuid/v4';
-import * as mime from 'mime-types';
+import uuid from 'uuid/v4';
+import mime from 'mime-types';
 
 const awsCredentials = new AWS.Credentials(globalConfig.awsAccessKey, globalConfig.awsSecretAccessKey);
 
-export async function resolveUpload(upload) {
+export async function resolveUpload(upload: any) {
   const { filename, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
   // Save file 
