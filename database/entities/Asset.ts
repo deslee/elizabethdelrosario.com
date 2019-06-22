@@ -1,5 +1,4 @@
 import { Entity, Unique, Column, PrimaryGeneratedColumn, ManyToOne, Index, JoinColumn, ManyToMany } from "typeorm";
-import globalConfig from "../../globalConfig";
 import { Auditable } from "./Auditable";
 import { Post } from "./Post";
 

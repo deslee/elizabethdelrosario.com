@@ -1,0 +1,27 @@
+{
+    "plugins": [
+        [
+            "babel-plugin-inline-json-import"
+        ],
+        [
+            "import-graphql",
+            {
+                "runtime": true
+            }
+        ]
+    ],
+    "presets": [
+        ["@babel/preset-env", {
+            "modules": "commonjs",
+            "targets": {
+                "node": "current"
+            }
+        }],
+        "@babel/preset-typescript"
+    ],
+    "ignore": [
+        "./database",
+        "./server"
+    ],
+    "sourceMaps": true
+}

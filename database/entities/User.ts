@@ -1,6 +1,5 @@
 import { Auditable } from "./Auditable";
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, Index, ManyToMany } from "typeorm";
-import globalConfig from "../../globalConfig";
 
 @Entity({
     schema: "app_public"

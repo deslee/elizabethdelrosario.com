@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, Index } from "typeorm";
-import globalConfig from "../../globalConfig";
 import { Auditable } from "./Auditable";
 
 @Entity({

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "lib": ["dom", "es2017"],
+    "moduleResolution": "node",
+    "strict": false,
+    "allowJs": true,
+    "noEmit": true,
+    "esModuleInterop": false,
+    "incremental": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "sourceMap": true
+  }
+}

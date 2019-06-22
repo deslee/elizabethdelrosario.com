@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowJs": true,
+        "noEmit": true,
+        "esModuleInterop": true
+    },
+    "include": [
+        "database/**/*.ts",
+        "app/globalConfig.ts",
+        "typeormConfig.ts"
+    ]
+}
