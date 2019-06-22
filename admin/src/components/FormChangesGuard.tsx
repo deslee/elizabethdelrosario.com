@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect, FormikContext } from 'formik'
+import { Prompt } from 'react-router';
 
 interface ComponentProps {
     message?: string;
@@ -20,7 +21,6 @@ const FormChangesGuard = ({message = "You have unsaved changes. Are you sure you
             return message
         };
         const nextEventHandler = (_: string) => {
-            console.log('next');
             if (window.confirm(message)) {
                 // do nothing
             } else {
@@ -29,15 +29,13 @@ const FormChangesGuard = ({message = "You have unsaved changes. Are you sure you
         };
         if (dirty) {
             window.addEventListener("beforeunload", domEventHandler);
-            //Router.events.on('routeChangeStart', nextEventHandler)
         }
         return () => {
             window.removeEventListener("beforeunload", domEventHandler);
-            //Router.events.off('routeChangeStart', nextEventHandler);
         };
     }, [message, dirty]);
 
-    return <></>;
+    return <Prompt when={dirty} message={message} />;
 };
 
 export default connect<ComponentProps>(FormChangesGuard)

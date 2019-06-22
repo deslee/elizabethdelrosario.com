@@ -1,4 +1,4 @@
-import { graphql, MutateProps, WithApolloClient, MutationFn } from 'react-apollo';
+import { graphql, MutationFn } from 'react-apollo';
 import gql from "graphql-tag";
 import {
     Asset,

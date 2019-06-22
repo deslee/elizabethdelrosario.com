@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Badge, Drawer, Divider, List, Container, Grid, Paper, ListItem, ListItemIcon, ListItemText, ListSubheader, createMuiTheme } from '@material-ui/core';
+import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Badge, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -14,51 +14,43 @@ import constants from '../Constants';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme'
 import {Query} from "react-apollo";
+import { Link as RouterLink } from "react-router-dom";
 import {GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables} from "./User/UserQueries";
 import Logout from "./Logout";
+import 'react-image-lightbox/style.css';
 
 export const mainListItems = (
     <>
-        <a href="/">
-            <ListItem button component="a" href="/">
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Site" />
-            </ListItem>
-        </a>
-        <a href="/posts">
-            <ListItem button component="a" href="/posts">
-                <ListItemIcon>
-                    <PostIcon />
-                </ListItemIcon>
-                <ListItemText primary="Posts" />
-            </ListItem>
-        </a>
-        <a href="/posts?type=PAGE">
-            <ListItem button component="a" href="/pages">
-                <ListItemIcon>
-                    <PageIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pages" />
-            </ListItem>
-        </a>
-        <a href="/assets">
-            <ListItem button component="a" href="/assets">
-                <ListItemIcon>
-                    <AssetsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Assets" />
-            </ListItem>
-        </a>
-        <a href="/settings">
-            <ListItem button component="a" href="/settings">
-                <ListItemIcon>
-                    <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-            </ListItem>
-        </a>
+        <ListItem button component={RouterLink} to="/">
+            <ListItemIcon>
+                <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Site" />
+        </ListItem>
+        <ListItem button component={RouterLink} to="/posts">
+            <ListItemIcon>
+                <PostIcon />
+            </ListItemIcon>
+            <ListItemText primary="Posts" />
+        </ListItem>
+        <ListItem button component={RouterLink} to="/pages">
+            <ListItemIcon>
+                <PageIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pages" />
+        </ListItem>
+        <ListItem button component={RouterLink} to="/assets">
+            <ListItemIcon>
+                <AssetsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Assets" />
+        </ListItem>
+        <ListItem button component={RouterLink} to="/settings">
+            <ListItemIcon>
+                <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+        </ListItem>
     </>
 );
 
@@ -166,7 +158,7 @@ function Layout({title, children}: Props) {
         setOpen(false);
     };
 
-    return <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({loading, data}) =>
+    return <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({loading}) =>
         loading ? <div>Loading</div> : <div className={classes.root}>
             <CssBaseline/>
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>

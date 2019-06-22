@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { withUpdatePost, UpdatePostInjectedProps, GET_POST_QUERY, GetPostResult, GetPostVariables, POST_LIST_QUERY, withDeletePost, DeletePostInjectedProps } from './PostQueries';
 import { Query, withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 interface ComponentProps {
     postId: number;
@@ -15,13 +16,12 @@ interface ComponentProps {
     children?: React.ReactNode;
 }
 
-interface Props extends WithApolloClient<ComponentProps>, UpdatePostInjectedProps, DeletePostInjectedProps {
-}
+type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & RouteComponentProps
 
 const useStyles = makeStyles(theme => ({
 }))
 
-const EditPost = ({ postId, mutate, type, deletePost, client }: Props) => {
+const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) => {
     const classes = useStyles();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -76,6 +76,7 @@ const EditPost = ({ postId, mutate, type, deletePost, client }: Props) => {
                     props.setError(result.errors.map(e => e.message).join(', '))
                 } else {
                     props.resetForm();
+                    history.push('/posts')
                 }
             } catch(error) {
                 enqueueSnackbar(error.message, {
@@ -90,6 +91,7 @@ const EditPost = ({ postId, mutate, type, deletePost, client }: Props) => {
 }
 
 export default compose<Props, ComponentProps>(
+    withRouter,
     withDeletePost<ComponentProps>(),
     withUpdatePost<ComponentProps>(),
     withApollo

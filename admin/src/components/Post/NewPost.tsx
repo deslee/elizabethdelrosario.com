@@ -1,24 +1,22 @@
-import * as React from 'react';
+import React from 'react';
 import PostFormComponent from './PostForm';
-import { graphql, MutateProps, WithApolloClient } from 'react-apollo';
-import gql from "graphql-tag";
 import { Formik } from 'formik';
 import dayjs from 'dayjs';
 import { PostInputWithData, postDataToJson, PostInputWithDataShape } from './PostData';
 import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY } from './PostQueries';
 import { useSnackbar } from 'notistack';
+import compose from 'recompose/compose';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 
 interface ComponentProps {
     type: string;
 }
 
-interface Props extends ComponentProps, CreatePostInjectedProps {
+type Props = ComponentProps & CreatePostInjectedProps & RouteComponentProps
 
-}
-
-const NewPost = ({ type, mutate }: Props) => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+const NewPost = ({ type, mutate, history }: Props) => {
+    const { enqueueSnackbar } = useSnackbar();
     return <Formik<PostInputWithData>
         initialValues={{
             name: '',
@@ -54,6 +52,7 @@ const NewPost = ({ type, mutate }: Props) => {
                 }
                 if (result && result.data && result.data.createPost && result.data.createPost.post && result.data.createPost.post.id) {
                     actions.resetForm();
+                    history.push(`/${type.toLowerCase()}s/${result.data.createPost.post.id}`)
                 }
                 enqueueSnackbar('Success!', {
                     variant: 'success'
@@ -68,4 +67,7 @@ const NewPost = ({ type, mutate }: Props) => {
     />
 }
 
-export default withCreatePost<ComponentProps>()(NewPost) as React.ComponentType<ComponentProps>;
+export default compose<Props, ComponentProps>(
+    withRouter,
+    withCreatePost<ComponentProps>()
+)(NewPost);

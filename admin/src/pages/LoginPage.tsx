@@ -8,6 +8,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LoginForm from '../components/LoginForm';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,7 +39,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignInSide() {
+interface ComponentProps {
+
+}
+
+type Props = ComponentProps & RouteComponentProps;
+
+const LoginPage = (props: Props) => {
   const classes = useStyles({});
 
   return (
@@ -54,7 +61,7 @@ export default function SignInSide() {
             Sign in
           </Typography>
           <div className={classes.form}>
-            <LoginForm onLogin={() => { }} />
+            <LoginForm onLogin={() => props.history.replace('/')} />
           </div>
           <Grid container>
             <Grid item xs>
@@ -73,3 +80,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default withRouter(LoginPage)

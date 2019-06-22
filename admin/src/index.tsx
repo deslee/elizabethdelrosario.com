@@ -17,7 +17,10 @@ import { routeKeys, routes } from './pages/routes';
 
 const client = initApollo({}, {
     getToken: () => cookie.parse(document.cookie, {})['token'],
-    getXsrfId: () => cookie.parse(document.cookie, {})['X-XSRF-ID']
+    getXsrfId: () => {
+        console.log(cookie.parse(document.cookie, {})['X-XSRF-ID'])
+        return cookie.parse(document.cookie, {})['X-XSRF-ID']
+    }
 })
 ReactDOM.render(<ApolloProvider client={client}>
     <MuiPickersUtilsProvider utils={DayJsUtils}>

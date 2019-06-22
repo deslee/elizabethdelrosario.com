@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
 
 const TextSliceComponent = ({ name }: Props) => {
     const classes = useStyles()
-    const [value, setValue] = React.useState('')
 
     return <>
         <Field

@@ -32,7 +32,7 @@ const SimpleModal = ({asset, onClose = () => {}}: {asset: AssetWithData, onClose
 
     React.useEffect(() => {
         function keydown(e: any) {
-            if(e.key=='Escape'||e.key=='Esc'||e.keyCode==27) {
+            if(e.key==='Escape'||e.key==='Esc'||e.keyCode===27) {
                 onClose();
                 e.preventDefault();
                 return false;

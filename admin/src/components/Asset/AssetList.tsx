@@ -13,7 +13,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Divider from "@material-ui/core/Divider";
-import {assetDataToJson, assetFilter, AssetType, AssetWithData, getAssetType, jsonToAssetData} from "./AssetData";
+import {assetDataToJson, assetFilter, AssetWithData, getAssetType, jsonToAssetData} from "./AssetData";
 import AssetListCard from "./AssetListCard";
 import {Grid} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
@@ -100,7 +100,6 @@ const AssetList = ({ createAsset }: Props) => {
 
     const renderAssetList = (assets: AssetWithData[]) => {
         const images = assets.filter(assetFilter('IMAGE'));
-        const audio = assets.filter(assetFilter('AUDIO'));
 
         return <Grid container spacing={2}>
             <PoseGroup>

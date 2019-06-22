@@ -1,18 +1,11 @@
 import * as React from 'react';
+import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import * as uuid from 'uuid/v4';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import dayjs from 'dayjs';
 import Paper from '@material-ui/core/Paper';
 import { Grid, List, ListItem, Divider, Typography } from '@material-ui/core';
-import { graphql, DataProps, Query } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Post } from 'api';
-import { PostData, PostWithData, jsonToPostData } from './PostData';
+import { Query } from 'react-apollo';
+import { PostWithData, jsonToPostData } from './PostData';
 import {POST_LIST_QUERY, GetPostListVariables, GetPostListResult} from './PostQueries';
 
 interface ComponentProps {
@@ -52,19 +45,17 @@ const PostList = ({ type, selected }: Props) => {
             </ListItem>
         </List>
         <Divider />
-        <Query<GetPostListResult, GetPostListVariables> query={POST_LIST_QUERY} variables={{ type }}>{({ loading, data }) => {
+        <Query<GetPostListResult, GetPostListVariables> query={POST_LIST_QUERY} variables={{ type }}>{({ data }) => {
             const posts = (data && data.posts || [])
             return <List>
                 {posts.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
                 {posts.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
-                    <a href="">
-                        <ListItem button component="a" href={`/${type.toLowerCase()}s/${post.id}`} selected={post.id === selected}>
-                            <Grid container className={classes.row}>
-                                <Grid container item xs>{post.data.title}</Grid>
-                                <Grid container item xs={3}>{dayjs(post.date || undefined).format('MM/DD/YYYY')}</Grid>
-                            </Grid>
-                        </ListItem>
-                    </a>
+                    <ListItem button component={RouterLink} to={`/${type.toLowerCase()}s/${post.id}`} selected={post.id === selected}>
+                        <Grid container className={classes.row}>
+                            <Grid container item xs>{post.data.title}</Grid>
+                            <Grid container item xs={3}>{dayjs(post.date || undefined).format('MM/DD/YYYY')}</Grid>
+                        </Grid>
+                    </ListItem>
                     {i !== posts.length - 1 && <Divider />}
                 </React.Fragment>)}
             </List>
