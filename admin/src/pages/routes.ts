@@ -22,21 +22,27 @@ const _routes = {
         authorized: true
     },
     posts: {
-        path: '/posts',
+        path: '/posts/:id?',
         component: PostListingPage,
         exact: true,
         authorized: true,
         props: {
             type: 'POST'
+        },
+        params: {
+            postId: ':id?'
         }
     } as Route<typeof PostListingPage>,
     pages: {
-        path: '/pages',
+        path: '/pages/:id?',
         component: PostListingPage,
         exact: true,
         authorized: true,
         props: {
             type: 'PAGE'
+        },
+        params: {
+            pageId: ':id?'
         }
     } as Route<typeof PostListingPage>,
     assets: {

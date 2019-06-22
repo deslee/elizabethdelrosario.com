@@ -27,11 +27,7 @@ ReactDOM.render(<ApolloProvider client={client}>
                     <BrowserRouter>
                         <Switch>{
                             routeKeys.map(routeKey => {
-                                if (!routes[routeKey].authorized) {
-                                    return <Route key={routeKey} {...routes[routeKey]} />
-                                } else {
-                                    return <AuthRoute key={routeKey} {...routes[routeKey]} />
-                                }
+                                return <AuthRoute key={routeKey} {...routes[routeKey]} />
                             })
                         }</Switch>
                     </BrowserRouter>

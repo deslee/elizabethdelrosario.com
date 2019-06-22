@@ -38,15 +38,18 @@ const useStyles = makeStyles(theme => ({
 
 export default ({ id: postId, type }: Props) => {
     const classes = useStyles();
+
+    const newPostUrl = `/${type.toLowerCase()}s/new`
+
     return <Layout title={type === 'POST' ? 'Posts' : 'Pages'}>
         <Grid container direction="row" className={classes.container}>
             <Grid item className={classes.list} sm={12} md={6} lg={4} xl={3}>
-                {/* <PostList type={type} selected={parseInt(postId) !== NaN && parseInt(postId)} />
-                <Link href={`/posts?postId=new&type=${type}`} as={`/${type.toLowerCase()}s/new`}>
-                    <Fab color="secondary" aria-label="Add" className={classes.addPostFab} component="a" href={`/${type.toLowerCase()}s/new`}>
+                <PostList type={type} selected={postId && parseInt(postId) !== NaN ? parseInt(postId) : undefined} />
+                <a href={newPostUrl}>
+                    <Fab color="secondary" aria-label="Add" className={classes.addPostFab} component="a" href={newPostUrl}>
                         <AddIcon />
                     </Fab>
-                </Link> */}
+                </a>
             </Grid>
             <Grid item className={classes.content} xs={12} md={6} lg={8} xl={9}>
                 {postId === 'new' ? <NewPost type={type} /> : (postId && parseInt(postId) !== NaN && <EditPost postId={parseInt(postId)} type={type} />)}

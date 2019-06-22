@@ -12,9 +12,10 @@ export default ({ authorized, props = {}, component: Component, ...routeProps }:
             return <div>loading</div>
         }
 
-        if (data && data.user && data.user.id) {
-            console.log(props)
-            return <Route {...routeProps} render={(routeProps) => <Component {...routeProps} {...props} />} />
+        if (!authorized || (data && data.user && data.user.id)) {
+            return <Route {...routeProps} render={(routeProps) => {
+                return <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />
+            } } />
         }
 
         return <Redirect to={routes.login.path} />
