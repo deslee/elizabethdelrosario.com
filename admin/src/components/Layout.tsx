@@ -136,9 +136,9 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
+        width: theme.spacing(9),
+        [theme.breakpoints.down('sm')]: {
+            width: 0
         },
     },
     menuItemSelected: {
@@ -237,7 +237,7 @@ function Layout({ title, children, history, route }: Props) {
                 </AppBar>
                 <ThemeProvider theme={darkTheme}>
                     <Drawer
-                        variant="permanent"
+                        variant={matchesSmallView ? "persistent" : "permanent"}
                         classes={{
                             paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
                         }}
