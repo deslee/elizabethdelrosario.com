@@ -5,7 +5,7 @@ import { AuthenticationError } from "apollo-server-micro";
 import { CustomContext } from "../types/CustomContext";
 import { validatorFactory } from "./validation";
 
-const WHITELIST = ['login', 'logout', 'register']
+const WHITELIST = ['login', 'logout']
 
 export default makeWrapResolversPlugin(context => {
     if (context.scope.isRootMutation) {
