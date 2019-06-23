@@ -42,7 +42,7 @@ const SimpleModal = ({asset, onClose = () => {}}: {asset: AssetWithData, onClose
         return () => {
             window.removeEventListener('keydown', keydown);
         }
-    }, []);
+    }, [onClose]);
 
     if (type === 'IMAGE') {
         return <Lightbox

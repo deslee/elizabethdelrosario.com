@@ -1,4 +1,4 @@
-import { graphql, MutateProps, MutationFn, ChildMutateProps, DataValue } from 'react-apollo';
+import { graphql, MutationFn, DataValue } from 'react-apollo';
 import { UpdatePostInput, UpdatePostPayload, CreatePostInput, CreatePostPayload, Post } from 'api';
 import gql from "graphql-tag";
 

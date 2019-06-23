@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 const PostList = ({ type, selected, posts }: Props) => {
     const classes = useStyles({});
 
-    const postList = (posts && posts.posts || []);
+    const postList = (posts && posts.posts) || [];
     const loading = posts.loading;
     return <Paper className={classes.root}>
         <List>

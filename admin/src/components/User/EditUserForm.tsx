@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { Container, Paper, Theme, Grid, Button, Divider } from '@material-ui/core';
+import { Theme, Grid, Button, Divider } from '@material-ui/core';
 import { TextField } from "formik-material-ui";
 import { Field, Formik, Form } from 'formik';
 import { compose } from 'recompose';
@@ -51,7 +51,7 @@ const EditUserForm = ({ updateUser, currentUser }: Props) => {
         } finally {
             actions.setSubmitting(false);
         }
-    }}>{({ errors, touched, error, submitForm }) => <Form className={classes.root}>
+    }}>{({ submitForm }) => <Form className={classes.root}>
         <Grid container>
             <Grid container item spacing={2} md={4}>
                 <Grid item xs={12}>

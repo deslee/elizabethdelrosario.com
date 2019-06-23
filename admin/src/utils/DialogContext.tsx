@@ -41,14 +41,12 @@ export const DialogProvider = ({ children }: Props) => {
                     type: 'CONFIRM',
                     text: question,
                     close: () => { 
-                        const [_, ...rest] = dialogs
                         resolve(false);
-                        setDialogs(rest);
+                        setDialogs(dialogs.slice(1));
                     },
                     confirm: () => { 
-                        const [_, ...rest] = dialogs
                         resolve(true);
-                        setDialogs(rest);
+                        setDialogs(dialogs.slice(1));
                     }
                 },
                 ...dialogs

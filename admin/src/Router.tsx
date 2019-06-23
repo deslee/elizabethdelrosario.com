@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
-import Layout from './components/Layout';
+import Layout from './components/Layout/Layout';
 import Loadable from 'react-loadable'
 import FullPageLoading from './components/FullPageLoading';
 import { makeStyles } from '@material-ui/styles';
@@ -115,7 +115,7 @@ const AuthRoute = compose<AuthRouteProps & WithCurrentUserInjectedProps, AuthRou
     const classes = useAuthRouteStyles();
     React.useEffect(() => {
         onEnter()
-    }, [])
+    }, [onEnter])
 
     if (currentUser.loading && authorized) {
         return <div className={classes.loading}><FullPageLoading /></div>
@@ -134,6 +134,7 @@ export default () => {
     const [currentRoute, setCurrentRoute] = React.useState<RouteKey | undefined>();
     return <BrowserRouter>
         <Switch>
+            <Redirect from="/" to={routes.home.path} exact={true} />
             <AuthRoute authorized={false} path="/admin/login" exact={true} component={LoginPage} onEnter={() => setCurrentRoute(undefined)} />
             {
                 routeKeys.filter(k => !routes[k].layout).map(routeKey => {

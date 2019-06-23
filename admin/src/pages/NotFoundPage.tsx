@@ -1,12 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { Container, Paper, Theme, Typography } from '@material-ui/core';
+import { Container, Theme, Typography } from '@material-ui/core';
 import image from '../images/404.jpg'
-
-interface ComponentProps {
-
-}
-type Props = ComponentProps;
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -17,7 +12,7 @@ const useStyle = makeStyles((theme: Theme) => ({
     }
 }))
 
-const NotFoundPage = (props: Props) => {
+const NotFoundPage = () => {
     const classes = useStyle({});
     return <Container className={classes.root}>
         <img className={classes.image} src={image} alt="Not found" />

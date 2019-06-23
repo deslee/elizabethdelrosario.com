@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import PostFormComponent from './PostForm';
-import { PostInputWithData, jsonToPostData, postDataToJson, PostInputWithDataShape as PostInputWithDataShape } from '../../models/PostModel';
+import { PostInputWithData, jsonToPostData, PostInputWithDataShape } from '../../models/PostModel';
 import { compose } from 'recompose';
 import dayjs from 'dayjs';
 import { withUpdatePost, UpdatePostInjectedProps, withDeletePost, DeletePostInjectedProps, withPost, WithPostInjectedProps, GetPostVariables, POST_LIST_QUERY } from '../../data-access/PostQueries';
@@ -21,10 +20,8 @@ interface ComponentProps extends GetPostVariables {
 
 type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & WithRoutingInjectedProps & WithPostInjectedProps
 
-const useStyles = makeStyles(() => ({
-}))
 
-const EditPost = ({ updatePost, type, deletePost, post, history }: Props) => {
+const EditPost = ({ type, deletePost, post, history }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
 
     if (post.loading || !post.post) {

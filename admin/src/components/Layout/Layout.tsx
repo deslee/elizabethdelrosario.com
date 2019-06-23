@@ -10,21 +10,21 @@ import PostIcon from '@material-ui/icons/Notes';
 import AssetsIcon from '@material-ui/icons/Collections';
 import PageIcon from '@material-ui/icons/LibraryBooks';
 import SettingsIcon from '@material-ui/icons/Settings';
-import constants from '../Constants';
+import constants from '../../Constants';
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme'
-import { withCurrentUser, WithCurrentUserInjectedProps } from "../data-access/UserQueries";
-import Logout from "./Logout";
+import theme from '../../theme'
+import { withCurrentUser, WithCurrentUserInjectedProps } from "../../data-access/UserQueries";
+import Logout from "../Logout";
 import 'react-image-lightbox/style.css';
-import { routes, RouteKey } from '../Router';
+import { routes, RouteKey } from '../../Router';
 import { compose } from 'recompose';
 import { Helmet } from "react-helmet";
-import { jsonToUserData } from '../models/UserModel';
+import { jsonToUserData } from '../../models/UserModel';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
-import { withRouting, WithRoutingInjectedProps, Link as RouterLink } from '../RouteComponents'
-import FullPageLoading from './FullPageLoading';
+import { withRouting, WithRoutingInjectedProps, Link as RouterLink } from '../../RouteComponents'
+import FullPageLoading from '../FullPageLoading';
 import { User } from 'api';
 
 export const MainListItems = ({ route, classes }: { route: RouteKey, classes: ClassNameMap }) => {

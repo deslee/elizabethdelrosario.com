@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { Container, Paper, Theme, Grid, Button, Divider } from '@material-ui/core';
+import { Theme, Grid, Button, Divider } from '@material-ui/core';
 import { TextField } from "formik-material-ui";
 import { Field, Formik, Form } from 'formik';
 
@@ -20,11 +20,11 @@ const useStyle = makeStyles((theme: Theme) => ({
     }
 }))
 
-const UpdatePasswordForm = (props: Props) => {
+const UpdatePasswordForm = () => {
     const classes = useStyle({});
-    return <Formik initialValues={{}} onSubmit={async (values, actions) => {
+    return <Formik initialValues={{}} onSubmit={async () => {
 
-    }}>{({ errors, touched, error }) => <Form className={classes.root}>
+    }}>{() => <Form className={classes.root}>
         <Grid container>
             <Grid container item spacing={2}>
                 <Grid item xs={12}>

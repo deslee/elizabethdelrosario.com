@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {UpdateAssetInjectedProps, withUpdateAsset, UpdateAssetVariables} from "../../data-access/AssetQueries";
+import {UpdateAssetInjectedProps, withUpdateAsset} from "../../data-access/AssetQueries";
 import {useSnackbar} from "notistack";
 import { compose } from 'recompose';
 
@@ -60,7 +60,7 @@ interface ComponentProps {
 type Props = ComponentProps & UpdateAssetInjectedProps
 
 const EditAssetDialogComponent = ({assetEditing, onClose, updateAsset} : Props) => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
     return assetEditing ? <Formik<AssetWithData> onSubmit={async (values, actions) => {
         try {
             await updateAsset({
@@ -82,7 +82,7 @@ const EditAssetDialogComponent = ({assetEditing, onClose, updateAsset} : Props) 
             actions.setSubmitting(false);
         }
     }} initialValues={{ ...assetEditing, data: {name: '', description: '', privateNotes: '', ...assetEditing.data}}} enableReinitialize>{({submitForm, touched}) => <Form>
-    <Dialog open={assetEditing !== undefined} onClose={() => {Object.keys(touched).length == 0 && onClose()}} aria-labelledby="form-dialog-title">
+    <Dialog open={assetEditing !== undefined} onClose={() => {Object.keys(touched).length === 0 && onClose()}} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Asset</DialogTitle>
             <DialogContent>
                 <EditAssetFormLayout />

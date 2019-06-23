@@ -16,6 +16,6 @@ export interface LinkProps {
     replace?: boolean;
     children: any;
 }
-export const Link = ({children, ...props}: LinkProps) => {
-    return <RouterLink {...props}>{children}</RouterLink>
-}
+export const Link = React.forwardRef<any, LinkProps>(({children, ...props}, ref) => {
+    return <RouterLink ref={ref} {...props}>{children}</RouterLink>
+})

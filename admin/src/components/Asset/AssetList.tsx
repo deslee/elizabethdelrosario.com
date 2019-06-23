@@ -3,14 +3,11 @@ import FilePicker from "../FilePicker";
 import {
     CreateAssetInjectedProps, 
     CreateAssetVariables,
-    GetAssetListResult,
-    GetAssetListVariables,
     withCreateAsset,
     ASSET_LIST_QUERY,
     withAssetList,
     AssetListInjectedProps
 } from "../../data-access/AssetQueries";
-import {Query} from "react-apollo";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -94,7 +91,7 @@ const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
                 }
             });
             if (response && response.data && response.data.createAsset) {
-                setUploadAssetState(['UPLOADED', response.data.createAsset.asset && response.data.createAsset.asset.uri || undefined]);
+                setUploadAssetState(['UPLOADED', response.data.createAsset.asset ? (response.data.createAsset.asset.uri || undefined) : undefined]);
             } else {
                 setUploadAssetState(['ERROR'])
             }

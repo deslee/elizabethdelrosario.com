@@ -6,9 +6,7 @@ import { ImagesSlice, isImagesSlice, PostInputWithData, VideoSlice } from '../..
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import Query from "react-apollo/Query";
 import {
-    GetAssetListResult,
     GetAssetListVariables,
     AssetListInjectedProps,
     withAssetList
@@ -90,7 +88,7 @@ const SelectAssetDialog = ({ open, close, onAdded, assets }: { open: boolean, cl
 
 const Item = posed(Grid)();
 
-const AssetSliceComponent = ({ formik: { setFieldValue, values }, slice, name, type, assets: assetsResult }: Props) => {
+const AssetSliceComponent = ({ formik: { setFieldValue }, slice, name, type, assets: assetsResult }: Props) => {
     const [selectAssetDialogOpen, setSelectAssetDialogOpen] = React.useState(false);
     const classes = useStyles();
 
@@ -111,7 +109,7 @@ const AssetSliceComponent = ({ formik: { setFieldValue, values }, slice, name, t
     const assets = assetsResult.assets || [];
 
     return <>
-        <FieldArray name={`${name}.assetIds`} render={({ move, swap, push, insert, unshift, pop, remove }) => <Grid container spacing={2}>
+        <FieldArray name={`${name}.assetIds`} render={({ move, remove }) => <Grid container spacing={2}>
             <PoseGroup>{assetIds.map(id => assets.find(a => a.id === id)).filter(a => a).map(asset => assetToAssetWithData(asset!)).map((asset, idx) => <Item item key={asset.id}>
                 <AssetListCard asset={asset} actions={<CardActions className={classes.cardActions}>
                     <Button size="small" onClick={() => idx > 0 && move(idx, idx - 1)}>Back</Button>
