@@ -8,8 +8,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LoginForm from '../components/LoginForm';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { routes } from '../Router';
+import { compose } from 'recompose';
+import { withRouting, WithRoutingInjectedProps } from '../RouteComponents';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,7 +45,7 @@ interface ComponentProps {
 
 }
 
-type Props = ComponentProps & RouteComponentProps;
+type Props = ComponentProps & WithRoutingInjectedProps;
 
 const LoginPage = (props: Props) => {
   const classes = useStyles({});
@@ -84,4 +85,6 @@ const LoginPage = (props: Props) => {
   );
 }
 
-export default withRouter(LoginPage)
+export default compose<Props, ComponentProps>(
+  withRouting
+)(LoginPage)

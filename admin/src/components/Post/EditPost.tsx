@@ -8,18 +8,18 @@ import dayjs from 'dayjs';
 import { withUpdatePost, UpdatePostInjectedProps, withDeletePost, DeletePostInjectedProps, withPost, WithPostInjectedProps, GetPostVariables, POST_LIST_QUERY } from '../../data-access/PostQueries';
 import { withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { routes } from '../../Router';
 import Skeleton from 'react-loading-skeleton';
 import { Paper } from '@material-ui/core';
 import useCommonStyles from '../../utils/useCommonStyles';
+import { withRouting, WithRoutingInjectedProps } from '../../RouteComponents';
 
 interface ComponentProps extends GetPostVariables {
     type: 'POST' | 'PAGE';
     children?: React.ReactNode;
 }
 
-type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & RouteComponentProps & WithPostInjectedProps
+type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & WithRoutingInjectedProps & WithPostInjectedProps
 
 const useStyles = makeStyles(() => ({
 }))
@@ -82,7 +82,7 @@ const EditPost = ({ updatePost, type, deletePost, post, history }: Props) => {
 }
 
 export default compose<Props, ComponentProps>(
-    withRouter,
+    withRouting,
     withPost,
     withDeletePost,
     withUpdatePost,

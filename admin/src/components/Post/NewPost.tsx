@@ -6,15 +6,15 @@ import { PostInputWithData, postDataToJson, PostInputWithDataShape } from '../..
 import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY } from '../../data-access/PostQueries';
 import { useSnackbar } from 'notistack';
 import compose from 'recompose/compose';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { routes } from '../../Router';
+import { withRouting, WithRoutingInjectedProps } from '../../RouteComponents';
 
 
 interface ComponentProps {
     type: 'POST' | 'PAGE';
 }
 
-type Props = ComponentProps & CreatePostInjectedProps & RouteComponentProps
+type Props = ComponentProps & CreatePostInjectedProps & WithRoutingInjectedProps
 
 const NewPost = ({ type, createPost, history }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
@@ -75,6 +75,6 @@ const NewPost = ({ type, createPost, history }: Props) => {
 }
 
 export default compose<Props, ComponentProps>(
-    withRouter,
+    withRouting,
     withCreatePost,
 )(NewPost);

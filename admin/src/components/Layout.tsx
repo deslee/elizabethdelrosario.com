@@ -13,7 +13,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import constants from '../Constants';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme'
-import { Link as RouterLink, RouteComponentProps, withRouter } from "react-router-dom";
 import { withCurrentUser, WithCurrentUserInjectedProps } from "../data-access/UserQueries";
 import Logout from "./Logout";
 import 'react-image-lightbox/style.css';
@@ -24,6 +23,7 @@ import { jsonToUserData } from '../models/UserModel';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
+import { withRouting, WithRoutingInjectedProps, Link as RouterLink } from '../RouteComponents'
 import FullPageLoading from './FullPageLoading';
 import { User } from 'api';
 
@@ -170,7 +170,7 @@ interface ComponentProps {
     route?: RouteKey
 }
 
-type Props = ComponentProps & RouteComponentProps & WithCurrentUserInjectedProps
+type Props = ComponentProps & WithCurrentUserInjectedProps & WithRoutingInjectedProps
 
 const darkTheme = createMuiTheme({
     ...theme,
@@ -268,6 +268,6 @@ function Layout({ title, children, history, route, currentUser }: Props) {
 }
 
 export default React.memo(compose<Props, ComponentProps>(
-    withRouter,
-    withCurrentUser
+    withCurrentUser,
+    withRouting
 )(Layout));
