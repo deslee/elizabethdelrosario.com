@@ -35,7 +35,8 @@ interface Props extends ComponentProps, CreateAssetInjectedProps {
 const useStyles = makeStyles(theme => ({
     paper: {
         margin: theme.spacing(3),
-        padding: theme.spacing(4)
+        padding: theme.spacing(4),
+        display: 'inline-block'
     },
     uploadButton: {
         marginBottom: theme.spacing(2)
