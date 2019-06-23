@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Button, Typography, FormControlLabel, Checkbox, makeStyles } from '@material-ui/core';
+import { Button, Typography, FormControlLabel, Checkbox, makeStyles, LinearProgress } from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';
-import { graphql, MutateProps, withApollo, WithApolloClient, ChildDataProps, ChildMutateProps } from 'react-apollo';
+import { graphql, withApollo, WithApolloClient, ChildMutateProps } from 'react-apollo';
 import { TextField } from 'formik-material-ui';
 import gql from "graphql-tag";
 import { LoginPayload, LoginInput } from 'api';
-import Logout from './Logout';
 
 interface ComponentProps {
     onLogin?: () => void
@@ -51,7 +50,8 @@ const LoginForm: React.FC<Props> = ({ mutate: login, client, onLogin = () => {} 
                     actions.setSubmitting(false);
                 }
             }}
-        >{({ errors, touched, error }) => <Form>
+        >{({ error, isSubmitting }) => <Form>
+            {isSubmitting && <LinearProgress />}
             <Typography className={classes.error}>{error}</Typography>
             <Field
                 name="email" 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme, Link } from '@material-ui/core';
+import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme, Link, Tooltip } from '@material-ui/core';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -27,38 +27,48 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import FullPageLoading from './FullPageLoading';
 
-export const MainListItems = ({route, classes}: {route: RouteKey, classes: ClassNameMap}) => {
+export const MainListItems = ({ route, classes }: { route: RouteKey, classes: ClassNameMap }) => {
     return <>
-        <ListItem selected={route === 'home'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.home.path}>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Site" />
-        </ListItem>
-        <ListItem selected={route === 'posts'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.posts.path.replace(routes.posts.params!.id, '')}>
-            <ListItemIcon>
-                <PostIcon />
-            </ListItemIcon>
-            <ListItemText primary="Posts" />
-        </ListItem>
-        <ListItem selected={route === 'pages'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.pages.path.replace(routes.pages.params!.id, '')}>
-            <ListItemIcon>
-                <PageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Pages" />
-        </ListItem>
-        <ListItem selected={route === 'assets'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.assets.path}>
-            <ListItemIcon>
-                <AssetsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Assets" />
-        </ListItem>
-        <ListItem selected={route === 'settings'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.settings.path}>
-            <ListItemIcon>
-                <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-        </ListItem>
+        <Tooltip title="Site" aria-label="Site">
+            <ListItem selected={route === 'home'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.home.path}>
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Site" />
+            </ListItem>
+        </Tooltip>
+        <Tooltip title="Posts" aria-label="Posts">
+            <ListItem selected={route === 'posts'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.posts.path.replace(routes.posts.params!.id, '')}>
+                <ListItemIcon>
+                    <PostIcon />
+                </ListItemIcon>
+                <ListItemText primary="Posts" />
+            </ListItem>
+        </Tooltip>
+        <Tooltip title="Pages" aria-label="Pages">
+            <ListItem selected={route === 'pages'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.pages.path.replace(routes.pages.params!.id, '')}>
+                <ListItemIcon>
+                    <PageIcon />
+                </ListItemIcon>
+                <ListItemText primary="Pages" />
+            </ListItem>
+        </Tooltip>
+        <Tooltip title="Assets" aria-label="Assets">
+            <ListItem selected={route === 'assets'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.assets.path}>
+                <ListItemIcon>
+                    <AssetsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Assets" />
+            </ListItem>
+        </Tooltip>
+        <Tooltip title="Settings" aria-label="Settings">
+            <ListItem selected={route === 'settings'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.settings.path}>
+                <ListItemIcon>
+                    <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+            </ListItem>
+        </Tooltip>
     </>
 };
 
@@ -240,17 +250,19 @@ function Layout({ title, children, history, route }: Props) {
                             </IconButton>
                         </div>
                         <Divider />
-                        {route && <List className={classes.topDrawerList}><MainListItems route={route} classes={{selected: classes.menuItemSelected}} /></List>}
-                        <Logout>
-                            <List className={classes.bottomDrawerList}>
-                                <ListItem button>
-                                    <ListItemIcon>
-                                        <LogoutIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Logout" />
-                                </ListItem>
-                            </List>
-                        </Logout>
+                        {route && <List className={classes.topDrawerList}><MainListItems route={route} classes={{ selected: classes.menuItemSelected }} /></List>}
+                        <List className={classes.bottomDrawerList}>
+                            <Logout>
+                                <Tooltip title="Logout" aria-label="Logout">
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <LogoutIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Logout" />
+                                    </ListItem>
+                                </Tooltip>
+                            </Logout>
+                        </List>
                     </Drawer>
                 </ThemeProvider>
                 <main className={classes.content}>

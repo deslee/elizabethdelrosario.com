@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     content: {
         height: '100%',
         overflow: 'auto',
+        position: 'relative'
     },
     contentWithPost: {
         [theme.breakpoints.down('md')]: {
@@ -50,13 +51,13 @@ export default ({ id: postId, type }: Props) => {
     const newPostUrl = path.replace(params!.id, 'new');
 
     return <Grid container direction="row" className={classes.container}>
-        <Grid item className={clsx(classes.content, postId && classes.contentWithPost)} xs={12} lg={6} xl={2}>
+        <Grid item className={clsx(classes.content, postId && classes.contentWithPost)} xs={12} lg={5} xl={3}>
             <PostList type={type} selected={postId && parseInt(postId) !== NaN ? parseInt(postId) : undefined} />
             <Fab color="secondary" aria-label="Add" className={classes.addPostFab} component={RouterLink} to={newPostUrl}>
                 <AddIcon />
             </Fab>
         </Grid>
-        {postId && <Grid item className={clsx(classes.content)} xs={12} lg={6} xl={10}>
+        {postId && <Grid item className={clsx(classes.content)} xs={12} lg={7} xl={9}>
             {postId === 'new' ? <NewPost type={type} /> : (postId && parseInt(postId) !== NaN && <EditPost postId={parseInt(postId)} type={type} />)}
         </Grid>}
     </Grid>

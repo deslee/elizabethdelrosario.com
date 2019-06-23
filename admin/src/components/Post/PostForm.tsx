@@ -6,10 +6,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Slices from './Slices';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Form, Field, FieldProps, FormikProps, FieldArray } from 'formik';
+import { Form, Field, FieldProps, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { PostInputWithData } from './PostData';
 import { useDialog } from '../../utils/DialogContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormChangesGuard from "../FormChangesGuard";
 
 interface ComponentProps {
@@ -33,11 +34,13 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'right'
     },
     saveAction: {
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(1),
         alignSelf: 'baseline',
         marginTop: theme.spacing(1)
     },
     deleteAction: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
         alignSelf: 'start'
     },
     permaLink: {
@@ -55,6 +58,17 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         color: theme.palette.error.main,
+    },
+    wrapper: {
+      position: 'relative',
+    },
+    buttonProgress: {
+      color: theme.palette.primary.main,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      marginTop: -20,
+      marginLeft: -5,
     },
 }))
 
@@ -81,7 +95,10 @@ const PostForm = ({ isSubmitting, values, error, onDelete, type, dirty }: Props)
                     {onDelete && <IconButton className={classes.deleteAction} aria-label="Delete" onClick={async () => (await confirmDialog(`Are you sure you want to delete this ${type[0].toUpperCase()}${type.substring(1).toLowerCase()}?`)) && onDelete()}>
                         <DeleteIcon fontSize="large" />
                     </IconButton>}
-                    <Button disabled={isSubmitting} type="submit" className={classes.saveAction} size="large" color="primary" variant="contained">Save</Button>
+                    <div className={classes.wrapper}>
+                        <Button disabled={isSubmitting} type="submit" className={classes.saveAction} size="large" color="primary" variant="contained">Save</Button>
+                        {isSubmitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    </div>
                 </Grid>
                 <Grid item xs={12}>
                     <Field
