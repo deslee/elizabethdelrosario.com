@@ -25,6 +25,7 @@ import { jsonToUserData } from './User/UserData';
 import { useTheme, Theme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
+import FullPageLoading from './FullPageLoading';
 
 export const MainListItems = ({route, classes}: {route: RouteKey, classes: ClassNameMap}) => {
     return <>
@@ -64,6 +65,13 @@ export const MainListItems = ({route, classes}: {route: RouteKey, classes: Class
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+    },
+    loading: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: '100vh',
+        width: '100vw',
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -196,7 +204,7 @@ function Layout({ title, children, history, route }: Props) {
             <title>{title ? `${title} - Admin` : 'Admin'}</title>
         </Helmet>
         <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) =>
-            loading ? <div>Loading</div> : <div className={classes.root}>
+            loading ? <div className={classes.loading}><FullPageLoading /></div> : <div className={classes.root}>
                 <CssBaseline />
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>

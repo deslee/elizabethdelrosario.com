@@ -1,6 +1,11 @@
 {
     "version": 2,
     "name": "elizabethdelrosariocom",
+    "build": {
+        "env": {
+            "REACT_APP_S3_BUCKET_URL": "@react_app_s3_bucket_url"
+        }
+    },
     "env": {
         "S3_UPLOAD_ACCESS_KEY_ID": "@s3_upload_access_key_id",
         "S3_UPLOAD_SECRET_ACCESS_KEY": "@s3_upload_secret_access_key",
