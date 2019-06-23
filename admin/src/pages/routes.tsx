@@ -83,7 +83,8 @@ const _routes = {
             loader: () => import('./EditProfilePage'),
             loading: () => <FullPageLoading />
         }),
-        layout: 'Profile'
+        layout: 'Profile',
+        authorized: true
     }
 }
 export type RouteKey = keyof typeof _routes;
