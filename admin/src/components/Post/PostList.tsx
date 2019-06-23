@@ -8,7 +8,7 @@ import { Query } from 'react-apollo';
 import { PostWithData, jsonToPostData } from './PostData';
 import { POST_LIST_QUERY, GetPostListVariables, GetPostListResult } from './PostQueries';
 import { routes } from '../../pages/routes';
-import FullPageLoading from '../FullPageLoading';
+import Skeleton from 'react-loading-skeleton';
 
 interface ComponentProps {
     type: 'POST' | 'PAGE'
@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     list: {
 
     },
+    loadingSkeleton: {
+        margin: theme.spacing(0, 2)
+    },
     row: {
         paddingTop: theme.spacing(1.5),
         paddingBottom: theme.spacing(1.5),
@@ -43,9 +46,6 @@ const PostList = ({ type, selected }: Props) => {
 
     return <Query<GetPostListResult, GetPostListVariables> query={POST_LIST_QUERY} variables={{ type }}>{({ loading, data }) => {
         const posts = (data && data.posts || [])
-        if (loading) {
-            return <FullPageLoading />
-        }
         return <Paper className={classes.root}>
             <List>
                 <ListItem>
@@ -57,8 +57,9 @@ const PostList = ({ type, selected }: Props) => {
             </List>
             <Divider />
             <List className={classes.list}>
-                {posts.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
-                {posts.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
+                {loading && <div className={classes.loadingSkeleton}><Skeleton count={2} /></div>}
+                {!loading && posts.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
+                {!loading && posts.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
                     <ListItem button component={RouterLink} to={type === 'POST' ? routes.posts.path.replace(routes.posts.params!.id, post.id.toString()) : routes.pages.path.replace(routes.pages.params!.id, post.id.toString())} selected={post.id === selected}>
                         <Grid container className={classes.row}>
                             <Grid container item xs>{post.data.title}</Grid>

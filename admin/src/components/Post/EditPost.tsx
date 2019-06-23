@@ -10,7 +10,9 @@ import { Query, withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { routes } from '../../pages/routes';
-import FullPageLoading from '../FullPageLoading';
+import Skeleton from 'react-loading-skeleton';
+import { Paper } from '@material-ui/core';
+import useCommonStyles from '../../utils/useCommonStyles';
 
 interface ComponentProps {
     postId: number;
@@ -29,7 +31,7 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
 
     return <Query<GetPostResult, GetPostVariables> query={GET_POST_QUERY} variables={{ postId }}>{({ loading, data }) => {
         if (loading) {
-            return <FullPageLoading />
+            return <SkeletonLoading />
         }
 
         return data && data.post && <Formik<PostInputWithData>
@@ -106,3 +108,10 @@ export default compose<Props, ComponentProps>(
     withUpdatePost<ComponentProps>(),
     withApollo
 )(EditPost)
+
+const SkeletonLoading = () => {
+    const commonClasses = useCommonStyles();
+    return <Paper className={commonClasses.paper}>
+        <Skeleton count={5} />
+    </Paper>
+}

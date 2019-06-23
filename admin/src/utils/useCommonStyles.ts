@@ -7,10 +7,7 @@ export default makeStyles((theme: Theme) => ({
         padding: theme.spacing(4)
     },
     innerPaper: {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
-        marginLeft: 0,
-        marginRight: 0,
+        margin: theme.spacing(2, 0),
         padding: theme.spacing(4)
     }
 }))
