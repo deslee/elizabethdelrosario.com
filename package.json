@@ -1,10 +1,11 @@
 {
-  "name": "postgraphile-next-starter",
+  "name": "elizabethdelrosario.com",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "lerna run bootstrap"
+    "build": "lerna bootstrap"
   },
   "author": "",
   "license": "ISC",
