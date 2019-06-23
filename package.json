@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "lerna bootstrap"
+    "build": "lerna bootstrap && lerna exec --scope admin npm install && lerna run --scope admin build"
   },
   "author": "",
   "license": "ISC",
