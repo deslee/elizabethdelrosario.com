@@ -1,20 +1,19 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
-import { Route as RouteProps, routes } from './routes';
-import { Query } from 'react-apollo';
-import { GetCurrentUserResult, GetCurrentUserVariables, GET_CURRENT_USER_QUERY } from '../components/User/UserQueries';
-import Layout from '../components/Layout';
+import { Route as RouteProps } from './routes';
+import { WithCurrentUserInjectedProps, withCurrentUser, GetCurrentUserVariables } from '../components/User/UserQueries';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import FullPageLoading from '../components/FullPageLoading'
+import { compose } from 'recompose';
 
-interface ComponentProps {
+interface ComponentProps extends RouteProps, GetCurrentUserVariables {
     onEnter: () => void
 }
 
-type Props = RouteProps & ComponentProps
+type Props = ComponentProps & WithCurrentUserInjectedProps
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
     loading: {
         position: 'absolute',
         top: 0,
@@ -24,22 +23,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }))
 
-export default ({ authorized, onEnter, props = {}, component: Component, ...routeProps }: Props) => {
+const AuthRoute = ({ authorized, onEnter, props = {}, component: Component, currentUser, ...routeProps }: Props) => {
     const classes = useStyles();
     React.useEffect(() => {
         onEnter()
     }, [])
-    return <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) => {
-        if (loading) {
-            return <div className={classes.loading}><FullPageLoading /></div>
-        }
 
-        if (!authorized || (data && data.user && data.user.id)) {
-            return <Route {...routeProps} render={(routeProps) => {
-                return <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />;
-            } } />
-        }
-
+    if (currentUser.loading && authorized) {
+        return <div className={classes.loading}><FullPageLoading /></div>
+    }
+    else if (!currentUser.loading && authorized && (!currentUser.user || !currentUser.user.id)) {
         return <Redirect to="/admin/login" />
-    }}</Query>
-}
+    }
+    else {
+        return <Route {...routeProps} render={(routeProps) => {
+            return <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />;
+        } } />
+    }
+};
+
+export default compose<Props, ComponentProps>(
+    withCurrentUser
+)(AuthRoute);

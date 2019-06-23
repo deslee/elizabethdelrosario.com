@@ -5,7 +5,7 @@ import PostFormComponent from './PostForm';
 import { PostInputWithData, jsonToPostData, postDataToJson, PostInputWithDataShape as PostInputWithDataShape } from './PostData';
 import { compose } from 'recompose';
 import dayjs from 'dayjs';
-import { withUpdatePost, UpdatePostInjectedProps, GET_POST_QUERY, GetPostResult, GetPostVariables, POST_LIST_QUERY, withDeletePost, DeletePostInjectedProps } from './PostQueries';
+import { withUpdatePost, UpdatePostInjectedProps, withDeletePost, DeletePostInjectedProps, withPost, WithPostInjectedProps, GetPostVariables, POST_LIST_QUERY } from './PostQueries';
 import { Query, withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -14,42 +14,40 @@ import Skeleton from 'react-loading-skeleton';
 import { Paper } from '@material-ui/core';
 import useCommonStyles from '../../utils/useCommonStyles';
 
-interface ComponentProps {
-    postId: number;
+interface ComponentProps extends GetPostVariables {
     type: 'POST' | 'PAGE';
     children?: React.ReactNode;
 }
 
-type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & RouteComponentProps
+type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & RouteComponentProps & WithPostInjectedProps
 
 const useStyles = makeStyles(theme => ({
 }))
 
-const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) => {
+const EditPost = ({ updatePost, type, deletePost, post, history }: Props) => {
     const classes = useStyles();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    return <Query<GetPostResult, GetPostVariables> query={GET_POST_QUERY} variables={{ postId }}>{({ loading, data }) => {
-        if (loading) {
-            return <SkeletonLoading />
-        }
+    if (post.loading || !post.post) {
+        return <SkeletonLoading />
+    }
 
-        return data && data.post && <Formik<PostInputWithData>
+    return <Formik<PostInputWithData>
         enableReinitialize={true}
         validationSchema={PostInputWithDataShape}
         initialValues={{
-            name: data.post.name,
+            name: post.post.name,
             type,
-            date: dayjs(data.post.date || undefined).toISOString(),
-            password: data.post.password || '',
-            data: jsonToPostData(data.post.data)
+            date: dayjs(post.post.date || undefined).toISOString(),
+            password: post.post.password || '',
+            data: jsonToPostData(post.post.data)
         }}
         onSubmit={async (values, actions) => {
             try {
-                const result = await mutate({
+                const result = await updatePost({
                     variables: {
                         input: {
-                            id: postId,
+                            id: post.post!.id,
                             patch: {
                                 ...values,
                                 data: postDataToJson(values.data)
@@ -66,7 +64,7 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
                 enqueueSnackbar('Success!', {
                     variant: 'success'
                 })
-            } catch(error) {
+            } catch (error) {
                 enqueueSnackbar(error.message, {
                     variant: 'error'
                 })
@@ -78,7 +76,7 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
             try {
                 props.setSubmitting(true);
                 const result = await deletePost({
-                    refetchQueries: [{query: POST_LIST_QUERY, variables: {type}}]
+                    refetchQueries: [{ query: POST_LIST_QUERY, variables: { type } }]
                 });
                 if (result && result.errors && result.errors.length) {
                     props.setError(result.errors.map(e => e.message).join(', '))
@@ -90,7 +88,7 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
                         history.push(routes.pages.path.replace(routes.pages.params!.id, ''))
                     }
                 }
-            } catch(error) {
+            } catch (error) {
                 enqueueSnackbar(error.message, {
                     variant: 'error'
                 })
@@ -99,13 +97,13 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
             }
         }} />}
     />
-    }}</Query>
 }
 
 export default compose<Props, ComponentProps>(
     withRouter,
-    withDeletePost<ComponentProps>(),
-    withUpdatePost<ComponentProps>(),
+    withPost,
+    withDeletePost,
+    withUpdatePost,
     withApollo
 )(EditPost)
 

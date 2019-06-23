@@ -1,4 +1,4 @@
-import { graphql, MutateProps, MutationFn, ChildMutateProps } from 'react-apollo';
+import { graphql, MutateProps, MutationFn, ChildMutateProps, DataValue } from 'react-apollo';
 import { UpdatePostInput, UpdatePostPayload, CreatePostInput, CreatePostPayload, Post } from 'api';
 import gql from "graphql-tag";
 
@@ -18,35 +18,30 @@ fragment postFragment on Post {
 }
 `
 
-export type UpdatePostInjectedProps = MutateProps<UpdatePostResult, UpdatePostVariables>;
-
-export interface UpdatePostVariables {
-    input: UpdatePostInput
-}
-export interface UpdatePostResult {
-    updatePost: UpdatePostPayload
-}
-
-export const withUpdatePost = <T>() => graphql<T, UpdatePostResult, UpdatePostVariables>(gql`
-    mutation UpdatePost($input: UpdatePostInput!) {
-      updatePost(input: $input) {
-        post {
-          ...postFragment
-        }
-      }
+export type UpdatePostVariables = { input: UpdatePostInput }
+export type UpdatePostResult = { updatePost: UpdatePostPayload }
+export type UpdatePostInjectedProps = { updatePost: MutationFn<UpdatePostResult, UpdatePostVariables> };
+const UPDATE_POST_MUTATION = gql`
+mutation UpdatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    post {
+      ...postFragment
     }
-    ${PostFragment}
-`)
-
-export interface CreatePostVariables {
-    input: CreatePostInput
+  }
 }
-export interface CreatePostResult {
-    createPost: CreatePostPayload
-}
-export type CreatePostInjectedProps = MutateProps<CreatePostResult, CreatePostVariables>;
+${PostFragment}`
+export const withUpdatePost = graphql<any, UpdatePostResult, UpdatePostVariables, UpdatePostInjectedProps>(
+  UPDATE_POST_MUTATION,
+  {
+    props: props => ({ updatePost: props.mutate! })
+  }
+)
 
-export const withCreatePost = <T>() => graphql<T, CreatePostResult, CreatePostVariables, ChildMutateProps<T, CreatePostResult, CreatePostVariables>>(gql`
+
+export type CreatePostVariables = { input: CreatePostInput }
+export type CreatePostResult = { createPost: CreatePostPayload }
+export type CreatePostInjectedProps = { createPost: MutationFn<CreatePostResult, CreatePostVariables> };
+const CREATE_POST_MUTATION = gql`
 mutation CreatePost($input: CreatePostInput!) {
   createPost(input: $input) {
     post {
@@ -55,17 +50,31 @@ mutation CreatePost($input: CreatePostInput!) {
   }
 }
 ${PostFragment}
-`)
+`;
+export const withCreatePost = graphql<any, CreatePostResult, CreatePostVariables, CreatePostInjectedProps>(
+  CREATE_POST_MUTATION,
+  {
+    props: props => ({ createPost: props.mutate! })
+  }
+)
 
-export interface GetPostVariables {
-  postId: number
+
+export type DeletePostVariables = { postId: number }
+export type DeletePostResult = {}
+export type DeletePostInjectedProps = { deletePost: MutationFn<DeletePostResult, DeletePostVariables> };
+const DELETE_POST_MUTATION = gql`
+mutation DeletePost($postId: Int!) {
+  deletePost(input: {id: $postId}) {
+    clientMutationId
+  }
 }
+`
+export const withDeletePost = graphql<any, DeletePostResult, DeletePostVariables, DeletePostInjectedProps>(DELETE_POST_MUTATION, { props: (props) => ({ deletePost: props.mutate! }) });
 
-export interface GetPostResult {
-  post: Post
-}
-
-export const GET_POST_QUERY = gql`
+export type GetPostVariables = { postId: number }
+export type GetPostResult = { post: Post }
+export type WithPostInjectedProps = { post: DataValue<GetPostResult, GetPostVariables> }
+const GET_POST_QUERY = gql`
   query PostById($postId: Int!) {
     post(id: $postId) {
       ...postFragment
@@ -73,11 +82,16 @@ export const GET_POST_QUERY = gql`
   }
   ${PostFragment}
 `
+export const withPost = graphql<any, GetPostResult, GetPostVariables, WithPostInjectedProps>(
+  GET_POST_QUERY,
+  {
+      props: props => ({ post: props.data! })
+  }
+)
 
-export interface GetPostListVariables {
-  type: string
-}
-
+export type GetPostListVariables = { type: 'POST' | 'PAGE' }
+export type GetPostListResult = { posts: Post[] }
+export type WithPostListInjectedProps = { posts: DataValue<GetPostListResult, GetPostListVariables> }
 export const POST_LIST_QUERY = gql`
 query Posts($type: String) {
   posts(condition: { type: $type }, orderBy: [DATE_DESC]) {
@@ -86,22 +100,9 @@ query Posts($type: String) {
 }
 ${PostFragment}
 `
-
-export interface GetPostListResult {
-    posts: Post[]
-}
-
-export const DELETE_POST_MUTATION = gql`
-mutation DeletePost($postId: Int!) {
-  deletePost(input: {id: $postId}) {
-    clientMutationId
+export const withPostList = graphql<any, GetPostListResult, GetPostListVariables, WithPostListInjectedProps>(
+  POST_LIST_QUERY,
+  {
+      props: props => ({ posts: props.data! })
   }
-}
-`
-export interface DeletePostVariables {
-  postId: number
-}
-export type DeletePostInjectedProps = {
-  deletePost: MutationFn<{}, DeletePostVariables>
-};
-export const withDeletePost = <T>() => graphql<T, {}, DeletePostVariables, DeletePostInjectedProps>(DELETE_POST_MUTATION, { props: (props) => ({ deletePost: props.mutate! }) });
+)

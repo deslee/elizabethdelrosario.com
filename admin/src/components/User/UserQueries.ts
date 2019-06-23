@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import {UpdateUserInput, UpdateUserPayload, User} from "api";
+import { UpdateUserInput, UpdateUserPayload, User } from "api";
 import { MutationFn, graphql, DataValue } from "react-apollo";
 
 export const UserFragment = gql`
@@ -15,7 +15,7 @@ fragment userFragment on User {
   }
 `
 
-export const GET_CURRENT_USER_QUERY = gql`
+const GET_CURRENT_USER_QUERY = gql`
 query GetCurrentUser {
     user: me {
         ...userFragment
@@ -34,7 +34,7 @@ export const withCurrentUser = graphql<any, GetCurrentUserResult, GetCurrentUser
 )
 
 
-export const UPDATE_USER_MUTATION = gql`
+const UPDATE_USER_MUTATION = gql`
     mutation updateUser($input: UpdateUserInput!) {
         updateUser(input: $input) {
             user {

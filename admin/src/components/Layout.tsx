@@ -15,7 +15,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from '../theme'
 import { Query } from "react-apollo";
 import { Link as RouterLink, RouteComponentProps, withRouter } from "react-router-dom";
-import { GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables } from "./User/UserQueries";
+import { GetCurrentUserResult, GetCurrentUserVariables, withCurrentUser, WithCurrentUserInjectedProps } from "./User/UserQueries";
 import Logout from "./Logout";
 import 'react-image-lightbox/style.css';
 import { routes, RouteKey } from '../pages/routes';
@@ -26,6 +26,7 @@ import { useTheme, Theme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
 import FullPageLoading from './FullPageLoading';
+import { User } from 'api';
 
 export const MainListItems = ({ route, classes }: { route: RouteKey, classes: ClassNameMap }) => {
     return <>
@@ -170,7 +171,7 @@ interface ComponentProps {
     route?: RouteKey
 }
 
-type Props = ComponentProps & RouteComponentProps
+type Props = ComponentProps & RouteComponentProps & WithCurrentUserInjectedProps
 
 const darkTheme = createMuiTheme({
     ...theme,
@@ -179,7 +180,7 @@ const darkTheme = createMuiTheme({
     },
 });
 
-function Layout({ title, children, history, route }: Props) {
+function Layout({ title, children, history, route, currentUser }: Props) {
     const classes = useStyles();
     const theme = useTheme();
     const matchesSmallView = useMediaQuery(theme.breakpoints.down('sm'));
@@ -194,10 +195,10 @@ function Layout({ title, children, history, route }: Props) {
         setOpen(false);
     };
 
-    const getDisplayName = (data: GetCurrentUserResult | undefined) => {
-        if (data && data.user) {
-            var userData = jsonToUserData(data.user.data)
-            return userData.displayName ? userData.displayName : userData.firstName ? (userData.firstName + (userData.lastName && ' ' + userData.lastName)) : userData.lastName ? userData.lastName : data.user.email
+    const getDisplayName = (user: User | undefined) => {
+        if (user) {
+            var userData = jsonToUserData(user.data)
+            return userData.displayName ? userData.displayName : userData.firstName ? (userData.firstName + (userData.lastName && ' ' + userData.lastName)) : userData.lastName ? userData.lastName : user.email
         } else {
             return 'User'
         }
@@ -207,67 +208,67 @@ function Layout({ title, children, history, route }: Props) {
         <Helmet>
             <title>{title ? `${title} - Admin` : 'Admin'}</title>
         </Helmet>
-        <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) =>
-            loading ? <div className={classes.loading}><FullPageLoading /></div> : <div className={classes.root}>
-                <CssBaseline />
-                <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-                    <Toolbar className={classes.toolbar}>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="Open drawer"
-                            onClick={handleDrawerOpen}
-                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap
-                            className={classes.title}>{title}</Typography>
-                        <IconButton color="inherit" className={classes.profileIcon} onClick={() => history.push(routes.profile.path)}>
-                            <ProfileIcon />
-                        </IconButton>
-                        <Link to={routes.profile.path} className={classes.displayName} component={RouterLink} color="inherit">{getDisplayName(data)}</Link>
-                    </Toolbar>
-                </AppBar>
-                <ThemeProvider theme={darkTheme}>
-                    <Drawer
-                        variant={matchesSmallView ? "persistent" : "permanent"}
-                        classes={{
-                            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-                        }}
-                        open={open}
+        {currentUser.loading && <div className={classes.loading}><FullPageLoading /></div>}
+        {!currentUser.loading && <div className={classes.root}>
+            <CssBaseline />
+            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+                <Toolbar className={classes.toolbar}>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={handleDrawerOpen}
+                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
-                        <div className={classes.toolbarHeader}>
-                            <Typography variant="h6" className={classes.toolbarTitle}>Admin</Typography>
-                            <IconButton onClick={handleDrawerClose}>
-                                <ChevronLeftIcon />
-                            </IconButton>
-                        </div>
-                        <Divider />
-                        {route && <List className={classes.topDrawerList}><MainListItems route={route} classes={{ selected: classes.menuItemSelected }} /></List>}
-                        <List className={classes.bottomDrawerList}>
-                            <Logout>
-                                <Tooltip title="Logout" aria-label="Logout">
-                                    <ListItem button>
-                                        <ListItemIcon>
-                                            <LogoutIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Logout" />
-                                    </ListItem>
-                                </Tooltip>
-                            </Logout>
-                        </List>
-                    </Drawer>
-                </ThemeProvider>
-                <main className={classes.content}>
-                    <div className={classes.appBarSpacer} />
-                    {children}
-                </main>
-            </div>
-        }</Query>
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography component="h1" variant="h6" color="inherit" noWrap
+                        className={classes.title}>{title}</Typography>
+                    <IconButton color="inherit" className={classes.profileIcon} onClick={() => history.push(routes.profile.path)}>
+                        <ProfileIcon />
+                    </IconButton>
+                    <Link to={routes.profile.path} className={classes.displayName} component={RouterLink} color="inherit">{getDisplayName(currentUser.user)}</Link>
+                </Toolbar>
+            </AppBar>
+            <ThemeProvider theme={darkTheme}>
+                <Drawer
+                    variant={matchesSmallView ? "persistent" : "permanent"}
+                    classes={{
+                        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                    }}
+                    open={open}
+                >
+                    <div className={classes.toolbarHeader}>
+                        <Typography variant="h6" className={classes.toolbarTitle}>Admin</Typography>
+                        <IconButton onClick={handleDrawerClose}>
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </div>
+                    <Divider />
+                    {route && <List className={classes.topDrawerList}><MainListItems route={route} classes={{ selected: classes.menuItemSelected }} /></List>}
+                    <List className={classes.bottomDrawerList}>
+                        <Logout>
+                            <Tooltip title="Logout" aria-label="Logout">
+                                <ListItem button>
+                                    <ListItemIcon>
+                                        <LogoutIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Logout" />
+                                </ListItem>
+                            </Tooltip>
+                        </Logout>
+                    </List>
+                </Drawer>
+            </ThemeProvider>
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                {children}
+            </main>
+        </div>}
     </>;
 }
 
 export default React.memo(compose<Props, ComponentProps>(
-    withRouter
+    withRouter,
+    withCurrentUser
 )(Layout));

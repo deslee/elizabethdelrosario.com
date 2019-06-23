@@ -8,16 +8,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {UpdateAssetInjectedProps, withUpdateAsset} from "./AssetQueries";
+import {UpdateAssetInjectedProps, withUpdateAsset, UpdateAssetVariables} from "./AssetQueries";
 import {useSnackbar} from "notistack";
+import { compose } from 'recompose';
 
-interface ComponentProps {
-    initialValues: AssetWithData
-    submit: () => Promise<void>
-}
-
-interface Props extends ComponentProps {
-}
 
 const EditAssetFormLayout = () =>
     <Grid container spacing={2}>
@@ -58,12 +52,14 @@ const EditAssetFormLayout = () =>
         </Grid>
     </Grid>;
 
-interface EditAssetDialogProps {
+interface ComponentProps {
     assetEditing?: AssetWithData
     onClose: () => void
 }
 
-const EditAssetDialogComponent = ({assetEditing, onClose, updateAsset} : EditAssetDialogProps & UpdateAssetInjectedProps) => {
+type Props = ComponentProps & UpdateAssetInjectedProps
+
+const EditAssetDialogComponent = ({assetEditing, onClose, updateAsset} : Props) => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     return assetEditing ? <Formik<AssetWithData> onSubmit={async (values, actions) => {
         try {
@@ -103,4 +99,6 @@ const EditAssetDialogComponent = ({assetEditing, onClose, updateAsset} : EditAss
     </Form>}</Formik> : null;
 };
 
-export const EditAssetDialog = withUpdateAsset<EditAssetDialogProps>()(EditAssetDialogComponent)
+export const EditAssetDialog = compose<Props, ComponentProps>(
+    withUpdateAsset
+)(EditAssetDialogComponent)

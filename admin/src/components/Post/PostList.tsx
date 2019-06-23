@@ -6,17 +6,16 @@ import Paper from '@material-ui/core/Paper';
 import { Grid, List, ListItem, Divider, Typography } from '@material-ui/core';
 import { Query } from 'react-apollo';
 import { PostWithData, jsonToPostData } from './PostData';
-import { POST_LIST_QUERY, GetPostListVariables, GetPostListResult } from './PostQueries';
+import { GetPostListVariables, WithPostListInjectedProps, withPostList } from './PostQueries';
 import { routes } from '../../pages/routes';
 import Skeleton from 'react-loading-skeleton';
+import { compose } from 'recompose';
 
-interface ComponentProps {
-    type: 'POST' | 'PAGE'
+interface ComponentProps extends GetPostListVariables {
     selected?: number
 }
 
-interface Props extends ComponentProps {
-}
+type Props = ComponentProps & WithPostListInjectedProps
 
 
 const useStyles = makeStyles(theme => ({
@@ -41,35 +40,36 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const PostList = ({ type, selected }: Props) => {
+const PostList = ({ type, selected, posts }: Props) => {
     const classes = useStyles({});
 
-    return <Query<GetPostListResult, GetPostListVariables> query={POST_LIST_QUERY} variables={{ type }}>{({ loading, data }) => {
-        const posts = (data && data.posts || [])
-        return <Paper className={classes.root}>
-            <List>
-                <ListItem>
-                    <Grid container>
-                        <Grid container item xs>Title</Grid>
-                        <Grid container item xs={3}>Date</Grid>
+    const postList = (posts && posts.posts || []);
+    const loading = posts.loading;
+    return <Paper className={classes.root}>
+        <List>
+            <ListItem>
+                <Grid container>
+                    <Grid container item xs>Title</Grid>
+                    <Grid container item xs={3}>Date</Grid>
+                </Grid>
+            </ListItem>
+        </List>
+        <Divider />
+        <List className={classes.list}>
+            {loading && <div className={classes.loadingSkeleton}><Skeleton count={2} /></div>}
+            {!loading && postList.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
+            {!loading && postList.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
+                <ListItem button component={RouterLink} to={type === 'POST' ? routes.posts.path.replace(routes.posts.params!.id, post.id.toString()) : routes.pages.path.replace(routes.pages.params!.id, post.id.toString())} selected={post.id === selected}>
+                    <Grid container className={classes.row}>
+                        <Grid container item xs>{post.data.title}</Grid>
+                        <Grid container item xs={3}>{dayjs(post.date || undefined).format('MM/DD/YYYY')}</Grid>
                     </Grid>
                 </ListItem>
-            </List>
-            <Divider />
-            <List className={classes.list}>
-                {loading && <div className={classes.loadingSkeleton}><Skeleton count={2} /></div>}
-                {!loading && posts.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
-                {!loading && posts.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
-                    <ListItem button component={RouterLink} to={type === 'POST' ? routes.posts.path.replace(routes.posts.params!.id, post.id.toString()) : routes.pages.path.replace(routes.pages.params!.id, post.id.toString())} selected={post.id === selected}>
-                        <Grid container className={classes.row}>
-                            <Grid container item xs>{post.data.title}</Grid>
-                            <Grid container item xs={3}>{dayjs(post.date || undefined).format('MM/DD/YYYY')}</Grid>
-                        </Grid>
-                    </ListItem>
-                    {i !== posts.length - 1 && <Divider />}
-                </React.Fragment>)}
-            </List>
-        </Paper>
-    }}</Query>
+                {i !== postList.length - 1 && <Divider />}
+            </React.Fragment>)}
+        </List>
+    </Paper>
 }
-export default PostList;
+export default compose<Props, ComponentProps>(
+    withPostList
+)(PostList);

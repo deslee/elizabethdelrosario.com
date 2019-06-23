@@ -1,12 +1,14 @@
 import React from 'react';
 import FilePicker from "../FilePicker";
 import {
-    ASSET_LIST_QUERY,
     CreateAssetInjectedProps, 
     CreateAssetVariables,
     GetAssetListResult,
     GetAssetListVariables,
-    withCreateAsset
+    withCreateAsset,
+    ASSET_LIST_QUERY,
+    withAssetList,
+    AssetListInjectedProps
 } from "./AssetQueries";
 import {Query} from "react-apollo";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -23,6 +25,7 @@ import Lightbox from '../Lightbox';
 import SimpleModal from "../SimpleModal";
 import useCommonStyles from '../../utils/useCommonStyles';
 import clsx from 'clsx';
+import { compose } from 'recompose';
 
 const Item = posed(Grid)();
 
@@ -30,9 +33,7 @@ interface ComponentProps {
 
 }
 
-interface Props extends ComponentProps, CreateAssetInjectedProps {
-
-}
+type Props = ComponentProps & CreateAssetInjectedProps & AssetListInjectedProps
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -53,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const AssetList = ({ createAsset }: Props) => {
+const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
     const commonClasses = useCommonStyles();
     const classes = useStyles();
     const [assetEditing, setAssetEditing] = React.useState<AssetWithData|undefined>(undefined);
@@ -123,18 +124,21 @@ const AssetList = ({ createAsset }: Props) => {
         </Grid>
     };
 
+    const assets = (assetListResult.assets || []);
+    const loading = assetListResult.loading
+
     return <Container className={classes.container}>
         <Paper className={clsx(commonClasses.paper, classes.paper)}>
             <FilePicker className={classes.uploadButton} variant="contained" color="primary" handleFilePicked={handleFilePicked}>Upload</FilePicker>
             {uploadAssetState[0] === 'UPLOADING' &&  <LinearProgress variant="determinate"  value={parseInt(uploadAssetState[1] as string)} />}
             <Divider className={classes.divider} />
-            <Query<GetAssetListResult, GetAssetListVariables> query={ASSET_LIST_QUERY}>{({loading, data}) => {
-                const assets = (data && data.assets || []);
-                return loading ? <p>Loading</p> : assets.length ? renderAssetList(assets.map(asset => ({ ...asset, data: jsonToAssetData(asset.data) }))) : <p className={classes.empty}>There seems to be nothing here.</p>
-            }}</Query>
+            {loading ? <p>Loading</p> : assets.length ? renderAssetList(assets.map(asset => ({ ...asset, data: jsonToAssetData(asset.data) }))) : <p className={classes.empty}>There seems to be nothing here.</p>}
         </Paper>
         <EditAssetDialog assetEditing={assetEditing} onClose={() => setAssetEditing(undefined)} />
     </Container>
 };
 
-export default withCreateAsset<ComponentProps>()(AssetList);
+export default compose<Props, ComponentProps>(
+    withCreateAsset,
+    withAssetList
+)(AssetList)

@@ -4,8 +4,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import {Typography} from "@material-ui/core";
-import {AssetType, AssetWithData, getAssetType} from "./AssetData";
+import { Typography } from "@material-ui/core";
+import { AssetType, AssetWithData, getAssetType } from "./AssetData";
 import * as mime from 'mime-types';
 import dayjs from 'dayjs';
 import CardHeader from "@material-ui/core/CardHeader";
@@ -14,11 +14,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import Avatar from "@material-ui/core/Avatar";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-import {useDialog} from "../../utils/DialogContext";
-import {useSnackbar} from "notistack";
-import {ASSET_LIST_QUERY, DELETE_ASSET_MUTATION, DeleteAssetInjectedProps, withDeleteAsset, DeleteAssetVariables, DeleteAssetResult} from "./AssetQueries";
-import Mutation from "react-apollo/Mutation";
+import { useDialog } from "../../utils/DialogContext";
+import { useSnackbar } from "notistack";
+import { DeleteAssetInjectedProps, withDeleteAsset, DeleteAssetVariables } from "./AssetQueries";
 import SimpleModal from "../SimpleModal";
+import { compose } from 'recompose';
 
 interface ComponentProps {
     asset: AssetWithData
@@ -27,8 +27,7 @@ interface ComponentProps {
     onAssetSelected?: () => void
 }
 
-interface Props extends ComponentProps {
-}
+type Props = ComponentProps & DeleteAssetInjectedProps
 
 const useStyles = makeStyles(theme => {
     const cardAttribute = {
@@ -64,11 +63,11 @@ const useStyles = makeStyles(theme => {
     }
 });
 
-const AssetListCard = ({asset, onEditClicked = () => {}, actions, onAssetSelected = () => {}}: Props) => {
+const AssetListCard = ({ asset, onEditClicked = () => { }, deleteAsset, actions, onAssetSelected = () => { } }: Props) => {
     const classes = useStyles();
     const { confirmDialog } = useDialog();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const [ modalOpen, setModalOpen ] = React.useState<boolean>(false);
+    const { enqueueSnackbar } = useSnackbar();
+    const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
     if (!onAssetSelected) {
         onAssetSelected = () => {
@@ -124,22 +123,26 @@ const AssetListCard = ({asset, onEditClicked = () => {}, actions, onAssetSelecte
             </CardContent>
         </CardActionArea>
         {actions === true ? <CardActions className={classes.actions}>
-            <Button size="small" onClick={onEditClicked}>Edit <EditIcon className={classes.rightIcon}/></Button>
-            <Mutation<{}, DeleteAssetVariables> mutation={DELETE_ASSET_MUTATION} variables={{assetId: asset.id}} refetchQueries={[{query: ASSET_LIST_QUERY}]}>{(deleteAsset) =>
-                <Button size="small" color="secondary" onClick={async () => {
-                    if (await confirmDialog("Are you sure you want to delete this asset?")) {
-                        try {
-                            await deleteAsset();
-                            enqueueSnackbar("Asset Deleted!", {variant: 'success'})
-                        } catch (e) {
-                            enqueueSnackbar(`Failed to delete asset: ${e.message}`, {variant: 'error'})
-                        }
+            <Button size="small" onClick={onEditClicked}>Edit <EditIcon className={classes.rightIcon} /></Button>
+            <Button size="small" color="secondary" onClick={async () => {
+                if (await confirmDialog("Are you sure you want to delete this asset?")) {
+                    try {
+                        await deleteAsset({
+                            variables: {
+                                assetId: asset.id
+                            }
+                        });
+                        enqueueSnackbar("Asset Deleted!", { variant: 'success' })
+                    } catch (e) {
+                        enqueueSnackbar(`Failed to delete asset: ${e.message}`, { variant: 'error' })
                     }
-                }}>Delete <DeleteIcon className={classes.rightIcon}/></Button>
-            }</Mutation>
+                }
+            }}>Delete <DeleteIcon className={classes.rightIcon} /></Button>
         </CardActions> : actions && actions}
-        {modalOpen && <SimpleModal asset={asset} onClose={() => setModalOpen(false)}/>}
+        {modalOpen && <SimpleModal asset={asset} onClose={() => setModalOpen(false)} />}
     </Card>
 };
 
-export default AssetListCard;
+export default compose<Props, ComponentProps>(
+    withDeleteAsset
+)(AssetListCard);

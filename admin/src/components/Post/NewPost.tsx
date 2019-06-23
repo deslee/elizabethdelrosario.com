@@ -3,7 +3,7 @@ import PostFormComponent from './PostForm';
 import { Formik } from 'formik';
 import dayjs from 'dayjs';
 import { PostInputWithData, postDataToJson, PostInputWithDataShape } from './PostData';
-import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY } from './PostQueries';
+import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY, CreatePostVariables } from './PostQueries';
 import { useSnackbar } from 'notistack';
 import compose from 'recompose/compose';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -16,7 +16,7 @@ interface ComponentProps {
 
 type Props = ComponentProps & CreatePostInjectedProps & RouteComponentProps
 
-const NewPost = ({ type, mutate, history }: Props) => {
+const NewPost = ({ type, createPost, history }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
     return <Formik<PostInputWithData>
         initialValues={{
@@ -32,7 +32,7 @@ const NewPost = ({ type, mutate, history }: Props) => {
         validationSchema={PostInputWithDataShape}
         onSubmit={async (values, actions) => {
             try {
-                const result = await mutate({
+                const result = await createPost({
                     variables: {
                         input: {
                             post: {
@@ -76,5 +76,5 @@ const NewPost = ({ type, mutate, history }: Props) => {
 
 export default compose<Props, ComponentProps>(
     withRouter,
-    withCreatePost<ComponentProps>()
+    withCreatePost,
 )(NewPost);

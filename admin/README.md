@@ -2,7 +2,7 @@
 
 1. Make common paper styles
     a. Make sure the issue with cards being bigger than parents are fixed with `display: inline-block` (but only on small screens)
-2. Make API for Query/Mutation HOCs consistent (remove T parameter, make types)
+2. Make button loading component
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
