@@ -15,11 +15,8 @@
     },
     "builds": [
         {
-            "src": "admin/package.json",
-            "use": "@now/static-build",
-            "config": {
-                "distDir": "build"
-            }
+            "src": "now-build.sh",
+            "use": "@now/static-build"
         },
         {
             "src": "api/graphql.js",

@@ -9,6 +9,7 @@
     "build": "npm-run-all tsc dev:build",
     "tsc": "tsc",
     "dev": "npm-run-all --parallel dev:watch dev:serve",
+    "prepublish": "npm run build",
     "dev:build": "babel --extensions=\".ts\" src/ -d dist/",
     "dev:watch": "babel --watch --extensions=\".ts\" src/ -d dist/",
     "dev:serve": "node --inspect node_modules/micro-dev/bin/micro-dev.js --watch dist/ src/dev.js",

@@ -4,15 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "lerna run build",
-    "now-build": "npm run build"
+    "build": "lerna run bootstrap"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/react-helmet": "^5.0.8",
-    "lerna": "^3.15.0",
-    "react-helmet": "^5.2.1"
+    "lerna": "^3.15.0"
   },
   "devDependencies": {}
 }
