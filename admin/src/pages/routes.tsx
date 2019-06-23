@@ -22,7 +22,7 @@ const _routes = {
         }),
         exact: true,
         authorized: true,
-        layout: 'Home'
+        layout: 'Dashboard'
     },
     posts: {
         path: '/admin/posts/:id?',

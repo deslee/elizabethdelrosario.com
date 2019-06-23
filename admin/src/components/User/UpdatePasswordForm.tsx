@@ -65,7 +65,7 @@ const UpdatePasswordForm = (props: Props) => {
                 <Grid item xs={12}>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button color="primary" variant="contained">Change my Password</Button>
+                    <Button color="primary" variant="contained">Update Password</Button>
                 </Grid>
             </Grid>
         </Grid>

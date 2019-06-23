@@ -177,7 +177,7 @@ function Layout({ title, children, history }: Props) {
 
     return <>
         <Helmet>
-            <title>{title}</title>
+            <title>{title} - Admin</title>
         </Helmet>
         <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) =>
             loading ? <div>Loading</div> : <div className={classes.root}>
