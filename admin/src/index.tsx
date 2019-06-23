@@ -21,7 +21,6 @@ import Layout from './components/Layout';
 const client = initApollo({}, {
     getToken: () => cookie.parse(document.cookie, {})['token'],
     getXsrfId: () => {
-        console.log(cookie.parse(document.cookie, {})['X-XSRF-ID'])
         return cookie.parse(document.cookie, {})['X-XSRF-ID']
     }
 })
