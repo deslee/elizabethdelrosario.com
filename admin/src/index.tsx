@@ -9,7 +9,7 @@ import DayJsUtils from '@date-io/dayjs';
 import { SnackbarProvider } from 'notistack';
 import theme from './theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import initApollo from './apollo';
+import initApollo from './data-access/apollo';
 import Router from './Router';
 
 if ((module as any).hot) {

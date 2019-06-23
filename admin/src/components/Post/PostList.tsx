@@ -4,10 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
 import Paper from '@material-ui/core/Paper';
 import { Grid, List, ListItem, Divider, Typography } from '@material-ui/core';
-import { Query } from 'react-apollo';
-import { PostWithData, jsonToPostData } from './PostData';
-import { GetPostListVariables, WithPostListInjectedProps, withPostList } from './PostQueries';
-import { routes } from '../../pages/routes';
+import { PostWithData, jsonToPostData } from '../../models/PostModel';
+import { GetPostListVariables, WithPostListInjectedProps, withPostList } from '../../data-access/PostQueries';
+import { routes } from '../../Router';
 import Skeleton from 'react-loading-skeleton';
 import { compose } from 'recompose';
 

@@ -9,13 +9,13 @@ import {
     ASSET_LIST_QUERY,
     withAssetList,
     AssetListInjectedProps
-} from "./AssetQueries";
+} from "../../data-access/AssetQueries";
 import {Query} from "react-apollo";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Divider from "@material-ui/core/Divider";
-import {assetDataToJson, assetFilter, AssetWithData, getAssetType, jsonToAssetData} from "./AssetData";
+import {assetDataToJson, assetFilter, AssetWithData, getAssetType, jsonToAssetData} from "../../models/AssetModel";
 import AssetListCard from "./AssetListCard";
 import {Grid} from "@material-ui/core";
 import Container from "@material-ui/core/Container";

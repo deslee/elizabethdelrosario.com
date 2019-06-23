@@ -2,7 +2,7 @@ import * as React from 'react'
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
-import { ImagesSlice, isImagesSlice, PostInputWithData, VideoSlice } from './PostData';
+import { ImagesSlice, isImagesSlice, PostInputWithData, VideoSlice } from '../../models/PostModel';
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -12,8 +12,8 @@ import {
     GetAssetListVariables,
     AssetListInjectedProps,
     withAssetList
-} from "../Asset/AssetQueries";
-import { assetFilter, AssetType, AssetWithData, jsonToAssetData } from "../Asset/AssetData";
+} from "../../data-access/AssetQueries";
+import { assetFilter, AssetType, AssetWithData, jsonToAssetData } from "../../models/AssetModel";
 import Grid from "@material-ui/core/Grid";
 import AssetListCard from "../Asset/AssetListCard";
 import Typography from "@material-ui/core/Typography";

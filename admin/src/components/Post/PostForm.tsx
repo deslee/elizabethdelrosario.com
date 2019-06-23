@@ -8,7 +8,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Form, Field, FieldProps, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { PostInputWithData } from './PostData';
+import { PostInputWithData } from '../../models/PostModel';
 import { useDialog } from '../../utils/DialogContext';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormChangesGuard from "../FormChangesGuard";

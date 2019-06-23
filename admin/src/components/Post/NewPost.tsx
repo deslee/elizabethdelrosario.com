@@ -2,12 +2,12 @@ import React from 'react';
 import PostFormComponent from './PostForm';
 import { Formik } from 'formik';
 import dayjs from 'dayjs';
-import { PostInputWithData, postDataToJson, PostInputWithDataShape } from './PostData';
-import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY, CreatePostVariables } from './PostQueries';
+import { PostInputWithData, postDataToJson, PostInputWithDataShape } from '../../models/PostModel';
+import { CreatePostInjectedProps, withCreatePost, POST_LIST_QUERY } from '../../data-access/PostQueries';
 import { useSnackbar } from 'notistack';
 import compose from 'recompose/compose';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { routes } from '../../pages/routes';
+import { routes } from '../../Router';
 
 
 interface ComponentProps {

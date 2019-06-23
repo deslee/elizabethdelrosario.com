@@ -4,7 +4,7 @@ import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
 import { createUploadLink } from 'apollo-upload-client';
-import {customFetch} from "./utils/uploadFetch";
+import {customFetch} from "../utils/uploadFetch";
 
 
 export interface InitApolloOptions {

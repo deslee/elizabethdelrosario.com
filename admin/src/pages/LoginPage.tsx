@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LoginForm from '../components/LoginForm';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { routes } from './routes';
+import { routes } from '../Router';
 
 const useStyles = makeStyles(theme => ({
   root: {

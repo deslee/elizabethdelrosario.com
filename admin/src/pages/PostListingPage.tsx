@@ -5,7 +5,7 @@ import constants from '../Constants';
 import AddIcon from '@material-ui/icons/Add';
 import NewPost from '../components/Post/NewPost';
 import EditPost from '../components/Post/EditPost';
-import {routes} from './routes'
+import {routes} from '../Router'
 import { Link as RouterLink } from "react-router-dom";
 import clsx from 'clsx';
 

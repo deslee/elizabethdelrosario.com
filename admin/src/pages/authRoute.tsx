@@ -1,13 +1,12 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
-import { Route as RouteProps } from './routes';
-import { WithCurrentUserInjectedProps, withCurrentUser, GetCurrentUserVariables } from '../components/User/UserQueries';
-import { Theme } from '@material-ui/core';
+import { RouteDefinition } from '../Router';
+import { WithCurrentUserInjectedProps, withCurrentUser, GetCurrentUserVariables } from '../data-access/UserQueries';
 import { makeStyles } from '@material-ui/styles';
 import FullPageLoading from '../components/FullPageLoading'
 import { compose } from 'recompose';
 
-interface ComponentProps extends RouteProps, GetCurrentUserVariables {
+interface ComponentProps extends RouteDefinition, GetCurrentUserVariables {
     onEnter: () => void
 }
 

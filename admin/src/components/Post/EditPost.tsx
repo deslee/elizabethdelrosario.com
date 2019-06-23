@@ -2,14 +2,14 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import PostFormComponent from './PostForm';
-import { PostInputWithData, jsonToPostData, postDataToJson, PostInputWithDataShape as PostInputWithDataShape } from './PostData';
+import { PostInputWithData, jsonToPostData, postDataToJson, PostInputWithDataShape as PostInputWithDataShape } from '../../models/PostModel';
 import { compose } from 'recompose';
 import dayjs from 'dayjs';
-import { withUpdatePost, UpdatePostInjectedProps, withDeletePost, DeletePostInjectedProps, withPost, WithPostInjectedProps, GetPostVariables, POST_LIST_QUERY } from './PostQueries';
-import { Query, withApollo, WithApolloClient } from 'react-apollo';
+import { withUpdatePost, UpdatePostInjectedProps, withDeletePost, DeletePostInjectedProps, withPost, WithPostInjectedProps, GetPostVariables, POST_LIST_QUERY } from '../../data-access/PostQueries';
+import { withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { routes } from '../../pages/routes';
+import { routes } from '../../Router';
 import Skeleton from 'react-loading-skeleton';
 import { Paper } from '@material-ui/core';
 import useCommonStyles from '../../utils/useCommonStyles';
@@ -21,12 +21,11 @@ interface ComponentProps extends GetPostVariables {
 
 type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & RouteComponentProps & WithPostInjectedProps
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 }))
 
 const EditPost = ({ updatePost, type, deletePost, post, history }: Props) => {
-    const classes = useStyles();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     if (post.loading || !post.post) {
         return <SkeletonLoading />
@@ -44,23 +43,6 @@ const EditPost = ({ updatePost, type, deletePost, post, history }: Props) => {
         }}
         onSubmit={async (values, actions) => {
             try {
-                const result = await updatePost({
-                    variables: {
-                        input: {
-                            id: post.post!.id,
-                            patch: {
-                                ...values,
-                                data: postDataToJson(values.data)
-                            }
-                        }
-                    },
-                    refetchQueries: [{
-                        query: POST_LIST_QUERY,
-                        variables: {
-                            type
-                        }
-                    }]
-                });
                 enqueueSnackbar('Success!', {
                     variant: 'success'
                 })

@@ -4,8 +4,8 @@ import { Container, Paper, Theme, Grid, Button, Divider } from '@material-ui/cor
 import { TextField } from "formik-material-ui";
 import { Field, Formik, Form } from 'formik';
 import { compose } from 'recompose';
-import { withUpdateUser, UpdateUserInjectedProps, withCurrentUser, WithCurrentUserInjectedProps } from './UserQueries';
-import { UserData, jsonToUserData } from './UserData';
+import { withUpdateUser, UpdateUserInjectedProps, withCurrentUser, WithCurrentUserInjectedProps } from '../../data-access/UserQueries';
+import { UserData, jsonToUserData } from '../../models/UserModel';
 import FullPageLoading from '../FullPageLoading';
 
 interface ComponentProps {

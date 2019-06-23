@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import TextSliceIcon from '@material-ui/icons/TextFields';
 import ImagesSliceIcon from '@material-ui/icons/InsertPhoto';
 import VideoSliceIcon from '@material-ui/icons/VideoLibrary';
-import { Slice as SliceModel, SliceType } from './PostData'
+import { Slice as SliceModel, SliceType } from '../../models/PostModel'
 import posed, { PoseGroup } from 'react-pose';
 import { FieldArray } from 'formik';
 const Item = posed.div();
@@ -51,7 +51,7 @@ const Slices = ({ slices }: Props) => {
                     closeMenu();
                 };
 
-                return <>
+                return <> 
                     <PoseGroup>
                         {[...slices, newSlice].map((slice, idx) => <Item key={slice.id}>
                             <Slice

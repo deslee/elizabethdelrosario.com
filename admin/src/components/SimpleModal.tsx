@@ -4,7 +4,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {IconButton} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import {AssetWithData, getAssetType} from "./Asset/AssetData";
+import {AssetWithData, getAssetType} from "../models/AssetModel";
 import * as mime from 'mime-types';
 import Lightbox from "./Lightbox";
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Field, Form, Formik} from "formik";
-import {assetDataToJson, AssetWithData} from "./AssetData";
+import {assetDataToJson, AssetWithData} from "../../models/AssetModel";
 import {Grid} from "@material-ui/core";
 import {TextField} from "formik-material-ui";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {UpdateAssetInjectedProps, withUpdateAsset, UpdateAssetVariables} from "./AssetQueries";
+import {UpdateAssetInjectedProps, withUpdateAsset, UpdateAssetVariables} from "../../data-access/AssetQueries";
 import {useSnackbar} from "notistack";
 import { compose } from 'recompose';
 

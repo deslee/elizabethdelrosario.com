@@ -3,7 +3,7 @@ import { Paper, Grid, IconButton, Collapse, Typography } from '@material-ui/core
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpIcon from '@material-ui/icons/ArrowUpward'
-import { Slice as SliceModel, isTextSlice, isImagesSlice, isVideoSlice } from './PostData'
+import { Slice as SliceModel, isTextSlice, isImagesSlice, isVideoSlice } from '../../models/PostModel'
 import DownIcon from '@material-ui/icons/ArrowDownward'
 import ImagesSlice from './ImagesSlice';
 import VideoSlice from './VideoSlice';

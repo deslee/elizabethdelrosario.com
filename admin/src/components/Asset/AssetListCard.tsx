@@ -5,7 +5,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import { Typography } from "@material-ui/core";
-import { AssetType, AssetWithData, getAssetType } from "./AssetData";
+import { AssetType, AssetWithData, getAssetType } from "../../models/AssetModel";
 import * as mime from 'mime-types';
 import dayjs from 'dayjs';
 import CardHeader from "@material-ui/core/CardHeader";
@@ -16,7 +16,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import { useDialog } from "../../utils/DialogContext";
 import { useSnackbar } from "notistack";
-import { DeleteAssetInjectedProps, withDeleteAsset, DeleteAssetVariables } from "./AssetQueries";
+import { DeleteAssetInjectedProps, withDeleteAsset, DeleteAssetVariables } from "../../data-access/AssetQueries";
 import SimpleModal from "../SimpleModal";
 import { compose } from 'recompose';
 

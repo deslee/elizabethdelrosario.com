@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { TextSlice } from './PostData';
+import { TextSlice } from '../../models/PostModel';
 import { TextField } from 'formik-material-ui';
 import { Field } from 'formik';
 import { nameof } from '../../utils/TypeUtils';

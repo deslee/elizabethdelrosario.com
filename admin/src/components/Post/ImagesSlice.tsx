@@ -1,5 +1,5 @@
 import React from 'react'
-import {ImagesSlice} from "./PostData";
+import {ImagesSlice} from "../../models/PostModel";
 import GenericAssetSlice from "./GenericAssetSlice";
 
 interface ComponentProps {

@@ -1,5 +1,5 @@
 import React from 'react'
-import {VideoSlice} from "./PostData";
+import {VideoSlice} from "../../models/PostModel";
 import GenericAssetSlice from "./GenericAssetSlice";
 
 interface ComponentProps {
