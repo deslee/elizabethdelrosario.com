@@ -65,7 +65,7 @@ export interface UpdateAssetVariables {
 }
 
 export interface UpdateAssetResult {
-    createAsset: UpdateAssetPayload;
+    updateAsset: UpdateAssetPayload;
 }
 
 export interface UpdateAssetInjectedProps {
@@ -112,7 +112,6 @@ export interface DeleteAssetVariables {
 }
 
 export interface DeleteAssetResult {
-
 }
 
 export const DELETE_ASSET_MUTATION = gql`

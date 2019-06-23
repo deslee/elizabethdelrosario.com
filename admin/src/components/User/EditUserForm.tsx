@@ -3,11 +3,15 @@ import { makeStyles } from '@material-ui/styles';
 import { Container, Paper, Theme, Grid, Button, Divider } from '@material-ui/core';
 import { TextField } from "formik-material-ui";
 import { Field, Formik, Form } from 'formik';
+import { compose } from 'recompose';
+import { withUpdateUser, UpdateUserInjectedProps, withCurrentUser, WithCurrentUserInjectedProps } from './UserQueries';
+import { UserData, jsonToUserData } from './UserData';
+import FullPageLoading from '../FullPageLoading';
 
 interface ComponentProps {
 
 }
-type Props = ComponentProps;
+type Props = ComponentProps & UpdateUserInjectedProps & WithCurrentUserInjectedProps;
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -18,11 +22,36 @@ const useStyle = makeStyles((theme: Theme) => ({
     }
 }))
 
-const EditUserForm = (props: Props) => {
+const EditUserForm = ({ updateUser, currentUser }: Props) => {
     const classes = useStyle({});
-    return <Formik initialValues={{}} onSubmit={async (values, actions) => {
+    console.log(currentUser)
+    
+    if (!currentUser.user) {
+        return <FullPageLoading />
+    }
+    
+    const userData = jsonToUserData(currentUser.user.data);
 
-    }}>{({ errors, touched, error }) => <Form className={classes.root}>
+    return <Formik initialValues={{ firstName: userData.firstName || '', lastName: userData.lastName || '', displayName: userData.displayName || '' }} onSubmit={async (values, actions) => {
+        try {
+            await updateUser({
+                variables: {
+                    input: {
+                        id: currentUser.user!.id,
+                        patch: {
+                            data: JSON.stringify({
+                                firstName: values.firstName,
+                                lastName: values.lastName,
+                                displayName: values.displayName,
+                            } as UserData)
+                        }
+                    }
+                }
+            })
+        } finally {
+            actions.setSubmitting(false);
+        }
+    }}>{({ errors, touched, error, submitForm }) => <Form className={classes.root}>
         <Grid container>
             <Grid container item spacing={2} md={4}>
                 <Grid item xs={12}>
@@ -32,7 +61,7 @@ const EditUserForm = (props: Props) => {
             <Grid container item spacing={2} md={8}>
                 <Grid item xs={12}>
                     <Field
-                        name="data.firstName"
+                        name="firstName"
                         component={TextField}
                         fullWidth
                         type="text"
@@ -42,7 +71,7 @@ const EditUserForm = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                     <Field
-                        name="data.lastName"
+                        name="lastName"
                         component={TextField}
                         fullWidth
                         type="text"
@@ -52,7 +81,7 @@ const EditUserForm = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                     <Field
-                        name="data.displayName"
+                        name="displayName"
                         component={TextField}
                         fullWidth
                         type="text"
@@ -68,11 +97,14 @@ const EditUserForm = (props: Props) => {
                 <Grid item xs={12}>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button color="primary" variant="contained">Save my profile</Button>
+                    <Button onClick={() => submitForm()} color="primary" variant="contained">Save my profile</Button>
                 </Grid>
             </Grid>
         </Grid>
     </Form>}</Formik>
 }
 
-export default EditUserForm;
+export default compose<Props, ComponentProps>(
+    withCurrentUser,
+    withUpdateUser
+)(EditUserForm);
