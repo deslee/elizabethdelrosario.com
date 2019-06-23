@@ -36,7 +36,9 @@ const useStyles = makeStyles(theme => ({
     paper: {
         margin: theme.spacing(3),
         padding: theme.spacing(4),
-        display: 'inline-block'
+        [theme.breakpoints.down('sm')]: {
+            display: 'inline-block'
+        }
     },
     uploadButton: {
         marginBottom: theme.spacing(2)

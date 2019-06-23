@@ -44,7 +44,11 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     top: {
-        display: 'flex'
+        display: 'flex',
+        [theme.breakpoints.down('sm')]: {
+            flexFlow: 'wrap',
+            justifyContent: 'flex-end'
+        }
     },
     addNextSlice: {
 
@@ -106,7 +110,7 @@ const PostForm = ({ isSubmitting, values, error, onDelete, type, dirty }: Props)
                         }</Field>
 
                 </Grid>
-                <Grid item xs={6} md={6}>
+                <Grid item xs={12} md={6}>
                     <Field
                         name="password"
                         component={TextField}
