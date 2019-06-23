@@ -20,7 +20,7 @@ const useStyle = makeStyles((theme: Theme) => ({
     }
 }))
 
-const UpdatePasswordForm = (props: Props) => {
+const UpdateEmailForm = (props: Props) => {
     const classes = useStyle({});
     return <Formik initialValues={{}} onSubmit={async (values, actions) => {
 
@@ -29,32 +29,22 @@ const UpdatePasswordForm = (props: Props) => {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Field
-                        name="oldPassword"
+                        name="email"
                         component={TextField}
                         fullWidth
-                        type="password"
+                        type="email"
                         variant="outlined"
-                        label="Old Password"
+                        label="New email"
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <Field
-                        name="newPassword"
+                        name="password"
                         component={TextField}
                         fullWidth
                         type="password"
                         variant="outlined"
-                        label="New Password"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Field
-                        name="confirmNewPassword"
-                        component={TextField}
-                        fullWidth
-                        type="password"
-                        variant="outlined"
-                        label="Confirm New Password"
+                        label="Confirm with your password"
                     />
                 </Grid>
             </Grid>
@@ -65,11 +55,11 @@ const UpdatePasswordForm = (props: Props) => {
                 <Grid item xs={12}>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button color="primary" variant="contained">Change my Password</Button>
+                    <Button color="primary" variant="contained">Update email</Button>
                 </Grid>
             </Grid>
         </Grid>
     </Form>}</Formik>
 }
 
-export default UpdatePasswordForm;
+export default UpdateEmailForm;

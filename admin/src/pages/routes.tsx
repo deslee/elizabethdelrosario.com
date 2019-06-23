@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteProps } from 'react-router';
 import Loadable from 'react-loadable'
+import FullPageLoading from '../components/FullPageLoading'
 
 export interface Route extends RouteProps {
     path: string,
@@ -17,7 +18,7 @@ const _routes = {
         path: '/admin',
         component: Loadable({
             loader: () => import('./DashboardPage'),
-            loading: () => (<div>Loading</div>)
+            loading: () => <FullPageLoading />
         }),
         exact: true,
         authorized: true,
@@ -27,7 +28,7 @@ const _routes = {
         path: '/admin/posts/:id?',
         component: Loadable({
             loader: () => import('./PostListingPage'),
-            loading: () => (<div>Loading</div>)
+            loading: () => <FullPageLoading />
         }),
         exact: true,
         authorized: true,
@@ -43,7 +44,7 @@ const _routes = {
         path: '/admin/pages/:id?',
         component: Loadable({
             loader: () => import('./PostListingPage'),
-            loading: () => (<div>Loading</div>)
+            loading: () => <FullPageLoading />
         }),
         exact: true,
         authorized: true,
@@ -59,7 +60,7 @@ const _routes = {
         path: '/admin/assets',
         component: Loadable({
             loader: () => import('./AssetsListingPage'),
-            loading: () => (<div>Loading</div>)
+            loading: () => <FullPageLoading />
         }),
         exact: true,
         authorized: true,
@@ -69,7 +70,7 @@ const _routes = {
         path: '/admin/settings',
         component: Loadable({
             loader: () => import('./SettingsPage'),
-            loading: () => (<div>Loading</div>)
+            loading: () => <FullPageLoading />
         }),
         exact: true,
         authorized: true,
@@ -80,7 +81,7 @@ const _routes = {
         path: '/admin/profile',
         component: Loadable({
             loader: () => import('./EditProfilePage'),
-            loading: () => (<div>Loading</div>)
+            loading: () => <FullPageLoading />
         }),
         layout: 'Profile'
     }

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Container, Paper, Theme } from '@material-ui/core';
 import EditUserForm from '../components/User/EditUserForm'
 import UpdatePasswordForm from '../components/User/UpdatePasswordForm'
+import UpdateEmailForm from '../components/User/UpdateEmailForm'
 
 interface ComponentProps {
 
@@ -26,6 +27,9 @@ const EditProfilePage = (props: Props) => {
         </Paper>
         <Paper className={classes.paper}>
             <UpdatePasswordForm />
+        </Paper>
+        <Paper className={classes.paper}>
+            <UpdateEmailForm />
         </Paper>
     </Container>
 }

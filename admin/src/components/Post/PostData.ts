@@ -1,5 +1,5 @@
 import { PostInput, Post, PostInputShape } from 'api';
-import * as yup from 'yup';
+import * as yup from 'yup'; 
 
 export type SliceState = 'NEW' | 'ACTIVE'
 export type SliceType = 'TEXT' | 'IMAGES' | 'VIDEO'

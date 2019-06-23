@@ -62,17 +62,19 @@ const LoginPage = (props: Props) => {
             Sign in
           </Typography>
           <div className={classes.form}>
-            <LoginForm onLogin={() => props.history.replace(routes.home.path)} />
+            <LoginForm onLogin={() => {
+              setTimeout(() => props.history.replace(routes.home.path))
+            }} />
           </div>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                {/* Forgot password? */}
                 </Link>
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+                Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
