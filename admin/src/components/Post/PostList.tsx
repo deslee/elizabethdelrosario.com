@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         overflowX: 'auto',
         height: '100%',
+        width: '100%'
     },
     list: {
 

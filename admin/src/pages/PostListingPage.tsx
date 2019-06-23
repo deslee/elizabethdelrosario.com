@@ -19,7 +19,6 @@ type Props = ComponentProps;
 const useStyles = makeStyles(theme => ({
     container: {
         height: `calc(100vh - ${constants.appBarHeight}px)`,
-        width: '100%',
         overflow: 'hidden',
     },
     list: {

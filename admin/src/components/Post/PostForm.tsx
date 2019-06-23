@@ -12,6 +12,8 @@ import { PostInputWithData } from './PostData';
 import { useDialog } from '../../utils/DialogContext';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormChangesGuard from "../FormChangesGuard";
+import clsx from 'clsx';
+import useCommonStyles from '../../utils/useCommonStyles';
 
 interface ComponentProps {
     onDelete?: () => Promise<void>;
@@ -26,9 +28,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(3),
         minHeight: `calc(100% - ${theme.spacing(3) * 2}px)`,
-    },
-    paper: {
-        padding: theme.spacing(4),
     },
     actionButtons: {
         textAlign: 'right'
@@ -73,12 +72,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const PostForm = ({ isSubmitting, values, error, onDelete, type, dirty }: Props) => {
+    const commonClasses = useCommonStyles();
     const classes = useStyles();
     const { confirmDialog } = useDialog();
     const [showPassword, setShowPassword] = React.useState(false);
 
     return <Form className={classes.root}>
-        <Paper className={classes.paper}>
+        <Paper className={clsx(commonClasses.innerPaper)}>
             <Grid container spacing={2}>
                 <Grid item xs={12}><Typography className={classes.error}>{error}</Typography></Grid>
                 <Grid item xs={12} className={classes.top}>

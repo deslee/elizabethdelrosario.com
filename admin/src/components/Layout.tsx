@@ -150,12 +150,6 @@ const useStyles = makeStyles(theme => ({
         height: '100vh',
         overflow: 'auto',
     },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
     topDrawerList: {
         flexGrow: 1
     },

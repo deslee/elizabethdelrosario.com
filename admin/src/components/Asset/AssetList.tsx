@@ -21,6 +21,8 @@ import posed, { PoseGroup } from 'react-pose';
 import {EditAssetDialog} from "./EditAssetForm";
 import Lightbox from '../Lightbox';
 import SimpleModal from "../SimpleModal";
+import useCommonStyles from '../../utils/useCommonStyles';
+import clsx from 'clsx';
 
 const Item = posed(Grid)();
 
@@ -34,8 +36,6 @@ interface Props extends ComponentProps, CreateAssetInjectedProps {
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        margin: theme.spacing(3),
-        padding: theme.spacing(4),
         [theme.breakpoints.down('sm')]: {
             display: 'inline-block'
         }
@@ -54,6 +54,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AssetList = ({ createAsset }: Props) => {
+    const commonClasses = useCommonStyles();
     const classes = useStyles();
     const [assetEditing, setAssetEditing] = React.useState<AssetWithData|undefined>(undefined);
     const [uploadAssetState, setUploadAssetState] = React.useState<['NONE'|'UPLOADING'|'UPLOADED'|'ERROR', string?]>(['NONE']);
@@ -123,7 +124,7 @@ const AssetList = ({ createAsset }: Props) => {
     };
 
     return <Container className={classes.container}>
-        <Paper className={classes.paper}>
+        <Paper className={clsx(commonClasses.paper, classes.paper)}>
             <FilePicker className={classes.uploadButton} variant="contained" color="primary" handleFilePicked={handleFilePicked}>Upload</FilePicker>
             {uploadAssetState[0] === 'UPLOADING' &&  <LinearProgress variant="determinate"  value={parseInt(uploadAssetState[1] as string)} />}
             <Divider className={classes.divider} />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
 import { Container, Paper, Theme } from '@material-ui/core';
+import useCommonStyles from '../utils/useCommonStyles'
 
 interface ComponentProps {
 
@@ -9,17 +10,14 @@ type Props = ComponentProps;
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
-    },
-    paper: {
-        margin: theme.spacing(3),
-        padding: theme.spacing(4)
     }
 }))
 
 const EditProfilePage = (props: Props) => {
+    const commonClasses = useCommonStyles();
     const classes = useStyle({});
     return <Container className={classes.root}>
-        <Paper className={classes.paper}>
+        <Paper className={commonClasses.paper}>
             hi
         </Paper>
     </Container>

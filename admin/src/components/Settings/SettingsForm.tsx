@@ -1,18 +1,16 @@
 import * as React from 'react'
 import { Container, Paper, makeStyles } from '@material-ui/core';
+import useCommonStyles from '../../utils/useCommonStyles'
 
 const useStyles = makeStyles(theme => ({
-    paper: {
-        margin: theme.spacing(3),
-        padding: theme.spacing(4)
-    }
 }))
 
 const SettingsForm = () => {
+    const commonClasses = useCommonStyles();
     const classes = useStyles();
 
     return <Container>
-        <Paper className={classes.paper}>
+        <Paper className={commonClasses.paper}>
             hihi
         </Paper>
     </Container>

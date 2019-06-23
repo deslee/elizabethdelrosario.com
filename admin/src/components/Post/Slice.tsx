@@ -8,6 +8,8 @@ import DownIcon from '@material-ui/icons/ArrowDownward'
 import ImagesSlice from './ImagesSlice';
 import VideoSlice from './VideoSlice';
 import TextSliceComponent from './TextSlice';
+import useCommonStyles from '../../utils/useCommonStyles';
+import clsx from 'clsx';
 
 interface Props {
     onRemoveSlice: () => void;
@@ -19,8 +21,6 @@ interface Props {
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        marginTop: theme.spacing(2),
-        padding: theme.spacing(4),
         position: 'relative'
     },
     toolBar: {
@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Slice = ({ slice, onRemoveSlice, onMoveUp, onMoveDown, name }: Props) => {
+    const commonClasses = useCommonStyles();
     const classes = useStyles();
     const [deleted, setDeleted] = React.useState(false);
 
@@ -50,7 +51,7 @@ const Slice = ({ slice, onRemoveSlice, onMoveUp, onMoveDown, name }: Props) => {
 
     return <>
         <Collapse in={slice.state === 'ACTIVE' && !deleted} mountOnEnter={true} unmountOnExit={true} onExited={() => onRemoveSlice()}>
-            <Paper className={classes.paper} elevation={1}>
+            <Paper className={clsx(commonClasses.innerPaper, classes.paper)} elevation={1}>
                 <Grid container>
                     <Grid item xs={12}>
                         <Typography variant="h6" className={classes.title}>{slice.type && slice.type.toLowerCase()}</Typography>
