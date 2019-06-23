@@ -7,6 +7,7 @@ import NewPost from '../components/Post/NewPost';
 import EditPost from '../components/Post/EditPost';
 import {routes} from './routes'
 import { Link as RouterLink } from "react-router-dom";
+import clsx from 'clsx';
 
 interface ComponentProps {
     id?: string
@@ -30,6 +31,11 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
         overflow: 'auto',
     },
+    contentWithPost: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+        }
+    },
     addPostFab: {
         position: 'absolute',
         bottom: theme.spacing(3),
@@ -44,14 +50,14 @@ export default ({ id: postId, type }: Props) => {
     const newPostUrl = path.replace(params!.id, 'new');
 
     return <Grid container direction="row" className={classes.container}>
-        <Grid item className={classes.list} sm={12} md={6} lg={4} xl={3}>
+        <Grid item className={clsx(classes.content, postId && classes.contentWithPost)} xs={12} md={6} lg={4} xl={3}>
             <PostList type={type} selected={postId && parseInt(postId) !== NaN ? parseInt(postId) : undefined} />
             <Fab color="secondary" aria-label="Add" className={classes.addPostFab} component={RouterLink} to={newPostUrl}>
                 <AddIcon />
             </Fab>
         </Grid>
-        <Grid item className={classes.content} xs={12} md={6} lg={8} xl={9}>
+        {postId && <Grid item className={clsx(classes.content)} xs={12} md={6} lg={8} xl={9}>
             {postId === 'new' ? <NewPost type={type} /> : (postId && parseInt(postId) !== NaN && <EditPost postId={parseInt(postId)} type={type} />)}
-        </Grid>
+        </Grid>}
     </Grid>
 }

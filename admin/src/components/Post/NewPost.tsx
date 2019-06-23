@@ -55,10 +55,10 @@ const NewPost = ({ type, mutate, history }: Props) => {
                     actions.resetForm();
                     if (type === 'POST') {
                         const { path, params = {} } = routes.posts;
-                        history.push(path.replace(params['id'], result.data.createPost.post.id.toString()))
+                        history.replace(path.replace(params['id'], result.data.createPost.post.id.toString()))
                     } else {
                         const { path, params = {} } = routes.pages;
-                        history.push(path.replace(params['id'], result.data.createPost.post.id.toString()))
+                        history.replace(path.replace(params['id'], result.data.createPost.post.id.toString()))
                     }
                 }
                 enqueueSnackbar('Success!', {

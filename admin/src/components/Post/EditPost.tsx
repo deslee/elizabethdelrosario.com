@@ -10,6 +10,7 @@ import { Query, withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { routes } from '../../pages/routes';
+import FullPageLoading from '../FullPageLoading';
 
 interface ComponentProps {
     postId: number;
@@ -27,7 +28,11 @@ const EditPost = ({ postId, mutate, type, deletePost, client, history }: Props) 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     return <Query<GetPostResult, GetPostVariables> query={GET_POST_QUERY} variables={{ postId }}>{({ loading, data }) => {
-        return !loading && data && data.post && <Formik<PostInputWithData>
+        if (loading) {
+            return <FullPageLoading />
+        }
+
+        return data && data.post && <Formik<PostInputWithData>
         enableReinitialize={true}
         validationSchema={PostInputWithDataShape}
         initialValues={{
