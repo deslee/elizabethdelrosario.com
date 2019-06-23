@@ -20,7 +20,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
 import {connect, FieldArray, FormikContext} from 'formik';
-import {Asset, PostInput} from "api";
+import {Asset} from "api";
 import CardActions from "@material-ui/core/CardActions";
 import posed, { PoseGroup } from 'react-pose';
 import { Theme } from '@material-ui/core';

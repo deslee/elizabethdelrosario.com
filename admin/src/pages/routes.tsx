@@ -86,6 +86,6 @@ const _routes = {
         layout: 'Profile'
     }
 }
-
-export const routeKeys = Object.keys(_routes) as (keyof typeof _routes)[];
-export const routes = _routes as Record<keyof typeof _routes, Route>;
+export type RouteKey = keyof typeof _routes;
+export const routeKeys = Object.keys(_routes) as (RouteKey)[];
+export const routes = _routes as Record<RouteKey, Route>;

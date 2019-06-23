@@ -15,17 +15,9 @@ type Props = InjectedProps & ComponentProps;
 const FormChangesGuard = ({message = "You have unsaved changes. Are you sure you want to leave?", formik: { dirty }}: Props) => {
     React.useEffect(() => {
         const domEventHandler = function(e: any) {
-            console.log('beforeunload')
             e.preventDefault();
             e.returnValue = message;
             return message
-        };
-        const nextEventHandler = (_: string) => {
-            if (window.confirm(message)) {
-                // do nothing
-            } else {
-                throw new Error("workaround");
-            }
         };
         if (dirty) {
             window.addEventListener("beforeunload", domEventHandler);

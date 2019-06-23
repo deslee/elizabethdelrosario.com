@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 import FullPageLoading from '../components/FullPageLoading'
 
 interface ComponentProps {
-    layout?: string
+    onEnter: () => void
 }
 
 type Props = RouteProps & ComponentProps
@@ -24,8 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }))
 
-export default ({ authorized, layout, props = {}, component: Component, ...routeProps }: Props) => {
+export default ({ authorized, onEnter, props = {}, component: Component, ...routeProps }: Props) => {
     const classes = useStyles();
+    React.useEffect(() => {
+        onEnter()
+    }, [])
     return <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) => {
         if (loading) {
             return <div className={classes.loading}><FullPageLoading /></div>
@@ -33,12 +36,7 @@ export default ({ authorized, layout, props = {}, component: Component, ...route
 
         if (!authorized || (data && data.user && data.user.id)) {
             return <Route {...routeProps} render={(routeProps) => {
-                const component = <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />;
-                if (layout) {
-                    return <Layout title={layout}>{component}</Layout>
-                } else {
-                    return component
-                }
+                return <Component {...routeProps} {...(routeProps && routeProps.match && routeProps.match.params)} {...props} />;
             } } />
         }
 

@@ -26,7 +26,7 @@ const UpdateEmailForm = (props: Props) => {
 
     }}>{({ errors, touched, error }) => <Form className={classes.root}>
         <Grid container>
-            <Grid container spacing={2}>
+            <Grid container item spacing={2}>
                 <Grid item xs={12}>
                     <Field
                         name="email"
@@ -51,7 +51,7 @@ const UpdateEmailForm = (props: Props) => {
         </Grid>
         <Divider className={classes.divider} light />
         <Grid container>
-            <Grid container spacing={2} xs={12}>
+            <Grid container item spacing={2} xs={12}>
                 <Grid item xs={12}>
                 </Grid>
                 <Grid item xs={12}>

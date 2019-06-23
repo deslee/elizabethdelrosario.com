@@ -24,12 +24,12 @@ const EditUserForm = (props: Props) => {
 
     }}>{({ errors, touched, error }) => <Form className={classes.root}>
         <Grid container>
-            <Grid container spacing={2} md={4}>
+            <Grid container item spacing={2} md={4}>
                 <Grid item xs={12}>
                     hihi
             </Grid>
             </Grid>
-            <Grid container spacing={2} md={8}>
+            <Grid container item spacing={2} md={8}>
                 <Grid item xs={12}>
                     <Field
                         name="data.firstName"
@@ -64,7 +64,7 @@ const EditUserForm = (props: Props) => {
         </Grid>
         <Divider className={classes.divider} light />
         <Grid container>
-            <Grid container spacing={2} xs={12}>
+            <Grid container item spacing={2} xs={12}>
                 <Grid item xs={12}>
                 </Grid>
                 <Grid item xs={12}>

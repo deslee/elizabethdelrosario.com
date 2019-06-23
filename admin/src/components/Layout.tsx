@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Badge, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme, Link } from '@material-ui/core';
+import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme, Link } from '@material-ui/core';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -18,45 +18,48 @@ import { Link as RouterLink, RouteComponentProps, withRouter } from "react-route
 import { GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables } from "./User/UserQueries";
 import Logout from "./Logout";
 import 'react-image-lightbox/style.css';
-import { routes } from '../pages/routes';
+import { routes, RouteKey } from '../pages/routes';
 import { compose } from 'recompose';
 import { Helmet } from "react-helmet";
 import { jsonToUserData } from './User/UserData';
+import { useTheme, Theme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { ClassNameMap } from '@material-ui/styles/withStyles';
 
-export const mainListItems = (
-    <>
-        <ListItem button component={RouterLink} to={routes.home.path}>
+export const MainListItems = ({route, classes}: {route: RouteKey, classes: ClassNameMap}) => {
+    return <>
+        <ListItem selected={route === 'home'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.home.path}>
             <ListItemIcon>
                 <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Site" />
         </ListItem>
-        <ListItem button component={RouterLink} to={routes.posts.path.replace(routes.posts.params!.id, '')}>
+        <ListItem selected={route === 'posts'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.posts.path.replace(routes.posts.params!.id, '')}>
             <ListItemIcon>
                 <PostIcon />
             </ListItemIcon>
             <ListItemText primary="Posts" />
         </ListItem>
-        <ListItem button component={RouterLink} to={routes.pages.path.replace(routes.pages.params!.id, '')}>
+        <ListItem selected={route === 'pages'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.pages.path.replace(routes.pages.params!.id, '')}>
             <ListItemIcon>
                 <PageIcon />
             </ListItemIcon>
             <ListItemText primary="Pages" />
         </ListItem>
-        <ListItem button component={RouterLink} to={routes.assets.path}>
+        <ListItem selected={route === 'assets'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.assets.path}>
             <ListItemIcon>
                 <AssetsIcon />
             </ListItemIcon>
             <ListItemText primary="Assets" />
         </ListItem>
-        <ListItem button component={RouterLink} to={routes.settings.path}>
+        <ListItem selected={route === 'settings'} classes={{selected: classes.selected}} button component={RouterLink} to={routes.settings.path}>
             <ListItemIcon>
                 <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Settings" />
         </ListItem>
     </>
-);
+};
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -120,6 +123,9 @@ const useStyles = makeStyles(theme => ({
             width: theme.spacing(9),
         },
     },
+    menuItemSelected: {
+        backgroundColor: `${theme.palette.primary.main} !important`
+    },
     appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
@@ -138,13 +144,18 @@ const useStyles = makeStyles(theme => ({
     bottomDrawerList: {
     },
     profileIcon: {
+    },
+    displayName: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+        }
     }
 }));
 
 interface ComponentProps {
     children: React.ReactNode,
-    title: string,
-    requiresAuthentication?: boolean
+    title?: string,
+    route?: RouteKey
 }
 
 type Props = ComponentProps & RouteComponentProps
@@ -156,9 +167,14 @@ const darkTheme = createMuiTheme({
     },
 });
 
-function Layout({ title, children, history }: Props) {
+function Layout({ title, children, history, route }: Props) {
     const classes = useStyles();
+    const theme = useTheme();
+    const matchesSmallView = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(true);
+    React.useEffect(() => {
+        setOpen(!matchesSmallView)
+    }, [matchesSmallView])
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -177,7 +193,7 @@ function Layout({ title, children, history }: Props) {
 
     return <>
         <Helmet>
-            <title>{title} - Admin</title>
+            <title>{title ? `${title} - Admin` : 'Admin'}</title>
         </Helmet>
         <Query<GetCurrentUserResult, GetCurrentUserVariables> query={GET_CURRENT_USER_QUERY}>{({ loading, data }) =>
             loading ? <div>Loading</div> : <div className={classes.root}>
@@ -198,7 +214,7 @@ function Layout({ title, children, history }: Props) {
                         <IconButton color="inherit" className={classes.profileIcon} onClick={() => history.push(routes.profile.path)}>
                             <ProfileIcon />
                         </IconButton>
-                        <Link to={routes.profile.path} component={RouterLink} color="inherit">{getDisplayName(data)}</Link>
+                        <Link to={routes.profile.path} className={classes.displayName} component={RouterLink} color="inherit">{getDisplayName(data)}</Link>
                     </Toolbar>
                 </AppBar>
                 <ThemeProvider theme={darkTheme}>
@@ -216,7 +232,7 @@ function Layout({ title, children, history }: Props) {
                             </IconButton>
                         </div>
                         <Divider />
-                        <List className={classes.topDrawerList}>{mainListItems}</List>
+                        {route && <List className={classes.topDrawerList}><MainListItems route={route} classes={{selected: classes.menuItemSelected}} /></List>}
                         <Logout>
                             <List className={classes.bottomDrawerList}>
                                 <ListItem button>
@@ -238,6 +254,6 @@ function Layout({ title, children, history }: Props) {
     </>;
 }
 
-export default compose<Props, ComponentProps>(
+export default React.memo(compose<Props, ComponentProps>(
     withRouter
-)(Layout);
+)(Layout));

@@ -21,7 +21,10 @@ interface Props extends ComponentProps {
 const useStyles = makeStyles(theme => ({
     root: {
         overflowX: 'auto',
-        height: '100%'
+        height: '100%',
+    },
+    list: {
+
     },
     row: {
         paddingTop: theme.spacing(1.5),
@@ -29,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
     noPostsMessage: {
         textAlign: 'center',
-        paddingTop: theme.spacing(2)
+        padding: theme.spacing(3)
     }
 }));
 
@@ -48,7 +51,7 @@ const PostList = ({ type, selected }: Props) => {
         <Divider />
         <Query<GetPostListResult, GetPostListVariables> query={POST_LIST_QUERY} variables={{ type }}>{({ data }) => {
             const posts = (data && data.posts || [])
-            return <List>
+            return <List className={classes.list}>
                 {posts.length === 0 && <Typography className={classes.noPostsMessage}>There seems to be nothing here</Typography>}
                 {posts.map(p => ({ ...p, data: jsonToPostData(p.data) } as PostWithData)).map((post, i) => <React.Fragment key={post.id}>
                     <ListItem button component={RouterLink} to={type === 'POST' ? routes.posts.path.replace(routes.posts.params!.id, post.id.toString()) : routes.pages.path.replace(routes.pages.params!.id, post.id.toString())} selected={post.id === selected}>

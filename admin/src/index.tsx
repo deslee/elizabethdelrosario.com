@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cookie from 'cookie';
-import { Route, Switch } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { ApolloProvider } from 'react-apollo';
 import { DialogProvider } from './utils/DialogContext';
@@ -11,13 +9,13 @@ import DayJsUtils from '@date-io/dayjs';
 import { SnackbarProvider } from 'notistack';
 import theme from './theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import AuthRoute from './pages/authRoute'; 
 import initApollo from './apollo';
-import { routeKeys, routes } from './pages/routes';
-import LoginPage from './pages/LoginPage';
-import Layout from './components/Layout';
+import Router from './Router';
 
-
+if ((module as any).hot) {
+    (module as any).hot.accept();
+}
+  
 const client = initApollo({}, {
     getToken: () => cookie.parse(document.cookie, {})['token'],
     getXsrfId: () => {
@@ -29,16 +27,7 @@ ReactDOM.render(<ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
             <DialogProvider>
                 <SnackbarProvider maxSnack={3} autoHideDuration={1500}>
-                    <BrowserRouter>
-                        <Switch>
-                            <AuthRoute authorized={false} path="/admin/login" exact={true} component={LoginPage} />
-                            {
-                                routeKeys.map(routeKey => {
-                                    return <AuthRoute key={routeKey} {...routes[routeKey]} />
-                                })
-                            }
-                        </Switch>
-                    </BrowserRouter>
+                    <Router />
                 </SnackbarProvider>
             </DialogProvider>
         </ThemeProvider>
