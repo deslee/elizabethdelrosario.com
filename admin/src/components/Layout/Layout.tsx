@@ -100,7 +100,7 @@ const Dashboard = ({title, children}: Props) => {
             open={isOpen}
             variant={isMobile ? 'temporary' : 'persistent'}
         >
-            <Sidebar className={classes.sidebar} onSelected={handleClose} />
+            <Sidebar className={classes.sidebar} onSelected={() => {isMobile && handleClose()}} />
         </Drawer>
         <main
             className={clsx(classes.main, {
