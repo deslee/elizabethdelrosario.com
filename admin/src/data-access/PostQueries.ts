@@ -72,7 +72,7 @@ mutation DeletePost($postId: Int!) {
 export const withDeletePost = graphql<any, DeletePostResult, DeletePostVariables, DeletePostInjectedProps>(DELETE_POST_MUTATION, { props: (props) => ({ deletePost: props.mutate! }) });
 
 export type GetPostVariables = { postId: number }
-export type GetPostResult = { post: Post }
+export type GetPostResult = { post?: Post }
 export type WithPostInjectedProps = { post: DataValue<GetPostResult, GetPostVariables> }
 const GET_POST_QUERY = gql`
   query PostById($postId: Int!) {

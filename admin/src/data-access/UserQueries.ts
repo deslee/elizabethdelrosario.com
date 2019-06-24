@@ -15,7 +15,7 @@ fragment userFragment on User {
   }
 `
 
-const GET_CURRENT_USER_QUERY = gql`
+export const GET_CURRENT_USER_QUERY = gql`
 query GetCurrentUser {
     user: me {
         ...userFragment
@@ -24,7 +24,7 @@ query GetCurrentUser {
 ${UserFragment}
 `;
 export type GetCurrentUserVariables = {}
-export type GetCurrentUserResult = { user: User }
+export type GetCurrentUserResult = { user?: User }
 export type WithCurrentUserInjectedProps = { currentUser: DataValue<GetCurrentUserResult, GetCurrentUserVariables> }
 export const withCurrentUser = graphql<any, GetCurrentUserResult, GetCurrentUserVariables, WithCurrentUserInjectedProps>(
     GET_CURRENT_USER_QUERY,

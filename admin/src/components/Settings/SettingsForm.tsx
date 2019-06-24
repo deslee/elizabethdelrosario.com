@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { makeStyles, TextField, Button } from '@material-ui/core';
+import { makeStyles, TextField, Button, Container, Grid, Typography } from '@material-ui/core';
 import useCommonStyles from '../../utils/useCommonStyles'
 import Portlet, { PortletHeader, PortletLabel, PortletContent, PortletFooter } from '../Portlet'
+import Paper from '../Paper';
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -22,9 +23,15 @@ const SettingsForm = () => {
     const commonClasses = useCommonStyles();
     const classes = useStyles();
 
-    return <div>
-        Settings page
-    </div>
+    return <Container maxWidth="lg">
+        <Grid container>
+            <Grid item xs>
+                <Paper className={commonClasses.paper}>
+                    <Typography>Settings page</Typography>
+                </Paper>
+            </Grid>
+        </Grid>
+    </Container>
 }
 
 export default SettingsForm;

@@ -37,7 +37,7 @@ const Footer = ({ className }: Props) => {
         &copy; Desmond Lee 2019
         </Typography>
       <Typography variant="caption">
-        Created with love for content.
+        Created with love for content. Powered by GraphQL, Apollo, and Graphile Engine.
         </Typography>
     </div>
   );

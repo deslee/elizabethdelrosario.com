@@ -18,6 +18,7 @@ import {
   Menu as MenuIcon,
   Input as InputIcon
 } from '@material-ui/icons';
+import Logout from '../Logout';
 
 interface ComponentProps {
   className?: string;
@@ -52,11 +53,10 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Topbar = ({ className, title, isSidebarOpen, onToggleSidebar = () => {} }: Props) => {
+const Topbar = ({ className, title, isSidebarOpen, onToggleSidebar = () => { } }: Props) => {
   const classes = useStyles()
 
   const rootClassName = clsx(classes.root, className);
-  const handleSignOut = React.useCallback(() => {}, []);
 
   return (
     <Fragment>
@@ -74,12 +74,13 @@ const Topbar = ({ className, title, isSidebarOpen, onToggleSidebar = () => {} }:
           >
             {title}
           </Typography>
-          <IconButton
-            className={classes.signOutButton}
-            onClick={handleSignOut}
-          >
-            <InputIcon />
-          </IconButton>
+          <Logout>
+            <IconButton
+              className={classes.signOutButton}
+            >
+              <InputIcon />
+            </IconButton>
+          </Logout>
         </Toolbar>
       </div>
     </Fragment>

@@ -107,7 +107,7 @@ export const withAssetList = graphql<any, GetAssetListResult, GetAssetListVariab
 )
 
 export type GetAssetByIdVariables = { assetId: number }
-export type GetAssetByIdResult = { asset: Asset }
+export type GetAssetByIdResult = { asset?: Asset }
 export type AssetInjectedProps = { asset: DataValue<GetAssetByIdResult, GetAssetByIdVariables> }
 export const ASSET_BY_ID_QUERY = gql`
 query AssetById($assetId: Int!) {

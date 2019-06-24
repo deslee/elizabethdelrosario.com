@@ -4,6 +4,7 @@ import cookie from 'cookie';
 
 import gql from "graphql-tag";
 import { compose } from 'recompose';
+import { GET_CURRENT_USER_QUERY, GetCurrentUserResult, GetCurrentUserVariables } from '../data-access/UserQueries';
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -12,7 +13,7 @@ interface Props extends WithApolloClient<ComponentProps>, MutateProps<LogoutResu
 
 }
 
-const Logout: React.FC<Props> = ({client, mutate, children}: Props) => (
+const Logout: React.FC<Props> = ({ client, mutate, children }: Props) => (
     <div onClick={async _ => {
         await mutate();
         client.resetStore();
