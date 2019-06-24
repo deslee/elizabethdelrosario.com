@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, makeStyles, Container } from '@material-ui/core';
+import { Grid, makeStyles, Container, Typography } from '@material-ui/core';
 import Paper from '../components/Paper';
 
 const useStyles = makeStyles(theme => ({
@@ -16,10 +16,7 @@ export default function Dashboard() {
         <Grid container>
             <Grid item xs>
                 <Paper className={classes.sheet}>
-                </Paper>
-            </Grid>
-            <Grid item xs>
-                <Paper className={classes.sheet}>
+                    <Typography>Hello world</Typography>
                 </Paper>
             </Grid>
         </Grid>
