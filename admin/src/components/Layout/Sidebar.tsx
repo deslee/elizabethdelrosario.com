@@ -118,11 +118,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 interface ComponentProps {
-  className?: string
+  className?: string;
+  onSelected?: (selection: any) => void;
 }
 type Props = ComponentProps;
 
-const Sidebar = ({ className }: Props) => {
+const Sidebar = ({ className, onSelected = () => {} }: Props) => {
   const classes = useStyles()
 
   return (
@@ -171,6 +172,7 @@ const Sidebar = ({ className }: Props) => {
           activeClassName={classes.activeListItem}
           className={classes.listItem}
           component={NavLink}
+          onClick={() => onSelected("/admin")}
           to="/admin"
           exact
         >
@@ -186,6 +188,7 @@ const Sidebar = ({ className }: Props) => {
           activeClassName={classes.activeListItem}
           className={classes.listItem}
           component={NavLink}
+          onClick={() => onSelected("/admin/posts")}
           to="/admin/posts"
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -200,6 +203,7 @@ const Sidebar = ({ className }: Props) => {
           activeClassName={classes.activeListItem}
           className={classes.listItem}
           component={NavLink}
+          onClick={() => onSelected("/admin/pages")}
           to="/admin/pages"
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -214,6 +218,7 @@ const Sidebar = ({ className }: Props) => {
           activeClassName={classes.activeListItem}
           className={classes.listItem}
           component={NavLink}
+          onClick={() => onSelected("/admin/assets")}
           to="/admin/assets"
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -228,6 +233,7 @@ const Sidebar = ({ className }: Props) => {
           activeClassName={classes.activeListItem}
           className={classes.listItem}
           component={NavLink}
+          onClick={() => onSelected("/admin/settings")}
           to="/admin/settings"
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -253,6 +259,7 @@ const Sidebar = ({ className }: Props) => {
           activeClassName={classes.activeListItem}
           className={classes.listItem}
           component={NavLink}
+          onClick={() => onSelected("/admin/profile")}
           to="/admin/profile"
         >
           <ListItemIcon className={classes.listItemIcon}>

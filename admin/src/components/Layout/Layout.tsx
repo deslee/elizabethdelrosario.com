@@ -76,6 +76,9 @@ const Dashboard = ({title, children}: Props) => {
     const [ isOpen, setOpen ] = useState(!isMobile)
     const classes = useStyles();
 
+    React.useEffect(() => {
+        setTimeout(() => setOpen(!isMobile))
+    }, [isMobile])
     const handleClose = React.useCallback(() => setOpen(false), [setOpen])
     const handleToggleOpen = React.useCallback(() => setOpen(!isOpen), [setOpen, isOpen])
 
@@ -97,7 +100,7 @@ const Dashboard = ({title, children}: Props) => {
             open={isOpen}
             variant={isMobile ? 'temporary' : 'persistent'}
         >
-            <Sidebar className={classes.sidebar} />
+            <Sidebar className={classes.sidebar} onSelected={handleClose} />
         </Drawer>
         <main
             className={clsx(classes.main, {

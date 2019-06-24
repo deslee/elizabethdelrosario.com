@@ -26,6 +26,7 @@ const TextSliceComponent = ({ name }: Props) => {
             className={classes.textArea} 
             multiline
             fullWidth
+            rows={4}
             rowsMax={16}
             helperText="This supports Markdown"
         />
