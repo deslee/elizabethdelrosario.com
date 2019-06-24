@@ -196,7 +196,7 @@ const Sidebar = ({ className, onSelected = () => {} }: Props) => {
           </ListItemIcon>
           <ListItemText
             classes={{ primary: classes.listItemText }}
-            primary="Pages"
+            primary="Posts"
           />
         </ListItem>
         <ListItem
@@ -211,7 +211,7 @@ const Sidebar = ({ className, onSelected = () => {} }: Props) => {
           </ListItemIcon>
           <ListItemText
             classes={{ primary: classes.listItemText }}
-            primary="Posts"
+            primary="Pages"
           />
         </ListItem>
         <ListItem
