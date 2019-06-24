@@ -8,7 +8,7 @@ import compose from 'recompose/compose';
 import { makeStyles, useMediaQuery } from '@material-ui/core';
 
 // Material components
-import { Drawer } from '@material-ui/core';
+import Drawer from '@material-ui/core/SwipeableDrawer';
 
 // Custom components
 import Sidebar from './Sidebar';
@@ -80,6 +80,7 @@ const Dashboard = ({title, children}: Props) => {
         setTimeout(() => setOpen(!isMobile))
     }, [isMobile])
     const handleClose = React.useCallback(() => setOpen(false), [setOpen])
+    const handleOpen = React.useCallback(() => setOpen(true), [setOpen])
     const handleToggleOpen = React.useCallback(() => setOpen(!isOpen), [setOpen, isOpen])
 
     const shiftTopbar = isOpen && !isMobile;
@@ -98,6 +99,7 @@ const Dashboard = ({title, children}: Props) => {
             classes={{ paper: classes.drawerPaper }}
             onClose={handleClose}
             open={isOpen}
+            onOpen={handleOpen}
             variant={isMobile ? 'temporary' : 'persistent'}
         >
             <Sidebar className={classes.sidebar} onSelected={() => {isMobile && handleClose()}} />
