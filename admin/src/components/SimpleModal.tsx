@@ -59,7 +59,7 @@ const SimpleModal = ({asset, onClose = () => {}}: {asset: AssetWithData, onClose
                 </IconButton>
                 {type === 'AUDIO' && <ClickAwayListener onClickAway={onClose}><audio controls src={cdnUri} /></ClickAwayListener>}
                 {mimeType !== false && type === 'VIDEO' && <ClickAwayListener onClickAway={onClose}>
-                    <video controls width={window.innerWidth * .9}>
+                    <video controls style={{maxHeight: '90%', maxWidth: '90%'}} >
                         <source type={mimeType} src={cdnUri} />
                     </video>
                 </ClickAwayListener>}

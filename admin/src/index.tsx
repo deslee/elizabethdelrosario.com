@@ -12,6 +12,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import './theme/scss/index.scss';
 import initApollo from './data-access/apollo';
 import Router from './Router';
+import 'react-image-lightbox/style.css';
 
 if ((module as any).hot) {
     (module as any).hot.accept();
