@@ -56,6 +56,7 @@ const useDialogStyles = makeStyles((theme: Theme) => ({
     title: {
         marginLeft: theme.spacing(2),
         flex: 1,
+        color: theme.palette.getContrastText(theme.palette.primary.main)
     },
     empty: {
     }
