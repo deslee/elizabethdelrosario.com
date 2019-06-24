@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Paper, Grid, InputAdornment, Button, IconButton, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, Button, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { DatePicker } from '@material-ui/pickers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Slices from './Slices';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Paper from '../Paper';
 import { Form, Field, FieldProps, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { PostInputWithData } from '../../models/PostModel';
@@ -14,6 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import FormChangesGuard from "../FormChangesGuard";
 import clsx from 'clsx';
 import useCommonStyles from '../../utils/useCommonStyles';
+import LoaderButton from '../LoaderButton';
 
 interface ComponentProps {
     onDelete?: () => Promise<void>;
@@ -26,8 +28,6 @@ interface Props extends FormikProps<PostInputWithData>, ComponentProps {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        margin: theme.spacing(3),
-        minHeight: `calc(100% - ${theme.spacing(3) * 2}px)`,
     },
     actionButtons: {
         textAlign: 'right'
@@ -78,7 +78,7 @@ const PostForm = ({ isSubmitting, values, error, onDelete, type, dirty }: Props)
     const [showPassword, setShowPassword] = React.useState(false);
 
     return <Form className={classes.root}>
-        <Paper className={clsx(commonClasses.innerPaper)}>
+        <Paper className={clsx(commonClasses.paper)}>
             <Grid container spacing={2}>
                 <Grid item xs={12}><Typography className={classes.error}>{error}</Typography></Grid>
                 <Grid item xs={12} className={classes.top}>
@@ -96,8 +96,7 @@ const PostForm = ({ isSubmitting, values, error, onDelete, type, dirty }: Props)
                         <DeleteIcon fontSize="large" />
                     </IconButton>}
                     <div className={classes.wrapper}>
-                        <Button disabled={isSubmitting} type="submit" className={classes.saveAction} size="large" color="primary" variant="contained">Save</Button>
-                        {isSubmitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+                        <LoaderButton loading={isSubmitting} disabled={isSubmitting} type="submit" className={classes.saveAction} size="large" color="primary" variant="contained">Save</LoaderButton>
                     </div>
                 </Grid>
                 <Grid item xs={12}>

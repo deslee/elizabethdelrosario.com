@@ -21,12 +21,20 @@ export interface RouteDefinition extends RouteProps {
     params?: Record<string, string>
 }
 
+const loadingStyle = {
+    position: "absolute" as "absolute",
+    top: 0,
+    left: 0,
+    height: '100vh',
+    width: '100vw',
+}
+
 const _routes = {
     home: {
         path: '/admin',
         component: Loadable({
             loader: () => import('./pages/DashboardPage'),
-            loading: () => <FullPageLoading />
+            loading: () => <div style={loadingStyle}><FullPageLoading /></div>
         }),
         exact: true,
         authorized: true,
@@ -36,7 +44,7 @@ const _routes = {
         path: '/admin/posts/:id?',
         component: Loadable({
             loader: () => import('./pages/PostListingPage'),
-            loading: () => <FullPageLoading />
+            loading: () => <div style={loadingStyle}><FullPageLoading /></div>
         }),
         exact: true,
         authorized: true,
@@ -52,7 +60,7 @@ const _routes = {
         path: '/admin/pages/:id?',
         component: Loadable({
             loader: () => import('./pages/PostListingPage'),
-            loading: () => <FullPageLoading />
+            loading: () => <div style={loadingStyle}><FullPageLoading /></div>
         }),
         exact: true,
         authorized: true,
@@ -68,7 +76,7 @@ const _routes = {
         path: '/admin/assets',
         component: Loadable({
             loader: () => import('./pages/AssetsListingPage'),
-            loading: () => <FullPageLoading />
+            loading: () => <div style={loadingStyle}><FullPageLoading /></div>
         }),
         exact: true,
         authorized: true,
@@ -78,7 +86,7 @@ const _routes = {
         path: '/admin/settings',
         component: Loadable({
             loader: () => import('./pages/SettingsPage'),
-            loading: () => <FullPageLoading />
+            loading: () => <div style={loadingStyle}><FullPageLoading /></div>
         }),
         exact: true,
         authorized: true,
@@ -89,7 +97,7 @@ const _routes = {
         path: '/admin/profile',
         component: Loadable({
             loader: () => import('./pages/EditProfilePage'),
-            loading: () => <FullPageLoading />
+            loading: () => <div style={loadingStyle}><FullPageLoading /></div>
         }),
         layout: 'Profile',
         authorized: true
@@ -100,13 +108,7 @@ export const routeKeys = Object.keys(_routes) as (RouteKey)[];
 export const routes = _routes as Record<RouteKey, RouteDefinition>;
 
 const useAuthRouteStyles = makeStyles(() => ({
-    loading: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        width: '100vw',
-    }
+    loading: loadingStyle
 }))
 type AuthRouteProps = {onEnter: () => void} & RouteDefinition & GetCurrentUserVariables;
 const AuthRoute = compose<AuthRouteProps & WithCurrentUserInjectedProps, AuthRouteProps>(

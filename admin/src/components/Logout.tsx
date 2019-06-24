@@ -15,10 +15,6 @@ interface Props extends WithApolloClient<ComponentProps>, MutateProps<LogoutResu
 const Logout: React.FC<Props> = ({client, mutate, children}: Props) => (
     <div onClick={async _ => {
         await mutate();
-        document.cookie = cookie.serialize('X-XSRF-ID', '', {
-            maxAge: Date.now(),
-            expires: new Date()
-        });
         client.resetStore();
     }}>{children}</div>
 );

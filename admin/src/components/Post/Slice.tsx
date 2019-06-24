@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Paper, Grid, IconButton, Collapse, Typography } from '@material-ui/core';
+import { Grid, IconButton, Collapse, Typography, Button } from '@material-ui/core';
+import Paper from '../Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpIcon from '@material-ui/icons/ArrowUpward'
@@ -10,6 +11,7 @@ import VideoSlice from './VideoSlice';
 import TextSliceComponent from './TextSlice';
 import useCommonStyles from '../../utils/useCommonStyles';
 import clsx from 'clsx';
+import Portlet, { PortletHeader, PortletLabel, PortletContent, PortletFooter } from '../Portlet';
 
 interface Props {
     onRemoveSlice: () => void;
@@ -21,13 +23,8 @@ interface Props {
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        position: 'relative'
-    },
-    toolBar: {
-        textAlign: 'right',
-        position: 'absolute',
-        top: theme.spacing(2),
-        right: theme.spacing(2)
+        marginTop: 0,
+        padding: 0,
     },
     title: {
         textTransform: 'capitalize'
@@ -51,33 +48,35 @@ const Slice = ({ slice, onRemoveSlice, onMoveUp, onMoveDown, name }: Props) => {
 
     return <>
         <Collapse in={slice.state === 'ACTIVE' && !deleted} mountOnEnter={true} unmountOnExit={true} onExited={() => onRemoveSlice()}>
-            <Paper className={clsx(commonClasses.innerPaper, classes.paper)} elevation={1}>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <Typography variant="h6" className={classes.title}>{slice.type && slice.type.toLowerCase()}</Typography>
-                        <div className={classes.toolBar}>
-                            <IconButton 
-                                size="small" 
-                                color="secondary" 
-                                onClick={() => {
-                                    setDeleted(true);
-                                }} 
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                            <IconButton size="small" disabled={!onMoveUp} onClick={() => onMoveUp && onMoveUp()} >
-                                <UpIcon />
-                            </IconButton><br />
-                            <IconButton size="small" disabled={!onMoveDown} onClick={() => onMoveDown && onMoveDown()} >
-                                <DownIcon />
-                            </IconButton>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                        {renderSlice()}
-                    </Grid>
-                </Grid>
-            </Paper>
+            <Portlet className={clsx(commonClasses.paper, classes.paper)}>
+                <PortletHeader>
+                    <PortletLabel
+                        title={(slice.type && slice.type.toLowerCase()) || 'Unknown'}
+                        subtitle="slice"
+                    />
+                    <div>
+                        <Button
+                            size="small"
+                            color="secondary"
+                            variant="outlined"
+                            onClick={() => {
+                                setDeleted(true);
+                            }}
+                        >
+                            <DeleteIcon />
+                        </Button>
+                        <Button variant="outlined" size="small" disabled={!onMoveUp} onClick={() => onMoveUp && onMoveUp()} >
+                            <UpIcon />
+                        </Button>
+                        <Button variant="outlined" size="small" disabled={!onMoveDown} onClick={() => onMoveDown && onMoveDown()} >
+                            <DownIcon />
+                        </Button>
+                    </div>
+                </PortletHeader>
+                <PortletContent>
+                    {renderSlice()}
+                </PortletContent>
+            </Portlet>
         </Collapse>
     </>
 }

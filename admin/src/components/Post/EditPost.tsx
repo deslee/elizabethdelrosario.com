@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Formik } from 'formik';
 import PostFormComponent from './PostForm';
-import { PostInputWithData, jsonToPostData, PostInputWithDataShape } from '../../models/PostModel';
+import { PostInputWithData, jsonToPostData, PostInputWithDataShape, postDataToJson } from '../../models/PostModel';
 import { compose } from 'recompose';
 import dayjs from 'dayjs';
 import { withUpdatePost, UpdatePostInjectedProps, withDeletePost, DeletePostInjectedProps, withPost, WithPostInjectedProps, GetPostVariables, POST_LIST_QUERY } from '../../data-access/PostQueries';
@@ -9,7 +9,7 @@ import { withApollo, WithApolloClient } from 'react-apollo';
 import { useSnackbar } from 'notistack';
 import { routes } from '../../Router';
 import Skeleton from 'react-loading-skeleton';
-import { Paper } from '@material-ui/core';
+import Paper from '../Paper';
 import useCommonStyles from '../../utils/useCommonStyles';
 import { withRouting, WithRoutingInjectedProps } from '../../RouteComponents';
 
@@ -21,7 +21,7 @@ interface ComponentProps extends GetPostVariables {
 type Props = WithApolloClient<ComponentProps> & UpdatePostInjectedProps & DeletePostInjectedProps & WithRoutingInjectedProps & WithPostInjectedProps
 
 
-const EditPost = ({ type, deletePost, post, history }: Props) => {
+const EditPost = ({ type, deletePost, updatePost, post, history }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
 
     if (post.loading || !post.post) {
@@ -40,6 +40,26 @@ const EditPost = ({ type, deletePost, post, history }: Props) => {
         }}
         onSubmit={async (values, actions) => {
             try {
+                const result = await updatePost({
+                    variables: {
+                        input: {
+                            id: post.post!.id,
+                            patch: {
+                                ...values,
+                                data: postDataToJson(values.data)
+                            }
+                        }
+                    },
+                    refetchQueries: [{
+                        query: POST_LIST_QUERY,
+                        variables: {
+                            type
+                        }
+                    }]
+                });
+                if (result && result.errors && result.errors.length) {
+                    actions.setError(result.errors.map(e => e.message).join(', '))
+                }
                 enqueueSnackbar('Success!', {
                     variant: 'success'
                 })

@@ -39,7 +39,8 @@ const useStyles = makeStyles(theme => {
 
     return {
         card: {
-            width: 345,
+            maxWidth: 345,
+            flexBasis: '345px'
         },
         cardMedia: {
             height: 150

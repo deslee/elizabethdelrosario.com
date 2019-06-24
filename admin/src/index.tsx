@@ -7,8 +7,9 @@ import { DialogProvider } from './utils/DialogContext';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import DayJsUtils from '@date-io/dayjs';
 import { SnackbarProvider } from 'notistack';
-import theme from './theme';
+import theme from './theme/theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import './theme/scss/index.scss';
 import initApollo from './data-access/apollo';
 import Router from './Router';
 

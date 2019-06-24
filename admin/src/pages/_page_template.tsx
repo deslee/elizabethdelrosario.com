@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { Container, Paper, Theme } from '@material-ui/core';
+import { Container, Theme } from '@material-ui/core';
+import Paper from '../components/Paper';
 import useCommonStyles from '../utils/useCommonStyles'
 
 interface ComponentProps {

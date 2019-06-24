@@ -1,273 +1,114 @@
-import * as React from 'react';
-import { makeStyles, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, createMuiTheme, Link, Tooltip } from '@material-ui/core';
+import React, { useState } from 'react';
+
+// Externals
 import clsx from 'clsx';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ProfileIcon from '@material-ui/icons/AccountCircle';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import LogoutIcon from '@material-ui/icons/ExitToApp';
-import PostIcon from '@material-ui/icons/Notes';
-import AssetsIcon from '@material-ui/icons/Collections';
-import PageIcon from '@material-ui/icons/LibraryBooks';
-import SettingsIcon from '@material-ui/icons/Settings';
+import compose from 'recompose/compose';
+
+// Material helpers
+import { makeStyles, useMediaQuery } from '@material-ui/core';
+
+// Material components
+import { Drawer } from '@material-ui/core';
+
+// Custom components
+import Sidebar from './Sidebar';
+import Topbar from './TopBar'; 
+import Footer from './Footer'; 
+
+// Component styles
+import theme from '../../theme';
+import { RouteKey } from '../../Router';
+
 import constants from '../../Constants';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../../theme'
-import { withCurrentUser, WithCurrentUserInjectedProps } from "../../data-access/UserQueries";
-import Logout from "../Logout";
-import 'react-image-lightbox/style.css';
-import { routes, RouteKey } from '../../Router';
-import { compose } from 'recompose';
-import { Helmet } from "react-helmet";
-import { jsonToUserData } from '../../models/UserModel';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { ClassNameMap } from '@material-ui/styles/withStyles';
-import { withRouting, WithRoutingInjectedProps, Link as RouterLink } from '../../RouteComponents'
-import FullPageLoading from '../FullPageLoading';
-import { User } from 'api';
-
-export const MainListItems = ({ route, classes }: { route: RouteKey, classes: ClassNameMap }) => {
-    return <>
-        <Tooltip title="Site" aria-label="Site">
-            <ListItem selected={route === 'home'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.home.path}>
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Site" />
-            </ListItem>
-        </Tooltip>
-        <Tooltip title="Posts" aria-label="Posts">
-            <ListItem selected={route === 'posts'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.posts.path.replace(routes.posts.params!.id, '')}>
-                <ListItemIcon>
-                    <PostIcon />
-                </ListItemIcon>
-                <ListItemText primary="Posts" />
-            </ListItem>
-        </Tooltip>
-        <Tooltip title="Pages" aria-label="Pages">
-            <ListItem selected={route === 'pages'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.pages.path.replace(routes.pages.params!.id, '')}>
-                <ListItemIcon>
-                    <PageIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pages" />
-            </ListItem>
-        </Tooltip>
-        <Tooltip title="Assets" aria-label="Assets">
-            <ListItem selected={route === 'assets'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.assets.path}>
-                <ListItemIcon>
-                    <AssetsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Assets" />
-            </ListItem>
-        </Tooltip>
-        <Tooltip title="Settings" aria-label="Settings">
-            <ListItem selected={route === 'settings'} classes={{ selected: classes.selected }} button component={RouterLink} to={routes.settings.path}>
-                <ListItemIcon>
-                    <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-            </ListItem>
-        </Tooltip>
-    </>
-};
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    loading: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        width: '100vw',
-    },
-    toolbar: {
-        paddingRight: 24, // keep right padding when drawer closed
-    },
-    toolbarHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    toolbarTitle: {
-        flexGrow: 1,
-        paddingLeft: theme.spacing(2)
-    },
-    title: {
-        flexGrow: 1
-    },
-    appBar: {
-        height: constants.appBarHeight,
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: constants.drawerWidth,
-        width: `calc(100% - ${constants.drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginRight: 36,
-    },
-    menuButtonHidden: {
-        display: 'none',
-    },
-    drawerPaper: {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        width: constants.drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerPaperClose: {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(9),
-        [theme.breakpoints.down('sm')]: {
-            width: 0
-        },
-    },
-    menuItemSelected: {
-        backgroundColor: `${theme.palette.primary.main} !important`
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    topDrawerList: {
-        flexGrow: 1
-    },
-    bottomDrawerList: {
-    },
-    profileIcon: {
-    },
-    displayName: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'none'
-        }
-    }
-}));
 
 interface ComponentProps {
-    children: React.ReactNode,
-    title?: string,
-    route?: RouteKey
+    children: any;
+    title?: string;
+    route?: RouteKey;
 }
+type Props = ComponentProps;
 
-type Props = ComponentProps & WithCurrentUserInjectedProps & WithRoutingInjectedProps
-
-const darkTheme = createMuiTheme({
-    ...theme,
-    palette: {
-        type: 'dark'
+const useStyles = makeStyles(theme => ({
+    topbar: {
+        position: 'fixed',
+        width: '100%',
+        top: 0,
+        left: 0,
+        right: 'auto',
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
     },
-});
-
-function Layout({ title, children, history, route, currentUser }: Props) {
-    const classes = useStyles();
-    const theme = useTheme();
-    const matchesSmallView = useMediaQuery(theme.breakpoints.down('sm'));
-    const [open, setOpen] = React.useState(true);
-    React.useEffect(() => {
-        setOpen(!matchesSmallView)
-    }, [matchesSmallView])
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    const getDisplayName = (user: User | undefined) => {
-        if (user) {
-            var userData = jsonToUserData(user.data)
-            return userData.displayName ? userData.displayName : userData.firstName ? (userData.firstName + (userData.lastName && ' ' + userData.lastName)) : userData.lastName ? userData.lastName : user.email
-        } else {
-            return 'User'
-        }
+    topbarShift: {
+        marginLeft: '271px',
+        width: 'calc(-271px + 100vw)'
+    },
+    drawerPaper: {
+        zIndex: 1200,
+        width: '271px'
+    },
+    sidebar: {
+        width: '270px'
+    },
+    main: {
+        marginTop: '64px',
+        minHeight: `calc(100vh - ${constants.appBarHeight}px)`,
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: theme.palette.background.default,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
+    },
+    content: {
+        flex: 1,
+        display: 'flex'
+    },
+    contentShift: {
+        marginLeft: '270px'
     }
+}))
 
+const Dashboard = ({title, children}: Props) => {
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const [ isOpen, setOpen ] = useState(!isMobile)
+    const classes = useStyles();
+
+    const handleClose = React.useCallback(() => setOpen(false), [setOpen])
+    const handleToggleOpen = React.useCallback(() => setOpen(!isOpen), [setOpen, isOpen])
+
+    const shiftTopbar = isOpen && !isMobile;
+    const shiftContent = isOpen && !isMobile;
     return <>
-        <Helmet>
-            <title>{title ? `${title} - Admin` : 'Admin'}</title>
-        </Helmet>
-        {currentUser.loading && <div className={classes.loading}><FullPageLoading /></div>}
-        {!currentUser.loading && <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap
-                        className={classes.title}>{title}</Typography>
-                    <IconButton color="inherit" className={classes.profileIcon} onClick={() => history.push(routes.profile.path)}>
-                        <ProfileIcon />
-                    </IconButton>
-                    <Link to={routes.profile.path} className={classes.displayName} component={RouterLink} color="inherit">{getDisplayName(currentUser.user)}</Link>
-                </Toolbar>
-            </AppBar>
-            <ThemeProvider theme={darkTheme}>
-                <Drawer
-                    variant={matchesSmallView ? "persistent" : "permanent"}
-                    classes={{
-                        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-                    }}
-                    open={open}
-                >
-                    <div className={classes.toolbarHeader}>
-                        <Typography variant="h6" className={classes.toolbarTitle}>Admin</Typography>
-                        <IconButton onClick={handleDrawerClose}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </div>
-                    <Divider />
-                    {route && <List className={classes.topDrawerList}><MainListItems route={route} classes={{ selected: classes.menuItemSelected }} /></List>}
-                    <List className={classes.bottomDrawerList}>
-                        <Logout>
-                            <Tooltip title="Logout" aria-label="Logout">
-                                <ListItem button>
-                                    <ListItemIcon>
-                                        <LogoutIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Logout" />
-                                </ListItem>
-                            </Tooltip>
-                        </Logout>
-                    </List>
-                </Drawer>
-            </ThemeProvider>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                {children}
-            </main>
-        </div>}
-    </>;
+        <Topbar
+            className={clsx(classes.topbar, {
+                [classes.topbarShift]: shiftTopbar
+            })}
+            isSidebarOpen={isOpen}
+            onToggleSidebar={handleToggleOpen}
+            title={title}
+        />
+        <Drawer
+            anchor="left"
+            classes={{ paper: classes.drawerPaper }}
+            onClose={handleClose}
+            open={isOpen}
+            variant={isMobile ? 'temporary' : 'persistent'}
+        >
+            <Sidebar className={classes.sidebar} />
+        </Drawer>
+        <main
+            className={clsx(classes.main, {
+                [classes.contentShift]: shiftContent
+            })}
+        >
+            <div className={classes.content}>{children}</div>
+            <Footer />
+        </main>
+    </>
 }
 
-export default React.memo(compose<Props, ComponentProps>(
-    withCurrentUser,
-    withRouting
-)(Layout));
+export default compose<Props, ComponentProps>(
+)(Dashboard);

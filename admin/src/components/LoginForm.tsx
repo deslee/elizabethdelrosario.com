@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Button, Typography, FormControlLabel, Checkbox, makeStyles, LinearProgress } from '@material-ui/core';
+import { Button, Typography, FormControlLabel, Checkbox, makeStyles, CircularProgress } from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';
 import { graphql, withApollo, WithApolloClient, ChildMutateProps } from 'react-apollo';
 import { TextField } from 'formik-material-ui';
 import gql from "graphql-tag";
 import { LoginPayload, LoginInput } from 'api';
+import useCommonStyles from '../utils/useCommonStyles';
 
 interface ComponentProps {
     onLogin?: () => void
@@ -18,11 +19,19 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         color: theme.palette.error.main
-    } 
-}));  
+    },
+    progressSpinner: {
+        display: 'block',
+        marginTop: theme.spacing(2),
+        marginLeft: 'auto',
+        marginRight: 'auto'
+    },
+}));
 
-const LoginForm: React.FC<Props> = ({ mutate: login, client, onLogin = () => {} }) => {
-    const classes = useStyles({});
+const LoginForm: React.FC<Props> = ({ mutate: login, client, onLogin = () => { } }) => {
+    const commonClasses = useCommonStyles({});
+    const customClasses = useStyles({});
+    const classes = { ...commonClasses, ...customClasses }
     return <>
         <Formik<LoginInput>
             initialValues={{ email: '', password: '' }}
@@ -51,40 +60,41 @@ const LoginForm: React.FC<Props> = ({ mutate: login, client, onLogin = () => {} 
                 }
             }}
         >{({ error, isSubmitting }) => <Form>
-            {isSubmitting && <LinearProgress />}
             <Typography className={classes.error}>{error}</Typography>
             <Field
-                name="email" 
-                component={TextField} 
-                type="text" 
-                label="Email" 
+                name="email"
+                component={TextField}
+                type="text"
+                label="Email"
                 fullWidth
                 autoFocus
                 margin="normal"
                 variant="outlined"
             /><br />
-            <Field 
-                name="password" 
-                component={TextField} 
-                type="password" 
-                label="Password" 
+            <Field
+                name="password"
+                component={TextField}
+                type="password"
+                label="Password"
                 fullWidth
                 margin="normal"
                 variant="outlined"
             /><br />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
+            {isSubmitting ?
+                <CircularProgress className={classes.progressSpinner} /> :
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Sign In
+            </Button>}
         </Form>}</Formik>
     </>
 }

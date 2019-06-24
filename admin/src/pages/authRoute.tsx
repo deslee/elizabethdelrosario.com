@@ -29,7 +29,7 @@ const AuthRoute = ({ authorized, onEnter, props = {}, component: Component, curr
     }, [])
 
     if (currentUser.loading && authorized) {
-        return <div className={classes.loading}><FullPageLoading /></div>
+        return <div className={classes.loading}></div>
     }
     else if (!currentUser.loading && authorized && (!currentUser.user || !currentUser.user.id)) {
         return <Redirect to="/admin/login" />

@@ -1,7 +1,7 @@
 import React from 'react';
 import FilePicker from "../FilePicker";
 import {
-    CreateAssetInjectedProps, 
+    CreateAssetInjectedProps,
     CreateAssetVariables,
     withCreateAsset,
     ASSET_LIST_QUERY,
@@ -9,15 +9,14 @@ import {
     AssetListInjectedProps
 } from "../../data-access/AssetQueries";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Paper from "@material-ui/core/Paper";
+import Paper from "../Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Divider from "@material-ui/core/Divider";
-import {assetDataToJson, assetFilter, AssetWithData, getAssetType, jsonToAssetData} from "../../models/AssetModel";
+import { assetDataToJson, assetFilter, AssetWithData, getAssetType, jsonToAssetData } from "../../models/AssetModel";
 import AssetListCard from "./AssetListCard";
-import {Grid} from "@material-ui/core";
-import Container from "@material-ui/core/Container";
+import { Grid } from "@material-ui/core";
 import posed, { PoseGroup } from 'react-pose';
-import {EditAssetDialog} from "./EditAssetForm";
+import { EditAssetDialog } from "./EditAssetForm";
 import Lightbox from '../Lightbox';
 import SimpleModal from "../SimpleModal";
 import useCommonStyles from '../../utils/useCommonStyles';
@@ -34,15 +33,16 @@ type Props = ComponentProps & CreateAssetInjectedProps & AssetListInjectedProps
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'inline-block'
-        }
+        width: '100%'
     },
     uploadButton: {
         marginBottom: theme.spacing(2)
     },
     divider: {
         marginBottom: theme.spacing(2)
+    },
+    item: {
+        flexBasis: '350px'
     },
     container: {
 
@@ -54,8 +54,8 @@ const useStyles = makeStyles(theme => ({
 const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
     const commonClasses = useCommonStyles();
     const classes = useStyles();
-    const [assetEditing, setAssetEditing] = React.useState<AssetWithData|undefined>(undefined);
-    const [uploadAssetState, setUploadAssetState] = React.useState<['NONE'|'UPLOADING'|'UPLOADED'|'ERROR', string?]>(['NONE']);
+    const [assetEditing, setAssetEditing] = React.useState<AssetWithData | undefined>(undefined);
+    const [uploadAssetState, setUploadAssetState] = React.useState<['NONE' | 'UPLOADING' | 'UPLOADED' | 'ERROR', string?]>(['NONE']);
     const [assetViewing, setAssetViewing] = React.useState<AssetWithData | undefined>(undefined);
 
     const handleFilePicked = async (files: FileList | null) => {
@@ -67,7 +67,7 @@ const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
             input: {
                 asset: {
                     state: 'CREATED',
-                    data: assetDataToJson({name: file.name, fileName: file.name, privateNotes: ''}),
+                    data: assetDataToJson({ name: file.name, fileName: file.name, privateNotes: '' }),
                     uri: file as any
                 }
             }
@@ -95,7 +95,7 @@ const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
             } else {
                 setUploadAssetState(['ERROR'])
             }
-        } catch(e) {
+        } catch (e) {
             setUploadAssetState(['ERROR'])
         }
     };
@@ -105,7 +105,7 @@ const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
 
         return <Grid container spacing={2}>
             <PoseGroup>
-                {assets.map(asset => <Item key={asset.id} item>
+                {assets.map(asset => <Item key={asset.id} item className={classes.item}>
                     <AssetListCard actions={true} onEditClicked={() => setAssetEditing(asset)} onAssetSelected={() => {
                         setAssetViewing(asset)
                     }} asset={asset} />
@@ -114,7 +114,7 @@ const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
             {assetViewing !== undefined && getAssetType(assetViewing.uri) === 'IMAGE' && <Lightbox
                 open={true}
                 initialIndex={images.map(a => a.id).indexOf(assetViewing.id)}
-                images={images.map(asset => ({url: `${process.env.REACT_APP_S3_BUCKET_URL}/${asset.uri}`, alt: asset.data.description || ''}))}
+                images={images.map(asset => ({ url: `${process.env.REACT_APP_S3_BUCKET_URL}/${asset.uri}`, alt: asset.data.description || '' }))}
                 onClose={() => setAssetViewing(undefined)}
             />}
             {assetViewing !== undefined && ['AUDIO', 'VIDEO'].indexOf(getAssetType(assetViewing.uri)) !== -1 && <SimpleModal asset={assetViewing} onClose={() => setAssetViewing(undefined)} />}
@@ -124,15 +124,15 @@ const AssetList = ({ createAsset, assets: assetListResult }: Props) => {
     const assets = (assetListResult.assets || []);
     const loading = assetListResult.loading
 
-    return <Container className={classes.container}>
-        <Paper className={clsx(commonClasses.paper, classes.paper)}>
+    return <>
+        <div className={clsx(commonClasses.paper, classes.paper)}>
             <FilePicker className={classes.uploadButton} variant="contained" color="primary" handleFilePicked={handleFilePicked}>Upload</FilePicker>
-            {uploadAssetState[0] === 'UPLOADING' &&  <LinearProgress variant="determinate"  value={parseInt(uploadAssetState[1] as string)} />}
+            {uploadAssetState[0] === 'UPLOADING' && <LinearProgress variant="determinate" value={parseInt(uploadAssetState[1] as string)} />}
             <Divider className={classes.divider} />
             {loading ? <p>Loading</p> : assets.length ? renderAssetList(assets.map(asset => ({ ...asset, data: jsonToAssetData(asset.data) }))) : <p className={classes.empty}>There seems to be nothing here.</p>}
-        </Paper>
+        </div>
         <EditAssetDialog assetEditing={assetEditing} onClose={() => setAssetEditing(undefined)} />
-    </Container>
+    </>
 };
 
 export default compose<Props, ComponentProps>(

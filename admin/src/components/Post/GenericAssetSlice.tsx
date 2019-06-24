@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
     },
+    assetGrid: {
+        marginTop: theme.spacing(3)
+    },
     cardActions: {
         display: 'flex',
         justifyContent: 'space-between'
@@ -109,8 +112,8 @@ const AssetSliceComponent = ({ formik: { setFieldValue }, slice, name, type, ass
     const assets = assetsResult.assets || [];
 
     return <>
-        <FieldArray name={`${name}.assetIds`} render={({ move, remove }) => <Grid container spacing={2}>
-            <PoseGroup>{assetIds.map(id => assets.find(a => a.id === id)).filter(a => a).map(asset => assetToAssetWithData(asset!)).map((asset, idx) => <Item item key={asset.id}>
+        <FieldArray name={`${name}.assetIds`} render={({ move, remove }) => <Grid container className={classes.assetGrid} spacing={2}>
+            <PoseGroup>{assetIds.map(id => assets.find(a => a.id === id)).filter(a => a).map(asset => assetToAssetWithData(asset!)).map((asset, idx) => <Item style={{flexBasis: '345px'}} item key={asset.id}>
                 <AssetListCard asset={asset} actions={<CardActions className={classes.cardActions}>
                     <Button size="small" onClick={() => idx > 0 && move(idx, idx - 1)}>Back</Button>
                     <Button size="small" onClick={() => remove(idx)}>Delete</Button>

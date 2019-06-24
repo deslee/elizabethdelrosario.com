@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Paper, Grid, makeStyles, Container } from '@material-ui/core';
+import { Grid, makeStyles, Container } from '@material-ui/core';
+import Paper from '../components/Paper';
 
 const useStyles = makeStyles(theme => ({
     sheet: {

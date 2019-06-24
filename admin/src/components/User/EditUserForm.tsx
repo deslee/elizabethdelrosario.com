@@ -6,7 +6,7 @@ import { Field, Formik, Form } from 'formik';
 import { compose } from 'recompose';
 import { withUpdateUser, UpdateUserInjectedProps, withCurrentUser, WithCurrentUserInjectedProps } from '../../data-access/UserQueries';
 import { UserData, jsonToUserData } from '../../models/UserModel';
-import FullPageLoading from '../FullPageLoading';
+import LoaderButton from '../LoaderButton';
 
 interface ComponentProps {
 
@@ -24,10 +24,9 @@ const useStyle = makeStyles((theme: Theme) => ({
 
 const EditUserForm = ({ updateUser, currentUser }: Props) => {
     const classes = useStyle({});
-    console.log(currentUser)
     
     if (!currentUser.user) {
-        return <FullPageLoading />
+        return <></>
     }
     
     const userData = jsonToUserData(currentUser.user.data);
@@ -51,12 +50,12 @@ const EditUserForm = ({ updateUser, currentUser }: Props) => {
         } finally {
             actions.setSubmitting(false);
         }
-    }}>{({ submitForm }) => <Form className={classes.root}>
+    }}>{({ submitForm, isSubmitting }) => <Form className={classes.root}>
         <Grid container>
             <Grid container item spacing={2} md={4}>
                 <Grid item xs={12}>
-                    hihi
-            </Grid>
+                    <img src="//placehold.it/300x300" style={{paddingRight: '2rem', width: '100%', height: '100%'}} />
+                </Grid>
             </Grid>
             <Grid container item spacing={2} md={8}>
                 <Grid item xs={12}>
@@ -97,7 +96,7 @@ const EditUserForm = ({ updateUser, currentUser }: Props) => {
                 <Grid item xs={12}>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button onClick={() => submitForm()} color="primary" variant="contained">Save my profile</Button>
+                    <LoaderButton loading={isSubmitting} onClick={() => submitForm()} color="primary" variant="contained">Save my profile</LoaderButton>
                 </Grid>
             </Grid>
         </Grid>
