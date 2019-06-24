@@ -37,7 +37,7 @@ const Footer = ({ className }: Props) => {
         &copy; Desmond Lee 2019
         </Typography>
       <Typography variant="caption">
-        Created with love for the environment.
+        Created with love for content.
         </Typography>
     </div>
   );
