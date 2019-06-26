@@ -694,7 +694,6 @@
 "@sanity/cli@^0.141.1":
   version "0.141.1"
   resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-0.141.1.tgz#8ae892fa284531c2cef7bab871b74e2f42c7b9ee"
-  integrity sha512-csOW7iuiG6PFaMxn3NrDj9rs4dmJLve9M9J8hqQhOHJzuXTzXHpENMx29L11kGCV2MrMsiWF1zndWDPhFniQGA==
 
 "@sanity/client@0.141.1":
   version "0.141.1"
@@ -1014,6 +1013,10 @@
     react-props-stream "^1.0.0"
     rxjs "^6.1.0"
     shallow-equals "^1.0.0"
+
+"@sanity/production-preview@^0.141.1":
+  version "0.141.1"
+  resolved "https://registry.npmjs.org/@sanity/production-preview/-/production-preview-0.141.1.tgz#361a578a3ff9873428b8f24d8bffa4f3a1a3bd93"
 
 "@sanity/resolver@0.141.1":
   version "0.141.1"
