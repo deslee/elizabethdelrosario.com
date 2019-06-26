@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "frontend/next.config.js",
+            "use": "@now/next"
+        },
+        {
+            "src": "sanity/package.json",
+            "use": "@now/static-build"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/admin/static/(.*)",
+            "dest": "/sanity/static/$1"
+        },
+        {
+            "src": "/admin(.*)",
+            "dest": "/sanity/index.html"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/frontend/$1"
+        }
+    ]
+}

@@ -1,7 +1,8 @@
 {
   "root": true,
   "project": {
-    "name": "elizabethdelrosario"
+    "name": "elizabethdelrosario",
+    "basePath": "/admin"
   },
   "api": {
     "projectId": "sj7jy8qa",

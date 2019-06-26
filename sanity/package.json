@@ -1,5 +1,5 @@
 {
-  "name": "elizabethdelrosario",
+  "name": "sanity",
   "private": true,
   "version": "1.0.0",
   "description": "",
@@ -8,19 +8,22 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "sanity start",
-    "test": "sanity check"
+    "test": "sanity check",
+    "build": "sanity build",
+    "now-build": "sanity build"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
-    "@sanity/base": "^0.140.36",
-    "@sanity/components": "^0.140.38",
-    "@sanity/core": "^0.140.38",
-    "@sanity/default-layout": "^0.140.38",
-    "@sanity/default-login": "^0.140.34",
-    "@sanity/desk-tool": "^0.140.38",
-    "@sanity/vision": "^0.140.38",
+    "@sanity/base": "^0.141.1",
+    "@sanity/cli": "^0.141.1",
+    "@sanity/components": "^0.141.1",
+    "@sanity/core": "^0.141.1",
+    "@sanity/default-layout": "^0.141.1",
+    "@sanity/default-login": "^0.141.1",
+    "@sanity/desk-tool": "^0.141.2",
+    "@sanity/vision": "^0.141.1",
     "prop-types": "^15.6",
     "react": "^16.2",
     "react-dom": "^16.2",
