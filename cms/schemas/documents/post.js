@@ -1,5 +1,8 @@
+import { MdNote } from 'react-icons/lib/md'
+
 export default {
     name: 'post',
+    icon: MdNote,
     title: 'Post',
     type: 'document',
     fields: [
@@ -11,6 +14,7 @@ export default {
         {
             name: 'slug',
             title: 'Slug',
+            description: 'The part of the URL.',
             type: 'slug',
             options: {
                 source: 'title',

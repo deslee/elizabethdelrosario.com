@@ -14,6 +14,16 @@ export default {
             type: 'richText'
         },
         {
+            name: 'frontPage',
+            title: 'Front Page',
+            type: 'reference',
+            to: [
+                { type: 'post' },
+                { type: 'page' },
+                { type: 'postCollection' },
+            ]
+        },
+        {
             name: 'googleAnalyticsId',
             title: 'Google Analytics ID',
             type: 'string'

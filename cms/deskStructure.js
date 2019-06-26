@@ -1,5 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder';
-import { MdSettings as SiteSettingsIcon } from 'react-icons/lib/md'
+import { MdSettings as SiteSettingsIcon, MdWeb } from 'react-icons/lib/md'
 
 const hiddenDocTypes = listItem => ![
     "siteSettings"
