@@ -16,14 +16,20 @@ const serializers = {
     ),
     video: (props: any) => {
         return <div>video</div>
-    }
+    },
+    multipleImages: (props: any) => {
+        return <div>multipleImages</div>
+    },
   }
 }
 
 
-export default (props: Props) => {
+const Item = (props: Props) => {
     return <>
         <h1>{props.item.title}</h1>
-        <BlockContent blocks={props.item.contentRaw} serializers={serializers} />
+        <BlockContent projectId="sj7jy8qa" dataset="production" blocks={props.item.contentRaw} serializers={serializers} /> {/* TODO: build dynamically */}
+        {props.item.__typename === 'PostCollection' && (props.item.posts || []).map(post => post ? <Item item={post} /> : null)}
     </>
 }
+
+export default Item;

@@ -38,7 +38,6 @@ const SlugComponent: NextFunctionComponent<Props, InitialProps> = ({ allSlugs, s
         }
     })
 
-
     if (matchedSlug) {
         if (matchedSlug.__typename === 'Page') {
             return <PageByIdComponent variables={{ id: matchedSlug.id }}>{({ loading, data }) => {
@@ -53,9 +52,10 @@ const SlugComponent: NextFunctionComponent<Props, InitialProps> = ({ allSlugs, s
                     }
                 }
 
-                return <>
-                    {data && data.Page && data.Page.title}
-                </>
+                if (data && data.Page) {
+                    return <Item item={data.Page} />
+                }
+                return <Error statusCode={404} />
             }}</PageByIdComponent>
         }
         else if (matchedSlug.__typename === 'Post') {
@@ -75,9 +75,11 @@ const SlugComponent: NextFunctionComponent<Props, InitialProps> = ({ allSlugs, s
                 if (loading) {
                     return <div>loading</div> // TODO: loading component
                 }
-                return <>
-                    {data && data.PostCollection && data.PostCollection.title}
-                </>
+
+                if (data && data.PostCollection) {
+                    return <Item item={data.PostCollection} />
+                }
+                return <Error statusCode={404} />
             }}</PostCollectionByIdComponent>
         }
     }
