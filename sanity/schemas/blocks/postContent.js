@@ -1,23 +1,6 @@
 import React from 'react';
 import { MdPhotoLibrary, MdPhoto, MdVideoLabel, MdAttachFile } from "react-icons/lib/md"
 
-const image = {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      fields: [
-          {
-              name: 'description',
-              title: 'Description',
-              type: 'string'
-          }
-      ],
-      icon: MdPhoto,
-      options: {
-        hotspot: true
-      }
-    }
-
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -74,27 +57,13 @@ export default {
     // You can add additional types here. Note that you can't use
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
-    image,
     {
-      name: 'multipleImages',
-      title: 'Multiple Images',
-      type: 'object',
-      icon: MdPhotoLibrary,
-      fields: [
-        { name: 'images', title: 'Images', type: 'array', of: [ image ] },
-        { name: 'columns', title: 'Columns', type: 'string', description: 'Number of columns. Set to blank for default', options: { list: [ { title: 'One', value: '1' }, { title: 'Two', value: '2' }, { title: 'Three', value: '3' }, { title: 'Four', value: '4' } ] } },
-      ],
-      preview: {
-        select: {
-          images: 'images'
-        },
-        prepare(selection) {
-          const { images } = selection
-          return {
-            title: images ? `Set of ${images.length} images` : ''
-          }
-        }
-      }
+      name: 'postImage',
+      title: 'Image',
+      type: 'image'
+    },
+    {
+      type: 'multipleImages'
     },
     {
       name: 'fileAsset',
@@ -102,12 +71,12 @@ export default {
       type: 'fileAsset',
     },
     {
-      name: 'video',
+      name: 'videoAsset',
       title: 'Video',
       type: 'videoAsset',
     },
     {
-      name: 'pdf',
+      name: 'pdfEmbed',
       title: 'PDF Embed',
       type: 'pdfEmbed',
     }
