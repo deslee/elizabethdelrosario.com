@@ -1,38 +1,32 @@
-import { NextFunctionComponent, NextContext } from 'next'
-import client from '../client';
+import { compose } from "recompose";
+import Link from 'next/link';
+import { IndexPageProps, withIndexPage } from "../graphql";
+import withSanity from "../graphql/withSanity";
+import Layout from "../components/Layout/Layout";
 
-interface InitialProps {
-    site: any,
-    frontPage: any,
-    posts: any
-}
+type Props = IndexPageProps
 
-const IndexComponent: NextFunctionComponent<InitialProps> = ({site, frontPage, posts}) => {
-    return <>
-        <h1>Site settings</h1>
-        <pre>{JSON.stringify(site, null, 2)}</pre>
-        <h1>Front page settings</h1>
-        <pre>{JSON.stringify(frontPage, null, 2)}</pre>
-        <h1>Posts</h1>
-        <pre>{JSON.stringify(posts, null, 2)}</pre>
-    </>
-}
-
-IndexComponent.getInitialProps = async (ctx: NextContext) => {
-    // fetch site settings
-    const { site, frontPage, posts } = await client.fetch(`
-    {
-        "site": *[_id == 'settings'][0],
-        "frontPage": *[_id == 'settings'][0] { frontPage-> },
-        "posts": *[_id == 'settings'][0] { frontPage->{posts[]->} }
+const FrontPage = ({ data }: Props) => {
+    if (!data) {
+        return <></>
     }
-    `);
 
-    return {
-        site,
-        frontPage,
-        posts
+    const posts = () => {
+        if (data.siteSettings!.frontPage && data.siteSettings!.frontPage.__typename === "PostCollection") {
+            const links = data.siteSettings!.frontPage.posts!.map(post => post && post.slug && post.title && post.slug.current && post.title ? { slug: post.slug.current, title: post.title } : undefined).filter(p => !!p)
+            return links.map(link => {
+                return link && <div><Link key={link.slug} href={`/slug?slug=${link.slug}`} as={`/${link.slug}`}><a>{link.title}</a></Link></div>
+            })
+        }
     }
+
+    return <Layout>
+        {posts()}
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+    </Layout>
 }
 
-export default IndexComponent;
+export default compose<any, any>(
+    withSanity,
+    withIndexPage()
+)(FrontPage)

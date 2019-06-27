@@ -1,0 +1,20 @@
+query allSlugs {
+  postSlugs: allPosts {
+    id: _id
+    slug {
+      current
+    }
+  }
+  pageSlugs: allPages {
+    id: _id
+    slug {
+      current
+    }
+  }
+  postCollectionSlugs: allPostCollections {
+    id: _id
+    slug {
+      current
+    }
+  }
+}

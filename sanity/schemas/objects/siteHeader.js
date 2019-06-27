@@ -1,6 +1,7 @@
 
 export const siteHeaderInternalReference = {
     name: 'siteHeaderInternalReference',
+    title: 'Internal link',
     type: 'object',
     fields: [
         { name: 'internal', title: 'Item', description: 'Post, page, or collection', type: 'reference', to: [{ type: 'post' }, { type: 'page' }, { type: 'postCollection' }], },
@@ -34,11 +35,8 @@ export default {
             title: 'Menu Items',
             type: 'array',
             of: [
-                {type: 'siteHeaderInternalReference'},
-                {type: 'siteHeaderExternalReference'},
-                // { name: 'headerPage', title: 'Page', type: 'object', fields: [ { name: 'page', title: 'Page', type: 'reference', to: [{ type: 'page' }], }, { name: 'title', title: 'Title', type: 'string' } ], },
-                // { name: 'postCollection', title: 'Post Collection', type: 'object', fields: [ { name: 'postCollection', title: 'Post Collection', type: 'reference', to: [{ type: 'postCollection' }], }, { name: 'title', title: 'Title', type: 'string' } ], },
-                // { name: 'externalLink', title: 'External Link', type: 'object', fields: [ { name: 'url', title: 'URL', type: 'url' }, { name: 'title', title: 'Title', type: 'string' } ]  },
+                {name: 'siteHeaderInternalReference', type: 'siteHeaderInternalReference'},
+                //{name: 'siteHeaderExternalReference', type: 'siteHeaderExternalReference'},
             ],
         },
     ]

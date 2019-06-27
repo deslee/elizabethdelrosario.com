@@ -1,0 +1,8 @@
+query indexPage {
+  posts: allPosts {
+    ...post
+  }
+  siteSettings: SiteSettings(id: "settings") {
+    ...siteSettings
+  }
+}
