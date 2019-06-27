@@ -35,8 +35,8 @@ export default {
             title: 'Menu Items',
             type: 'array',
             of: [
-                {name: 'siteHeaderInternalReference', type: 'siteHeaderInternalReference'},
-                //{name: 'siteHeaderExternalReference', type: 'siteHeaderExternalReference'},
+                {type: 'siteHeaderInternalReference'},
+                {type: 'siteHeaderExternalReference'},
             ],
         },
     ]
