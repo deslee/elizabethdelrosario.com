@@ -20,6 +20,10 @@
             "dest": "/sanity/index.html"
         },
         {
+            "src": "/_next/(.*)",
+            "dest": "/frontend/_next/$1"
+        },
+        {
             "src": "/(?<slug>[^/]+)$",
             "dest": "/frontend/slug?slug=$slug"
         },
