@@ -1,0 +1,5 @@
+query siteSettings {
+  settings: SiteSettings(id: "settings") {
+    ...siteSettings
+  }
+}

@@ -1,32 +1,42 @@
 import { compose } from "recompose";
-import Link from 'next/link';
-import { IndexPageProps, withIndexPage } from "../graphql";
+import Error from 'next/error';
+import "normalize.css"
+import "reset-css"
+import { withSiteSettings, SiteSettingsQuery } from "../graphql";
 import withSanity from "../graphql/withSanity";
-import Layout from "../components/Layout/Layout";
+import { DataValue } from "react-apollo";
+import Head from "next/head";
+import ItemContainer from "../containers/ItemContainer";
 
-type Props = IndexPageProps
+interface Props {
+    siteSettings: DataValue<SiteSettingsQuery>
+}
 
-const FrontPage = ({ data }: Props) => {
-    if (!data) {
-        return <></>
+const FrontPage = ({ siteSettings }: Props) => {
+    // show loading page if client based
+    if (siteSettings.loading) {
+        return <>
+            <Head><title>Loading</title></Head>
+        </> // TODO: loading component
     }
 
-    const posts = () => {
-        if (data.siteSettings!.frontPage && data.siteSettings!.frontPage.__typename === "PostCollection") {
-            const links = data.siteSettings!.frontPage.posts!.map(post => post && post.slug && post.title && post.slug.current && post.title ? { slug: post.slug.current, title: post.title } : undefined).filter(p => !!p)
-            return links.map(link => {
-                return link && <div><Link key={link.slug} href={`/slug?slug=${link.slug}`} as={`/${link.slug}`}><a>{link.title}</a></Link></div>
-            })
-        }
+    if (!siteSettings.settings) {
+        console.log("site settings not found")
+        return <>
+            <Error statusCode={500} />
+            <span style={{display: 'none'}}>Site settings not found</span>
+        </>
     }
+    const settings = siteSettings.settings;
 
-    return <Layout>
-        {posts()}
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-    </Layout>
+    if (settings.frontPage) {
+        return <ItemContainer siteSettings={settings} item={settings.frontPage} />
+    } 
+
+    return <Error statusCode={404} />
 }
 
 export default compose<any, any>(
     withSanity,
-    withIndexPage()
+    withSiteSettings({ props: props => ({ siteSettings: props.data }) })
 )(FrontPage)

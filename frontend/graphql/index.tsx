@@ -892,7 +892,9 @@ export type SiteHeader = {
   _key?: Maybe<Scalars["String"]>;
   _type?: Maybe<Scalars["String"]>;
   headerImage?: Maybe<Image>;
-  menuItems?: Maybe<Array<Maybe<SiteHeaderInternalReference>>>;
+  menuItems?: Maybe<
+    Array<Maybe<SiteHeaderExternalReferenceOrSiteHeaderInternalReference>>
+  >;
 };
 
 export type SiteHeaderExternalReference = {
@@ -902,6 +904,10 @@ export type SiteHeaderExternalReference = {
   url?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
 };
+
+export type SiteHeaderExternalReferenceOrSiteHeaderInternalReference =
+  | SiteHeaderExternalReference
+  | SiteHeaderInternalReference;
 
 export type SiteHeaderInternalReference = {
   __typename?: "SiteHeaderInternalReference";
@@ -1043,13 +1049,52 @@ export type VideoAsset = {
   autoplay?: Maybe<Scalars["Boolean"]>;
   loop?: Maybe<Scalars["Boolean"]>;
 };
-export type ImageFragment = { __typename?: "Image" } & {
-  asset: Maybe<
-    { __typename?: "SanityImageAsset" } & Pick<
-      SanityImageAsset,
-      "extension" | "label" | "size" | "assetId" | "path" | "url"
-    >
+export type SwatchFragment = { __typename?: "SanityImagePaletteSwatch" } & Pick<
+  SanityImagePaletteSwatch,
+  "foreground" | "background" | "population" | "title"
+>;
+
+export type PaletteFragment = { __typename?: "SanityImagePalette" } & {
+  darkMuted: Maybe<
+    { __typename?: "SanityImagePaletteSwatch" } & SwatchFragment
   >;
+  lightVibrant: Maybe<
+    { __typename?: "SanityImagePaletteSwatch" } & SwatchFragment
+  >;
+  darkVibrant: Maybe<
+    { __typename?: "SanityImagePaletteSwatch" } & SwatchFragment
+  >;
+  vibrant: Maybe<{ __typename?: "SanityImagePaletteSwatch" } & SwatchFragment>;
+  dominant: Maybe<{ __typename?: "SanityImagePaletteSwatch" } & SwatchFragment>;
+  lightMuted: Maybe<
+    { __typename?: "SanityImagePaletteSwatch" } & SwatchFragment
+  >;
+  muted: Maybe<{ __typename?: "SanityImagePaletteSwatch" } & SwatchFragment>;
+};
+
+export type DimensionsFragment = {
+  __typename?: "SanityImageDimensions";
+} & Pick<SanityImageDimensions, "height" | "width" | "aspectRatio">;
+
+export type MetadataFragment = { __typename?: "SanityImageMetadata" } & Pick<
+  SanityImageMetadata,
+  "lqip" | "hasAlpha" | "isOpaque"
+> & {
+    dimensions: Maybe<
+      { __typename?: "SanityImageDimensions" } & DimensionsFragment
+    >;
+    palette: Maybe<{ __typename?: "SanityImagePalette" } & PaletteFragment>;
+  };
+
+export type AssetFragment = { __typename?: "SanityImageAsset" } & Pick<
+  SanityImageAsset,
+  "extension" | "label" | "size" | "assetId" | "path" | "url"
+> & {
+    metadata: Maybe<{ __typename?: "SanityImageMetadata" } & MetadataFragment>;
+  };
+
+export type ImageFragment = { __typename?: "Image" } & {
+  asset: Maybe<{ __typename?: "SanityImageAsset" } & AssetFragment>;
   hotspot: Maybe<
     { __typename?: "SanityImageHotspot" } & Pick<
       SanityImageHotspot,
@@ -1115,13 +1160,7 @@ export type SiteSettingsFragment = { __typename?: "SiteSettings" } & Pick<
     siteHeader: Maybe<
       { __typename?: "SiteHeader" } & {
         headerImage: Maybe<{ __typename?: "Image" } & ImageFragment>;
-        menuItems: Maybe<
-          Array<
-            Maybe<
-              { __typename?: "SiteHeaderInternalReference" } & MenuItemFragment
-            >
-          >
-        >;
+        menuItems: Maybe<Array<Maybe<MenuItemFragment>>>;
       }
     >;
   };
@@ -1178,6 +1217,12 @@ export type PostCollectionByIdQuery = { __typename?: "RootQuery" } & {
     { __typename?: "PostCollection" } & PostCollectionFragment
   >;
 };
+
+export type SiteSettingsQueryVariables = {};
+
+export type SiteSettingsQuery = { __typename?: "RootQuery" } & {
+  settings: Maybe<{ __typename?: "SiteSettings" } & SiteSettingsFragment>;
+};
 export const pageFragmentDoc = gql`
   fragment page on Page {
     title
@@ -1213,15 +1258,80 @@ export const postCollectionFragmentDoc = gql`
   }
   ${postFragmentDoc}
 `;
+export const dimensionsFragmentDoc = gql`
+  fragment dimensions on SanityImageDimensions {
+    height
+    width
+    aspectRatio
+  }
+`;
+export const swatchFragmentDoc = gql`
+  fragment swatch on SanityImagePaletteSwatch {
+    foreground
+    background
+    population
+    title
+  }
+`;
+export const paletteFragmentDoc = gql`
+  fragment palette on SanityImagePalette {
+    darkMuted {
+      ...swatch
+    }
+    lightVibrant {
+      ...swatch
+    }
+    darkVibrant {
+      ...swatch
+    }
+    vibrant {
+      ...swatch
+    }
+    dominant {
+      ...swatch
+    }
+    lightMuted {
+      ...swatch
+    }
+    muted {
+      ...swatch
+    }
+  }
+  ${swatchFragmentDoc}
+`;
+export const metadataFragmentDoc = gql`
+  fragment metadata on SanityImageMetadata {
+    dimensions {
+      ...dimensions
+    }
+    palette {
+      ...palette
+    }
+    lqip
+    hasAlpha
+    isOpaque
+  }
+  ${dimensionsFragmentDoc}
+  ${paletteFragmentDoc}
+`;
+export const assetFragmentDoc = gql`
+  fragment asset on SanityImageAsset {
+    extension
+    label
+    size
+    assetId
+    path
+    url
+    metadata {
+      ...metadata
+    }
+  }
+  ${metadataFragmentDoc}
+`;
 export const imageFragmentDoc = gql`
   fragment image on Image {
     asset {
-      extension
-      label
-      size
-      assetId
-      path
-      url
+      ...asset
     }
     hotspot {
       x
@@ -1236,6 +1346,7 @@ export const imageFragmentDoc = gql`
       right
     }
   }
+  ${assetFragmentDoc}
 `;
 export const menuItemFragmentDoc = gql`
   fragment menuItem on SiteHeaderInternalReference {
@@ -1530,6 +1641,48 @@ export function withPostCollectionById<TProps, TChildProps = {}>(
     PostCollectionByIdProps<TChildProps>
   >(PostCollectionByIdDocument, {
     alias: "withPostCollectionById",
+    ...operationOptions
+  });
+}
+export const SiteSettingsDocument = gql`
+  query siteSettings {
+    settings: SiteSettings(id: "settings") {
+      ...siteSettings
+    }
+  }
+  ${siteSettingsFragmentDoc}
+`;
+export type SiteSettingsComponentProps = Omit<
+  ReactApollo.QueryProps<SiteSettingsQuery, SiteSettingsQueryVariables>,
+  "query"
+>;
+
+export const SiteSettingsComponent = (props: SiteSettingsComponentProps) => (
+  <ReactApollo.Query<SiteSettingsQuery, SiteSettingsQueryVariables>
+    query={SiteSettingsDocument}
+    {...props}
+  />
+);
+
+export type SiteSettingsProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<SiteSettingsQuery, SiteSettingsQueryVariables>
+> &
+  TChildProps;
+export function withSiteSettings<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    SiteSettingsQuery,
+    SiteSettingsQueryVariables,
+    SiteSettingsProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    SiteSettingsQuery,
+    SiteSettingsQueryVariables,
+    SiteSettingsProps<TChildProps>
+  >(SiteSettingsDocument, {
+    alias: "withSiteSettings",
     ...operationOptions
   });
 }

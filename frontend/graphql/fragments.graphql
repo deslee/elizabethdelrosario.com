@@ -1,11 +1,67 @@
+fragment swatch on SanityImagePaletteSwatch {
+  foreground
+  background
+  population
+  title
+}
+
+fragment palette on SanityImagePalette {
+  darkMuted {
+    ...swatch
+  }
+  lightVibrant {
+    ...swatch
+  }
+  darkVibrant {
+    ...swatch
+  }
+  vibrant {
+    ...swatch
+  }
+  dominant {
+    ...swatch
+  }
+  lightMuted {
+    ...swatch
+  }
+  muted {
+    ...swatch
+  }
+}
+
+fragment dimensions on SanityImageDimensions {
+  height
+  width
+  aspectRatio
+}
+
+fragment metadata on SanityImageMetadata {
+  dimensions {
+    ...dimensions
+  }
+  palette {
+    ...palette
+  }
+  lqip
+  hasAlpha
+  isOpaque
+}
+
+fragment asset on SanityImageAsset {
+  extension
+  label
+  size
+  assetId
+  path
+  url
+  metadata {
+    ...metadata
+  }
+}
+
 fragment image on Image {
   asset {
-    extension
-    label
-    size
-    assetId
-    path
-    url
+    ...asset
   }
   hotspot {
     x
@@ -77,25 +133,25 @@ fragment menuItem on SiteHeaderInternalReference {
 
 fragment siteSettings on SiteSettings {
   title
-    subtitleRaw
-    frontPage {
-      ... on Page {
-        ...page
-      }
-      ... on Post {
-        ...post
-      }
-      ... on PostCollection {
-        ...postCollection
-      }
+  subtitleRaw
+  frontPage {
+    ... on Page {
+      ...page
     }
-    googleAnalyticsId
-    siteHeader {
-      headerImage {
-        ...image
-      }
-      menuItems {
-        ...menuItem
-      }
+    ... on Post {
+      ...post
     }
+    ... on PostCollection {
+      ...postCollection
+    }
+  }
+  googleAnalyticsId
+  siteHeader {
+    headerImage {
+      ...image
+    }
+    menuItems {
+      ...menuItem
+    }
+  }
 }
