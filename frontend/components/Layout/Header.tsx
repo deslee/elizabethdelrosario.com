@@ -19,7 +19,10 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) => ({
     header: {
         overflow: 'hidden',
-        background: theme.palette.common.white
+        width: '100%',
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover',
+        padding: theme.spacing(4, 0),
     }
 }))
 
