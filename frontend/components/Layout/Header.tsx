@@ -4,13 +4,9 @@ import { Maybe, MenuItemFragment, ImageFragment } from '../../graphql';
 import ProgressiveImage from 'react-progressive-image';
 import client from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
-import css from './Header.css';
+import { makeStyles, Theme } from '@material-ui/core';
 
 const builder = imageUrlBuilder(client)
-
-function urlFor(source) {
-    return builder.image(source)
-  }
 
 interface Props {
     header: {
@@ -20,21 +16,23 @@ interface Props {
     title?: Maybe<string>;
 }
 
+const useStyles = makeStyles((theme: Theme) => ({
+    header: {
+        overflow: 'hidden',
+        background: theme.palette.common.white
+    }
+}))
+
 export const Header = ({ header, title }: Props) => {
     const headerImage = header && header.headerImage;
-    console.log(headerImage)
+    const classes = useStyles();
     const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip;
 
     return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl!}>{(src: any) =>
-        <header className={css.header} style={{ backgroundImage: `url(${src})` }}>
-            <h1 className={css.title}><Link href="/"><a>{title}</a></Link></h1>
-            <div className={css.subtitle}>
-
-            </div>
+        <header className={classes.header} style={{ backgroundImage: `url(${src})` }}>
+            <h1><Link href="/"><a>{title}</a></Link></h1>
             <nav>
             </nav>
         </header>
     }</ProgressiveImage>
-
-    return
 }

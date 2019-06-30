@@ -1,7 +1,6 @@
 const withTypescript = require('@zeit/next-typescript')
-const withCSS = require('@zeit/next-css')
 
-module.exports = withCSS(withTypescript({
+module.exports = withTypescript({
   webpack(config, options) {
     config.module.rules.push({
        test: /\.graphql?$/, loader: 'webpack-graphql-loader'
@@ -11,4 +10,4 @@ module.exports = withCSS(withTypescript({
   /* config options here */
   target: 'serverless',
   cssModules: true
-}))
+})
