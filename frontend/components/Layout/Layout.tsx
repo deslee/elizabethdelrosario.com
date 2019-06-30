@@ -43,6 +43,7 @@ export default (props: Props) => {
                 <a href={socialMedia!.url!} target="_blank" rel="noopener noreferrer">{socialMedia!.icon!}</a>
             </span>)}
             <BlockContent blocks={settings.siteFooter.contentRaw} />
+            {/* TODO: render footer */}
         </div> }
     </>
 }

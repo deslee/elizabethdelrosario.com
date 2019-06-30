@@ -47,7 +47,7 @@ fragment metadata on SanityImageMetadata {
   isOpaque
 }
 
-fragment asset on SanityImageAsset {
+fragment imageAsset on SanityImageAsset {
   _id
   extension
   label
@@ -62,7 +62,7 @@ fragment asset on SanityImageAsset {
 
 fragment image on Image {
   asset {
-    ...asset
+    ...imageAsset
   }
   hotspot {
     x
@@ -83,6 +83,7 @@ fragment page on Page {
   slug {
     current
   }
+  type
   contentRaw
 }
 
@@ -91,6 +92,7 @@ fragment post on Post {
   slug {
     current
   }
+  type
   password
   date
   categories
@@ -102,6 +104,7 @@ fragment postCollection on PostCollection {
   slug {
     current
   }
+  type
   contentRaw
   showPerPage
   posts {
@@ -168,6 +171,18 @@ fragment socialMedia on SocialMedia {
   _key
   url
   icon
+}
+
+fragment fileAsset on SanityFileAsset {
+  _id
+  extension
+  label
+  size
+  assetId
+  path
+  url
+  _createdAt
+  _updatedAt
 }
 
 fragment siteSettings on SiteSettings {

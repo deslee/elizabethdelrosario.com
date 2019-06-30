@@ -112,6 +112,7 @@ export type Page = Document & {
   _key?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   slug?: Maybe<Slug>;
+  type?: Maybe<Scalars["String"]>;
   contentRaw?: Maybe<Scalars["JSON"]>;
 };
 
@@ -180,6 +181,14 @@ export type PageFilter = {
   title_matches?: Maybe<Scalars["String"]>;
   title_in?: Maybe<Array<Scalars["String"]>>;
   title_not_in?: Maybe<Array<Scalars["String"]>>;
+  /** All documents that are equal to given value */
+  type?: Maybe<Scalars["String"]>;
+  /** All documents that are not equal to given value */
+  type_not?: Maybe<Scalars["String"]>;
+  /** All documents contain (match) the given word/words */
+  type_matches?: Maybe<Scalars["String"]>;
+  type_in?: Maybe<Array<Scalars["String"]>>;
+  type_not_in?: Maybe<Array<Scalars["String"]>>;
   /** All documents that are drafts */
   is_draft?: Maybe<Scalars["Boolean"]>;
 };
@@ -208,6 +217,7 @@ export type Post = Document & {
   _key?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   slug?: Maybe<Slug>;
+  type?: Maybe<Scalars["String"]>;
   /** Optional password protect */
   password?: Maybe<Scalars["String"]>;
   date?: Maybe<Scalars["Date"]>;
@@ -230,6 +240,7 @@ export type PostCollection = Document & {
   _key?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   slug?: Maybe<Slug>;
+  type?: Maybe<Scalars["String"]>;
   /** This will go above the posts */
   contentRaw?: Maybe<Scalars["JSON"]>;
   /** Number of posts to show per page */
@@ -302,6 +313,14 @@ export type PostCollectionFilter = {
   title_matches?: Maybe<Scalars["String"]>;
   title_in?: Maybe<Array<Scalars["String"]>>;
   title_not_in?: Maybe<Array<Scalars["String"]>>;
+  /** All documents that are equal to given value */
+  type?: Maybe<Scalars["String"]>;
+  /** All documents that are not equal to given value */
+  type_not?: Maybe<Scalars["String"]>;
+  /** All documents contain (match) the given word/words */
+  type_matches?: Maybe<Scalars["String"]>;
+  type_in?: Maybe<Array<Scalars["String"]>>;
+  type_not_in?: Maybe<Array<Scalars["String"]>>;
   /** All documents that are equal to given value */
   showPerPage?: Maybe<Scalars["Float"]>;
   /** All documents that are not equal to given value */
@@ -383,6 +402,14 @@ export type PostFilter = {
   title_matches?: Maybe<Scalars["String"]>;
   title_in?: Maybe<Array<Scalars["String"]>>;
   title_not_in?: Maybe<Array<Scalars["String"]>>;
+  /** All documents that are equal to given value */
+  type?: Maybe<Scalars["String"]>;
+  /** All documents that are not equal to given value */
+  type_not?: Maybe<Scalars["String"]>;
+  /** All documents contain (match) the given word/words */
+  type_matches?: Maybe<Scalars["String"]>;
+  type_in?: Maybe<Array<Scalars["String"]>>;
+  type_not_in?: Maybe<Array<Scalars["String"]>>;
   /** All documents that are equal to given value */
   password?: Maybe<Scalars["String"]>;
   /** All documents that are not equal to given value */
@@ -1081,7 +1108,7 @@ export type MetadataFragment = { __typename?: "SanityImageMetadata" } & Pick<
     palette: Maybe<{ __typename?: "SanityImagePalette" } & PaletteFragment>;
   };
 
-export type AssetFragment = { __typename?: "SanityImageAsset" } & Pick<
+export type ImageAssetFragment = { __typename?: "SanityImageAsset" } & Pick<
   SanityImageAsset,
   "_id" | "extension" | "label" | "size" | "assetId" | "path" | "url"
 > & {
@@ -1089,7 +1116,7 @@ export type AssetFragment = { __typename?: "SanityImageAsset" } & Pick<
   };
 
 export type ImageFragment = { __typename?: "Image" } & {
-  asset: Maybe<{ __typename?: "SanityImageAsset" } & AssetFragment>;
+  asset: Maybe<{ __typename?: "SanityImageAsset" } & ImageAssetFragment>;
   hotspot: Maybe<
     { __typename?: "SanityImageHotspot" } & Pick<
       SanityImageHotspot,
@@ -1106,17 +1133,17 @@ export type ImageFragment = { __typename?: "Image" } & {
 
 export type PageFragment = { __typename?: "Page" } & Pick<
   Page,
-  "title" | "contentRaw"
+  "title" | "type" | "contentRaw"
 > & { slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">> };
 
 export type PostFragment = { __typename?: "Post" } & Pick<
   Post,
-  "title" | "password" | "date" | "categories" | "contentRaw"
+  "title" | "type" | "password" | "date" | "categories" | "contentRaw"
 > & { slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">> };
 
 export type PostCollectionFragment = { __typename?: "PostCollection" } & Pick<
   PostCollection,
-  "title" | "contentRaw" | "showPerPage"
+  "title" | "type" | "contentRaw" | "showPerPage"
 > & {
     slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
     posts: Maybe<Array<Maybe<{ __typename?: "Post" } & PostFragment>>>;
@@ -1142,6 +1169,19 @@ export type MenuItemFragment = {
 export type SocialMediaFragment = { __typename?: "SocialMedia" } & Pick<
   SocialMedia,
   "_key" | "url" | "icon"
+>;
+
+export type FileAssetFragment = { __typename?: "SanityFileAsset" } & Pick<
+  SanityFileAsset,
+  | "_id"
+  | "extension"
+  | "label"
+  | "size"
+  | "assetId"
+  | "path"
+  | "url"
+  | "_createdAt"
+  | "_updatedAt"
 >;
 
 export type SiteSettingsFragment = { __typename?: "SiteSettings" } & Pick<
@@ -1228,12 +1268,24 @@ export type PostCollectionByIdQuery = { __typename?: "RootQuery" } & {
   >;
 };
 
-export type AssetByIdQueryVariables = {
+export type ImageAssetByIdQueryVariables = {
   id: Scalars["ID"];
 };
 
-export type AssetByIdQuery = { __typename?: "RootQuery" } & {
-  SanityImageAsset: Maybe<{ __typename?: "SanityImageAsset" } & AssetFragment>;
+export type ImageAssetByIdQuery = { __typename?: "RootQuery" } & {
+  SanityImageAsset: Maybe<
+    { __typename?: "SanityImageAsset" } & ImageAssetFragment
+  >;
+};
+
+export type FileAssetByIdQueryVariables = {
+  id: Scalars["ID"];
+};
+
+export type FileAssetByIdQuery = { __typename?: "RootQuery" } & {
+  SanityFileAsset: Maybe<
+    { __typename?: "SanityFileAsset" } & FileAssetFragment
+  >;
 };
 
 export type SiteSettingsQueryVariables = {};
@@ -1241,12 +1293,26 @@ export type SiteSettingsQueryVariables = {};
 export type SiteSettingsQuery = { __typename?: "RootQuery" } & {
   settings: Maybe<{ __typename?: "SiteSettings" } & SiteSettingsFragment>;
 };
+export const fileAssetFragmentDoc = gql`
+  fragment fileAsset on SanityFileAsset {
+    _id
+    extension
+    label
+    size
+    assetId
+    path
+    url
+    _createdAt
+    _updatedAt
+  }
+`;
 export const pageFragmentDoc = gql`
   fragment page on Page {
     title
     slug {
       current
     }
+    type
     contentRaw
   }
 `;
@@ -1256,6 +1322,7 @@ export const postFragmentDoc = gql`
     slug {
       current
     }
+    type
     password
     date
     categories
@@ -1268,6 +1335,7 @@ export const postCollectionFragmentDoc = gql`
     slug {
       current
     }
+    type
     contentRaw
     showPerPage
     posts {
@@ -1332,8 +1400,8 @@ export const metadataFragmentDoc = gql`
   ${dimensionsFragmentDoc}
   ${paletteFragmentDoc}
 `;
-export const assetFragmentDoc = gql`
-  fragment asset on SanityImageAsset {
+export const imageAssetFragmentDoc = gql`
+  fragment imageAsset on SanityImageAsset {
     _id
     extension
     label
@@ -1350,7 +1418,7 @@ export const assetFragmentDoc = gql`
 export const imageFragmentDoc = gql`
   fragment image on Image {
     asset {
-      ...asset
+      ...imageAsset
     }
     hotspot {
       x
@@ -1365,7 +1433,7 @@ export const imageFragmentDoc = gql`
       right
     }
   }
-  ${assetFragmentDoc}
+  ${imageAssetFragmentDoc}
 `;
 export const menuItemFragmentDoc = gql`
   fragment menuItem on SiteHeaderInternalReference {
@@ -1679,46 +1747,91 @@ export function withPostCollectionById<TProps, TChildProps = {}>(
     ...operationOptions
   });
 }
-export const AssetByIdDocument = gql`
-  query AssetById($id: ID!) {
+export const ImageAssetByIdDocument = gql`
+  query ImageAssetById($id: ID!) {
     SanityImageAsset(id: $id) {
-      ...asset
+      ...imageAsset
     }
   }
-  ${assetFragmentDoc}
+  ${imageAssetFragmentDoc}
 `;
-export type AssetByIdComponentProps = Omit<
-  ReactApollo.QueryProps<AssetByIdQuery, AssetByIdQueryVariables>,
+export type ImageAssetByIdComponentProps = Omit<
+  ReactApollo.QueryProps<ImageAssetByIdQuery, ImageAssetByIdQueryVariables>,
   "query"
 > &
-  ({ variables: AssetByIdQueryVariables; skip?: false } | { skip: true });
+  ({ variables: ImageAssetByIdQueryVariables; skip?: false } | { skip: true });
 
-export const AssetByIdComponent = (props: AssetByIdComponentProps) => (
-  <ReactApollo.Query<AssetByIdQuery, AssetByIdQueryVariables>
-    query={AssetByIdDocument}
+export const ImageAssetByIdComponent = (
+  props: ImageAssetByIdComponentProps
+) => (
+  <ReactApollo.Query<ImageAssetByIdQuery, ImageAssetByIdQueryVariables>
+    query={ImageAssetByIdDocument}
     {...props}
   />
 );
 
-export type AssetByIdProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<AssetByIdQuery, AssetByIdQueryVariables>
+export type ImageAssetByIdProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<ImageAssetByIdQuery, ImageAssetByIdQueryVariables>
 > &
   TChildProps;
-export function withAssetById<TProps, TChildProps = {}>(
+export function withImageAssetById<TProps, TChildProps = {}>(
   operationOptions?: ReactApollo.OperationOption<
     TProps,
-    AssetByIdQuery,
-    AssetByIdQueryVariables,
-    AssetByIdProps<TChildProps>
+    ImageAssetByIdQuery,
+    ImageAssetByIdQueryVariables,
+    ImageAssetByIdProps<TChildProps>
   >
 ) {
   return ReactApollo.withQuery<
     TProps,
-    AssetByIdQuery,
-    AssetByIdQueryVariables,
-    AssetByIdProps<TChildProps>
-  >(AssetByIdDocument, {
-    alias: "withAssetById",
+    ImageAssetByIdQuery,
+    ImageAssetByIdQueryVariables,
+    ImageAssetByIdProps<TChildProps>
+  >(ImageAssetByIdDocument, {
+    alias: "withImageAssetById",
+    ...operationOptions
+  });
+}
+export const FileAssetByIdDocument = gql`
+  query FileAssetById($id: ID!) {
+    SanityFileAsset(id: $id) {
+      ...fileAsset
+    }
+  }
+  ${fileAssetFragmentDoc}
+`;
+export type FileAssetByIdComponentProps = Omit<
+  ReactApollo.QueryProps<FileAssetByIdQuery, FileAssetByIdQueryVariables>,
+  "query"
+> &
+  ({ variables: FileAssetByIdQueryVariables; skip?: false } | { skip: true });
+
+export const FileAssetByIdComponent = (props: FileAssetByIdComponentProps) => (
+  <ReactApollo.Query<FileAssetByIdQuery, FileAssetByIdQueryVariables>
+    query={FileAssetByIdDocument}
+    {...props}
+  />
+);
+
+export type FileAssetByIdProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<FileAssetByIdQuery, FileAssetByIdQueryVariables>
+> &
+  TChildProps;
+export function withFileAssetById<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    FileAssetByIdQuery,
+    FileAssetByIdQueryVariables,
+    FileAssetByIdProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    FileAssetByIdQuery,
+    FileAssetByIdQueryVariables,
+    FileAssetByIdProps<TChildProps>
+  >(FileAssetByIdDocument, {
+    alias: "withFileAssetById",
     ...operationOptions
   });
 }

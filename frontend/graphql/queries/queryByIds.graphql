@@ -16,8 +16,14 @@ query postCollectionById($id: ID!) {
   }
 }
 
-query AssetById($id: ID!) {
+query ImageAssetById($id: ID!) {
   SanityImageAsset(id: $id) {
-    ...asset
+    ...imageAsset
+  }
+}
+
+query FileAssetById($id:ID!){
+  SanityFileAsset(id:$id){
+    ...fileAsset
   }
 }

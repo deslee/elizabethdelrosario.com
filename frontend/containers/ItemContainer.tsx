@@ -36,9 +36,7 @@ const ItemContainer = (props: Props) => {
     
     return <Layout siteSettings={siteSettings} title={item.title} >
         <>
-            {(item.__typename === 'Post' || item.__typename === 'Page') && 
-                <Item item={item} />
-            }
+            <Item item={item} />
             {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Fragment key={idx}>
                 <Item item={post} />
                 { idx !== (item.posts || []).length - 1 && <Divider className={classes.divider} />}
