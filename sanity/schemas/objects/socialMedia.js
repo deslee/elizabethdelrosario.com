@@ -11,16 +11,18 @@ export default {
         {
             name: 'icon',
             title: 'Icon',
-            type: 'text',
-            list: [
-                { title: 'Facebook', value: 'facebook' },
-                { title: 'LinkedIn', value: 'linkedin' },
-                { title: 'Instagram', value: 'instagram' },
-                { title: 'Email', value: 'email' },
-                { title: 'Youtube', value: 'youtube' },
-                { title: 'Vimeo', value: 'vimeo' },
-                { title: 'Twitter', value: 'twitter' },
-            ]
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Facebook', value: 'facebook' },
+                    { title: 'LinkedIn', value: 'linkedin' },
+                    { title: 'Instagram', value: 'instagram' },
+                    { title: 'Email', value: 'email' },
+                    { title: 'Youtube', value: 'youtube' },
+                    { title: 'Vimeo', value: 'vimeo' },
+                    { title: 'Twitter', value: 'twitter' },
+                ]
+            }
         }
     ]
 }

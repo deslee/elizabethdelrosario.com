@@ -36,7 +36,7 @@ export default {
             type: 'array',
             of: [
                 {type: 'siteHeaderInternalReference'},
-                {type: 'siteHeaderExternalReference'},
+                //{type: 'siteHeaderExternalReference'},
             ],
         },
     ]

@@ -1,13 +1,27 @@
-import { PostFragment, PageFragment, PostCollectionFragment, VideoAsset } from "../../graphql";
+import { PostFragment, PageFragment, VideoAsset } from "../../graphql";
 import * as BlockContent from '@sanity/block-content-to-react'
 import ReactPlayer from 'react-player'
+import { makeStyles, Container } from "@material-ui/core";
 
 interface ComponentProps {
-  item: PostFragment | PageFragment | PostCollectionFragment
-  parent?: PostCollectionFragment
+  item: PostFragment | PageFragment 
 }
 
 type Props = ComponentProps
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    textAlign: 'center'
+  },
+  videoAsset: {
+    maxWidth: theme.breakpoints.width('md'),
+    margin: '0 auto'
+  },
+  playerWrapper: {
+    position: 'relative',
+    paddingTop: '56.25%', /* Player ratio: 100 / (1280 / 720) */
+  }
+}))
 
 const serializers = {
   types: {
@@ -23,10 +37,15 @@ const serializers = {
       return <div>multipleImages</div>
     },
     videoAsset: (props: {node: VideoAsset}) => {
+      const classes = useStyles();
       if (!props || !props.node || !props.node.url || !props.node.autoplay || !props.node.loop) {
         return <></>
       }
-      return <ReactPlayer url={props.node.url} playing={props.node.autoplay} loop={props.node.loop} />
+      return <div className={classes.videoAsset}>
+        <div className={classes.playerWrapper}>
+          <ReactPlayer url={props.node.url} playing={props.node.autoplay} loop={props.node.loop} width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0 }} />
+        </div>
+      </div>
     }
   }
 }
@@ -34,11 +53,11 @@ const serializers = {
 
 const Item = (props: Props) => {
   const { item } = props;
-  return <>
+  const classes = useStyles();
+  return <div className={classes.container}>
     <h1>{item.title}</h1>
     {item.contentRaw && <BlockContent projectId="sj7jy8qa" dataset="production" blocks={item.contentRaw} serializers={serializers} />} {/* TODO: build dynamically */}
-    {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Item key={idx} item={post} parent={item} /> : null)}
-  </>
+  </div>
 }
 
 export default Item;

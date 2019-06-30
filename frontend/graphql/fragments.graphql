@@ -108,27 +108,65 @@ fragment postCollection on PostCollection {
   }
 }
 
+# fragment menuItem on SiteHeaderExternalReferenceOrSiteHeaderInternalReference {
+#   ... on SiteHeaderInternalReference {
+#     title
+#     internal {
+#       ... on Page {
+#         title
+#         slug {
+#           current
+#         }
+#       }
+#       ... on Post {
+#         title
+#         slug {
+#           current
+#         }
+#       }
+#       ... on PostCollection {
+#         title
+#         slug {
+#           current
+#         }
+#       }
+#     }
+#   }
+#   ...on SiteHeaderExternalReference {
+#     title
+#     url
+#   }
+# }
+
 fragment menuItem on SiteHeaderInternalReference {
-  ... on SiteHeaderInternalReference {
-    title
-    internal {
-      ... on Page {
-        slug {
-          current
-        }
+  _key
+  title
+  internal {
+    ... on Page {
+      title
+      slug {
+        current
       }
-      ... on Post {
-        slug {
-          current
-        }
+    }
+    ... on Post {
+      title
+      slug {
+        current
       }
-      ... on PostCollection {
-        slug {
-          current
-        }
+    }
+    ... on PostCollection {
+      title
+      slug {
+        current
       }
     }
   }
+}
+
+fragment socialMedia on SocialMedia {
+  _key
+  url
+  icon
 }
 
 fragment siteSettings on SiteSettings {
@@ -153,5 +191,11 @@ fragment siteSettings on SiteSettings {
     menuItems {
       ...menuItem
     }
+  }
+  siteFooter {
+    socialMedia {
+      ...socialMedia
+    }
+    contentRaw
   }
 }

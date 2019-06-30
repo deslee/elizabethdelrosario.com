@@ -54,18 +54,6 @@ const result: IntrospectionResultData = {
       },
       {
         kind: "UNION",
-        name: "SiteHeaderExternalReferenceOrSiteHeaderInternalReference",
-        possibleTypes: [
-          {
-            name: "SiteHeaderExternalReference"
-          },
-          {
-            name: "SiteHeaderInternalReference"
-          }
-        ]
-      },
-      {
-        kind: "UNION",
         name:
           "BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrVideoAsset",
         possibleTypes: [

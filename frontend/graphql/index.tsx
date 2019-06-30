@@ -884,6 +884,7 @@ export type SiteFooter = {
   __typename?: "SiteFooter";
   _key?: Maybe<Scalars["String"]>;
   _type?: Maybe<Scalars["String"]>;
+  socialMedia?: Maybe<Array<Maybe<SocialMedia>>>;
   contentRaw?: Maybe<Scalars["JSON"]>;
 };
 
@@ -892,9 +893,7 @@ export type SiteHeader = {
   _key?: Maybe<Scalars["String"]>;
   _type?: Maybe<Scalars["String"]>;
   headerImage?: Maybe<Image>;
-  menuItems?: Maybe<
-    Array<Maybe<SiteHeaderExternalReferenceOrSiteHeaderInternalReference>>
-  >;
+  menuItems?: Maybe<Array<Maybe<SiteHeaderInternalReference>>>;
 };
 
 export type SiteHeaderExternalReference = {
@@ -904,10 +903,6 @@ export type SiteHeaderExternalReference = {
   url?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
 };
-
-export type SiteHeaderExternalReferenceOrSiteHeaderInternalReference =
-  | SiteHeaderExternalReference
-  | SiteHeaderInternalReference;
 
 export type SiteHeaderInternalReference = {
   __typename?: "SiteHeaderInternalReference";
@@ -1129,23 +1124,25 @@ export type PostCollectionFragment = { __typename?: "PostCollection" } & Pick<
 
 export type MenuItemFragment = {
   __typename?: "SiteHeaderInternalReference";
-} & ({ __typename?: "SiteHeaderInternalReference" } & Pick<
-  SiteHeaderInternalReference,
-  "title"
-> & {
+} & Pick<SiteHeaderInternalReference, "_key" | "title"> & {
     internal: Maybe<
 
-        | ({ __typename?: "Page" } & {
-            slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
-          })
-        | ({ __typename?: "Post" } & {
-            slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
-          })
-        | ({ __typename?: "PostCollection" } & {
-            slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
-          })
+        | ({ __typename?: "Page" } & Pick<Page, "title"> & {
+              slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
+            })
+        | ({ __typename?: "Post" } & Pick<Post, "title"> & {
+              slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
+            })
+        | ({ __typename?: "PostCollection" } & Pick<PostCollection, "title"> & {
+              slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
+            })
     >;
-  });
+  };
+
+export type SocialMediaFragment = { __typename?: "SocialMedia" } & Pick<
+  SocialMedia,
+  "_key" | "url" | "icon"
+>;
 
 export type SiteSettingsFragment = { __typename?: "SiteSettings" } & Pick<
   SiteSettings,
@@ -1160,8 +1157,21 @@ export type SiteSettingsFragment = { __typename?: "SiteSettings" } & Pick<
     siteHeader: Maybe<
       { __typename?: "SiteHeader" } & {
         headerImage: Maybe<{ __typename?: "Image" } & ImageFragment>;
-        menuItems: Maybe<Array<Maybe<MenuItemFragment>>>;
+        menuItems: Maybe<
+          Array<
+            Maybe<
+              { __typename?: "SiteHeaderInternalReference" } & MenuItemFragment
+            >
+          >
+        >;
       }
+    >;
+    siteFooter: Maybe<
+      { __typename?: "SiteFooter" } & Pick<SiteFooter, "contentRaw"> & {
+          socialMedia: Maybe<
+            Array<Maybe<{ __typename?: "SocialMedia" } & SocialMediaFragment>>
+          >;
+        }
     >;
   };
 
@@ -1350,26 +1360,35 @@ export const imageFragmentDoc = gql`
 `;
 export const menuItemFragmentDoc = gql`
   fragment menuItem on SiteHeaderInternalReference {
-    ... on SiteHeaderInternalReference {
-      title
-      internal {
-        ... on Page {
-          slug {
-            current
-          }
+    _key
+    title
+    internal {
+      ... on Page {
+        title
+        slug {
+          current
         }
-        ... on Post {
-          slug {
-            current
-          }
+      }
+      ... on Post {
+        title
+        slug {
+          current
         }
-        ... on PostCollection {
-          slug {
-            current
-          }
+      }
+      ... on PostCollection {
+        title
+        slug {
+          current
         }
       }
     }
+  }
+`;
+export const socialMediaFragmentDoc = gql`
+  fragment socialMedia on SocialMedia {
+    _key
+    url
+    icon
   }
 `;
 export const siteSettingsFragmentDoc = gql`
@@ -1396,12 +1415,19 @@ export const siteSettingsFragmentDoc = gql`
         ...menuItem
       }
     }
+    siteFooter {
+      socialMedia {
+        ...socialMedia
+      }
+      contentRaw
+    }
   }
   ${pageFragmentDoc}
   ${postFragmentDoc}
   ${postCollectionFragmentDoc}
   ${imageFragmentDoc}
   ${menuItemFragmentDoc}
+  ${socialMediaFragmentDoc}
 `;
 export const AllSlugsDocument = gql`
   query allSlugs {
