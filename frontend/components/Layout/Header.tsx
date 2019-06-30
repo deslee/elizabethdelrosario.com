@@ -71,7 +71,7 @@ interface MenuItem {
 export const Header = ({ header, title, subtitleRaw }: Props) => {
     const headerImage = header && header.headerImage;
     const classes = useStyles();
-    const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip;
+    const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip ? headerImage.asset.metadata.lqip : '';
 
     const menuItems = [
         {
@@ -99,7 +99,7 @@ export const Header = ({ header, title, subtitleRaw }: Props) => {
         }).filter(menuItem => menuItem).map<MenuItem>(menuItem => menuItem!)
     ]
 
-    return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl!}>{(src: any) =>
+    return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl}>{(src: any) =>
         <header className={classes.root} style={{ backgroundImage: `url(${src})` }}>
             <h1 className={classes.title}><Link href="/"><a>{title}</a></Link></h1>
             {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} /></div>}

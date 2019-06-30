@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Layout from "../components/Layout/Layout";
 import Error from 'next/error';
 import { PostFragment, PageFragment, PostCollectionFragment, SiteSettingsFragment, Maybe } from "../graphql";
@@ -38,10 +39,10 @@ const ItemContainer = (props: Props) => {
             {(item.__typename === 'Post' || item.__typename === 'Page') && 
                 <Item item={item} />
             }
-            {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <>
-                <Item key={idx} item={post} />
+            {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Fragment key={idx}>
+                <Item item={post} />
                 { idx !== (item.posts || []).length - 1 && <Divider className={classes.divider} />}
-            </> : null)}
+            </Fragment> : null)}
         </>
     </Layout>
 }

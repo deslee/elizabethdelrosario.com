@@ -48,6 +48,7 @@ fragment metadata on SanityImageMetadata {
 }
 
 fragment asset on SanityImageAsset {
+  _id
   extension
   label
   size
@@ -156,7 +157,7 @@ fragment menuItem on SiteHeaderInternalReference {
     }
     ... on PostCollection {
       title
-      slug {
+      slug { 
         current
       }
     }

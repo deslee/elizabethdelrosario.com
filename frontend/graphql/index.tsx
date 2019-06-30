@@ -1083,7 +1083,7 @@ export type MetadataFragment = { __typename?: "SanityImageMetadata" } & Pick<
 
 export type AssetFragment = { __typename?: "SanityImageAsset" } & Pick<
   SanityImageAsset,
-  "extension" | "label" | "size" | "assetId" | "path" | "url"
+  "_id" | "extension" | "label" | "size" | "assetId" | "path" | "url"
 > & {
     metadata: Maybe<{ __typename?: "SanityImageMetadata" } & MetadataFragment>;
   };
@@ -1228,6 +1228,14 @@ export type PostCollectionByIdQuery = { __typename?: "RootQuery" } & {
   >;
 };
 
+export type AssetByIdQueryVariables = {
+  id: Scalars["ID"];
+};
+
+export type AssetByIdQuery = { __typename?: "RootQuery" } & {
+  SanityImageAsset: Maybe<{ __typename?: "SanityImageAsset" } & AssetFragment>;
+};
+
 export type SiteSettingsQueryVariables = {};
 
 export type SiteSettingsQuery = { __typename?: "RootQuery" } & {
@@ -1326,6 +1334,7 @@ export const metadataFragmentDoc = gql`
 `;
 export const assetFragmentDoc = gql`
   fragment asset on SanityImageAsset {
+    _id
     extension
     label
     size
@@ -1667,6 +1676,49 @@ export function withPostCollectionById<TProps, TChildProps = {}>(
     PostCollectionByIdProps<TChildProps>
   >(PostCollectionByIdDocument, {
     alias: "withPostCollectionById",
+    ...operationOptions
+  });
+}
+export const AssetByIdDocument = gql`
+  query AssetById($id: ID!) {
+    SanityImageAsset(id: $id) {
+      ...asset
+    }
+  }
+  ${assetFragmentDoc}
+`;
+export type AssetByIdComponentProps = Omit<
+  ReactApollo.QueryProps<AssetByIdQuery, AssetByIdQueryVariables>,
+  "query"
+> &
+  ({ variables: AssetByIdQueryVariables; skip?: false } | { skip: true });
+
+export const AssetByIdComponent = (props: AssetByIdComponentProps) => (
+  <ReactApollo.Query<AssetByIdQuery, AssetByIdQueryVariables>
+    query={AssetByIdDocument}
+    {...props}
+  />
+);
+
+export type AssetByIdProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<AssetByIdQuery, AssetByIdQueryVariables>
+> &
+  TChildProps;
+export function withAssetById<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    AssetByIdQuery,
+    AssetByIdQueryVariables,
+    AssetByIdProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    AssetByIdQuery,
+    AssetByIdQueryVariables,
+    AssetByIdProps<TChildProps>
+  >(AssetByIdDocument, {
+    alias: "withAssetById",
     ...operationOptions
   });
 }
