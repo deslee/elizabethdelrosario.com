@@ -1,4 +1,4 @@
-import { VideoAsset, MultipleImages, AssetByIdComponent } from "../../graphql";
+import { VideoAsset, MultipleImages, AssetByIdComponent, PostImage, Maybe } from "../../graphql";
 import ReactPlayer from 'react-player'
 import { makeStyles, Grid, Container } from "@material-ui/core";
 import client from '../../client'
@@ -26,8 +26,24 @@ const useStyles = makeStyles(theme => ({
             objectFit: 'cover',
             cursor: 'pointer'
         }
+    },
+    postImage: {
+        '& img': {
+            width: '100%'
+        }
     }
 }))
+
+const renderAsset = (image: Maybe<PostImage>) => {
+    const assetId = (image && image.asset as any)['_ref'];
+    return <AssetByIdComponent variables={{ id: assetId }}>{({ loading, data }) => {
+        if (loading) {
+            return <Fragment />
+        }
+        const placeholderImageUrl = data && data.SanityImageAsset && data.SanityImageAsset.metadata && data.SanityImageAsset.metadata.lqip ? data.SanityImageAsset.metadata.lqip : '';
+        return <ProgressiveImage src={builder.image(data && data.SanityImageAsset).url()} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt="" />}</ProgressiveImage>
+    }}</AssetByIdComponent>
+}
 
 export const serializers = {
     types: {
@@ -36,11 +52,15 @@ export const serializers = {
                 <code>{props.node.code}</code>
             </pre>
         ),
-        video: () => {
-            return <div>video</div>
-        },
-        image: () => {
-            return <div>image</div>
+        postImage: (props: { node: PostImage }) => {
+            const classes = useStyles();
+
+            if (!props.node || !props.node.asset) {
+                return <></>
+            }
+            return <Container className={classes.postImage}>
+                {renderAsset(props.node)}
+            </Container>
         },
         multipleImages: (props: { node: MultipleImages }) => {
             const classes = useStyles();
@@ -59,17 +79,8 @@ export const serializers = {
                     return <></>
                 }
 
-                // sanity graphql returns ids to references as _ref instead of _id, but our graphql schema is not aware of that
-                const assetId = (image.asset as any)['_ref'];
-
-                return <Grid container item key={assetId} {...gridItemProps}>
-                    <AssetByIdComponent variables={{id: assetId}}>{({loading, data}) => {
-                        if (loading) {
-                            return <Fragment />
-                        }
-                        const placeholderImageUrl = data && data.SanityImageAsset && data.SanityImageAsset.metadata && data.SanityImageAsset.metadata.lqip ? data.SanityImageAsset.metadata.lqip : '';
-                        return <ProgressiveImage src={builder.image(data && data.SanityImageAsset).url()} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt="" />}</ProgressiveImage>
-                    }}</AssetByIdComponent>
+                return <Grid container item key={image._key} {...gridItemProps}>
+                    {renderAsset(image)}
                 </Grid>
             })}</Grid>
             </Container>

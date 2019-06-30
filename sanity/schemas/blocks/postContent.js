@@ -58,9 +58,8 @@ export default {
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
     {
-      name: 'postImage',
       title: 'Image',
-      type: 'image'
+      type: 'postImage'
     },
     {
       type: 'multipleImages'
