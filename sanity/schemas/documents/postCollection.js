@@ -42,7 +42,7 @@ export default {
             name: 'showPerPage',
             title: 'Posts per page',
             type: 'number',
-            description: 'Number of posts to show per page',
+            description: 'Number of posts to show per page. Leave blank for default.',
         },
         {
             name: 'posts',

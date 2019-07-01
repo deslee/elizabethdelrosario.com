@@ -14,9 +14,15 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
-    "@sanity/vision",
     "@sanity/production-preview"
   ],
+  "env": {
+    "development": {
+      "plugins": [
+        "@sanity/vision"
+      ]
+    }
+  },
   "parts": [
     {
       "name": "part:@sanity/base/schema",
