@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Maybe from "graphql/tsutils/Maybe";
 import Header from "./Header";
 import * as BlockContent from '@sanity/block-content-to-react'
-import { makeStyles, Link } from "@material-ui/core";
+import { makeStyles, Link, Divider } from "@material-ui/core";
 import { serializers } from "../Item/postContent";
 import { projectId, dataset } from "../../client";
 import { Fragment } from "react";
@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.text.secondary,
         textTransform: 'uppercase',
         letterSpacing: '.1rem'
+    },
+    divider: {
+        margin: theme.spacing(0, 0, 4)
     },
     socialMedia: {
         '& a:link, & a:visited, & a:active': {
@@ -56,6 +59,7 @@ export default (props: Props) => {
         {settings.siteHeader && <Header header={settings.siteHeader} title={settings.title} subtitleRaw={settings.subtitleRaw} />}
         {children}
         {settings.siteFooter && settings.siteFooter.contentRaw && <div className={classes.footer}>
+            <Divider className={classes.divider} />
             <div className={classes.socialMedia}>{(settings.siteFooter.socialMedia || []).filter(s => s && s._key).map(s => s).map((socialMedia, idx) =>
                 socialMedia && socialMedia._key && socialMedia.url && socialMedia.icon ?
                     <span key={socialMedia._key}>

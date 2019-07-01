@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme: Theme) => ({
             textTransform: 'uppercase',
         },
         textShadow: '2px 2px rgba(0,0,0,.25)',
-        margin: theme.spacing(0, 0, 4)
     },
     title: {
         letterSpacing: '.1rem',

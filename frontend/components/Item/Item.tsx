@@ -13,8 +13,9 @@ interface ComponentProps {
 
 type Props = ComponentProps
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   container: {
+    margin: theme.spacing(4, 0)
   },
   centered: {
     textAlign: 'center'
