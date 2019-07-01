@@ -14,7 +14,10 @@ const FrontPage = ({ siteSettings }: Props) => {
     // show loading page if client based
     if (siteSettings.loading) {
         return <>
-            <Head><title>Loading</title></Head>
+            <Head>
+                <title>Loading</title>
+            </Head>
+            
         </> // TODO: loading component
     }
 
