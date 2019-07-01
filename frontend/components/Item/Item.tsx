@@ -1,7 +1,7 @@
 import React from 'react'
 import { PostFragment, PageFragment, PostCollectionFragment } from "../../graphql";
 import * as BlockContent from '@sanity/block-content-to-react'
-import { makeStyles, Container } from "@material-ui/core";
+import { makeStyles, Container, Typography, Link as MaterialLink } from "@material-ui/core";
 import Link from "next/link";
 import { serializers } from "./postContent";
 import { projectId, dataset } from "../../client";
@@ -43,7 +43,7 @@ const Item = (props: Props) => {
     })
   }, [
     // TODO: implement password protect
-    <h1 key='h1' className={classes.title}><Link href={`/slug?slug=${slug}`} as={`/${slug}`}><a>{item.title}</a></Link></h1>,
+    item.title && <Container><Typography gutterBottom variant="h2" key='title' className={classes.title}><Link href={`/slug?slug=${slug}`} as={`/${slug}`}><MaterialLink>{item.title}</MaterialLink></Link></Typography></Container>,
     item.contentRaw && <BlockContent key='block' projectId={projectId} dataset={dataset} blocks={item.contentRaw} serializers={serializers} />,
     // TODO: render lightbox with context
   ]);

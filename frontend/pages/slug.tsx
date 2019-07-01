@@ -24,7 +24,7 @@ const SlugComponent: NextFunctionComponent<Props, InitialProps> = ({ allSlugs, s
     if (allSlugs.loading || siteSettings.loading) {
         return <>
             <Head><title>Loading</title></Head>
-        </> // TODO: loading component
+        </>
     }
 
     // find the matching slug

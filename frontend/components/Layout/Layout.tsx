@@ -1,9 +1,11 @@
 import { SiteSettingsFragment } from "../../graphql";
 import Head from 'next/head'
 import Maybe from "graphql/tsutils/Maybe";
-import { Header } from "./Header";
+import Header from "./Header";
 import * as BlockContent from '@sanity/block-content-to-react'
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Link } from "@material-ui/core";
+import { serializers } from "../Item/postContent";
+import { projectId, dataset } from "../../client";
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -40,9 +42,10 @@ export default (props: Props) => {
         {children}
         {settings.siteFooter && settings.siteFooter.contentRaw && <div className={classes.footer}>
             {(settings.siteFooter.socialMedia || []).filter(s => s && s._key).map(s => s).map(socialMedia => <span key={socialMedia!._key!}>
-                <a href={socialMedia!.url!} target="_blank" rel="noopener noreferrer">{socialMedia!.icon!}</a>
+                <Link href={socialMedia!.url!} target="_blank" rel="noopener noreferrer">{socialMedia!.icon!}</Link>
+                {/* <a href={socialMedia!.url!} target="_blank" rel="noopener noreferrer"></a> */}
             </span>)}
-            <BlockContent blocks={settings.siteFooter.contentRaw} />
+            <BlockContent blocks={settings.siteFooter.contentRaw} serializers={serializers} projectId={projectId} dataset={dataset} />
             {/* TODO: render footer */}
         </div> }
     </>

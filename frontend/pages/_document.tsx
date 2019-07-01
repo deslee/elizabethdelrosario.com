@@ -18,7 +18,7 @@ class CustomDocument extends Document {
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            href="//fonts.googleapis.com/css?family=Work+Sans:600|Quattrocento+Sans:400,300,400i,700"
           />
         </Head>
         <body>

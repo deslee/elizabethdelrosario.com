@@ -18,7 +18,7 @@ const FrontPage = ({ siteSettings }: Props) => {
                 <title>Loading</title>
             </Head>
             
-        </> // TODO: loading component
+        </>
     }
 
     if (!siteSettings.settings) {

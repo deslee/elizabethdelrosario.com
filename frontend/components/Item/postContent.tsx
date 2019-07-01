@@ -1,11 +1,12 @@
 import { VideoAsset, MultipleImages, PostImage, FileAsset, ImageAssetByIdComponent, FileAssetByIdComponent } from "../../graphql";
 import ReactPlayer from 'react-player'
-import { makeStyles, Grid, Container } from "@material-ui/core";
+import { makeStyles, Grid, Container, Typography } from "@material-ui/core";
 import client from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
 import { GridProps } from "@material-ui/core/Grid";
 import ProgressiveImage from "react-progressive-image";
 import { Fragment } from "react";
+import clsx from "clsx";
 
 const builder = imageUrlBuilder(client)
 
@@ -81,12 +82,15 @@ export const serializers = {
             }
 
             const style = props.node.style;
-            let className = ''
-            if (style === 'centered') {
-                className = classes.centered
-            }
+            let className = clsx(
+                {
+                    [classes.centered]: style === 'centered',
+                }
+            )
 
-            return <p className={className}>{props.children}</p>
+            return <Container>
+                <Typography paragraph gutterBottom className={className}>{props.children}</Typography>
+            </Container>
         },
         code: (props: any) => (
             <Container>

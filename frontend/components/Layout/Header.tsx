@@ -2,14 +2,16 @@ import React from 'react'
 import Link from 'next/link'
 import { Maybe, MenuItemFragment, ImageFragment } from '../../graphql';
 import ProgressiveImage from 'react-progressive-image';
-import client from '../../client'
+import client, { projectId, dataset } from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles, Theme, WithTheme, withTheme } from '@material-ui/core';
 import * as BlockContent from '@sanity/block-content-to-react'
+import { serializers } from '../Item/postContent';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const builder = imageUrlBuilder(client)
 
-interface Props {
+interface ComponentProps {
     header: {
         headerImage: Maybe<{ __typename?: "Image" } & ImageFragment>;
         menuItems: Maybe<Array<Maybe<MenuItemFragment>>>;
@@ -17,6 +19,8 @@ interface Props {
     title?: Maybe<string>;
     subtitleRaw?: any;
 }
+
+type Props = ComponentProps & WithTheme
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -31,7 +35,8 @@ const useStyles = makeStyles((theme: Theme) => ({
             textDecoration: 'none',
             textTransform: 'uppercase',
         },
-        textShadow: '2px 2px rgba(0,0,0,.25)'
+        textShadow: '2px 2px rgba(0,0,0,.25)',
+        margin: theme.spacing(0, 0, 4)
     },
     title: {
         letterSpacing: '.1rem',
@@ -68,7 +73,7 @@ interface MenuItem {
     title: string;
 }
 
-export const Header = ({ header, title, subtitleRaw }: Props) => {
+const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     const headerImage = header && header.headerImage;
     const classes = useStyles();
     const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip ? headerImage.asset.metadata.lqip : '';
@@ -98,12 +103,16 @@ export const Header = ({ header, title, subtitleRaw }: Props) => {
         // } 
         }).filter(menuItem => menuItem).map<MenuItem>(menuItem => menuItem!)
     ]
+    
+    const gradient = fade(theme.palette.secondary.main, .3)
 
     return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl}>{(src: any) =>
-        <header className={classes.root} style={{ backgroundImage: `url(${src})` }}>
+        <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
             <h1 className={classes.title}><Link href="/"><a>{title}</a></Link></h1>
-            {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} /></div>}
+            {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers} projectId={projectId} dataset={dataset} /></div>}
             <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><Link href={menuItem.href} as={menuItem.as}><a>{menuItem.title}</a></Link></li>)}</ul></nav>
         </header>
     }</ProgressiveImage>
 }
+
+export default withTheme(Header);
