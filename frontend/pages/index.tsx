@@ -1,7 +1,5 @@
 import { compose } from "recompose";
 import Error from 'next/error';
-import "normalize.css"
-import "reset-css"
 import { withSiteSettings, SiteSettingsQuery } from "../graphql";
 import withSanity from "../graphql/withSanity";
 import { DataValue } from "react-apollo";
@@ -16,7 +14,10 @@ const FrontPage = ({ siteSettings }: Props) => {
     // show loading page if client based
     if (siteSettings.loading) {
         return <>
-            <Head><title>Loading</title></Head>
+            <Head>
+                <title>Loading</title>
+            </Head>
+            
         </> // TODO: loading component
     }
 
@@ -36,7 +37,7 @@ const FrontPage = ({ siteSettings }: Props) => {
     return <Error statusCode={404} />
 }
 
-export default compose<any, any>(
+export default compose<Props, {}>(
     withSanity,
     withSiteSettings({ props: props => ({ siteSettings: props.data }) })
 )(FrontPage)

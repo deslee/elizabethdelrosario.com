@@ -1,7 +1,7 @@
 import { SiteSettingsFragment } from "../../graphql";
 import Head from 'next/head'
 import Maybe from "graphql/tsutils/Maybe";
-import { Header } from "./Header";
+import Header from "./Header";
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -21,7 +21,7 @@ export default (props: Props) => {
         <Head>
             <title>{title ? `${title} | ` : undefined}{settings.title}</title>
         </Head>
-        {settings.siteHeader && <Header header={settings.siteHeader} title={settings.title} />}
+        {settings.siteHeader ? <Header header={settings.siteHeader} title={settings.title} /> : undefined}
         {children}
     </>
 }

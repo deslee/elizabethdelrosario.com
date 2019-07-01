@@ -77,7 +77,7 @@ SlugComponent.getInitialProps = async (ctx: NextContext) => {
     }
 }
 
-export default compose<any, any>(
+export default compose<Props, {}>(
     withSanity,
     withSiteSettings({ props: props => ({ siteSettings: props.data }) }),
     withAllSlugs({ props: props => ({ allSlugs: props.data }) })

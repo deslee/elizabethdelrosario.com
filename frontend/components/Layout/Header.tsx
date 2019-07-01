@@ -4,13 +4,10 @@ import { Maybe, MenuItemFragment, ImageFragment } from '../../graphql';
 import ProgressiveImage from 'react-progressive-image';
 import client from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
-import css from './Header.css';
+import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core';
 
 const builder = imageUrlBuilder(client)
-
-function urlFor(source) {
-    return builder.image(source)
-  }
 
 interface Props {
     header: {
@@ -20,21 +17,43 @@ interface Props {
     title?: Maybe<string>;
 }
 
-export const Header = ({ header, title }: Props) => {
+const useStyles = makeStyles((theme: Theme) => ({
+    header: {
+        backgroundPositionX: 'center',
+        backgroundPositionY: 'center',
+        backgroundSize: 'cover',
+        width: '100%',
+        overflow: 'hidden',
+        padding: theme.spacing(6, 0)
+    },
+    title: {
+        textAlign: 'center',
+        '& a': {
+            color: theme.palette.common.white,
+            textDecoration: 'none',
+            textTransform: 'uppercase'
+        }
+    },
+    nav: {
+
+    }
+}))
+
+const Header = ({ header, title }: Props) => {
+    const classes = useStyles()
+
     const headerImage = header && header.headerImage;
-    console.log(headerImage)
     const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip;
 
     return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl!}>{(src: any) =>
-        <header className={css.header} style={{ backgroundImage: `url(${src})` }}>
-            <h1 className={css.title}><Link href="/"><a>{title}</a></Link></h1>
-            <div className={css.subtitle}>
-
-            </div>
-            <nav>
-            </nav>
+        <header className={classes.header} style={{ backgroundImage: `url(${src})` }}>
+            <h1 className={classes.title}><Link href="/"><a>{title}</a></Link></h1>
+            {/* <nav className={classes.nav}>{[
+                { href: '/', text: 'Home' },
+                //...header.menuItems.map(menuItem => <MenuItem key={menuItem} menuItem={menuItem} />)
+            ]}</nav> */}
         </header>
     }</ProgressiveImage>
-
-    return
 }
+
+export default Header
