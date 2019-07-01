@@ -4,6 +4,11 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme, { GlobalCss } from '../theme';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab, faFacebook, faInstagram, faTwitch, faTwitter, faLinkedin, faYoutube, faVimeo } from '@fortawesome/free-brands-svg-icons'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+
+library.add(fab, faFacebook, faTwitch, faTwitter, faInstagram, faLinkedin, faYoutube, faVimeo, faEnvelope)
 
 class CustomApp extends App {
   componentDidMount() {

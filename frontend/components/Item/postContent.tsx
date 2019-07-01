@@ -1,11 +1,11 @@
 import { VideoAsset, MultipleImages, PostImage, FileAsset, ImageAssetByIdComponent, FileAssetByIdComponent } from "../../graphql";
 import ReactPlayer from 'react-player'
-import { makeStyles, Grid, Container, Typography } from "@material-ui/core";
+import { makeStyles, Grid, Container, Typography, Link as MaterialLink } from "@material-ui/core";
 import client from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
 import { GridProps } from "@material-ui/core/Grid";
 import ProgressiveImage from "react-progressive-image";
-import { Fragment } from "react";
+import { Fragment, createElement } from "react";
 import clsx from "clsx";
 
 const builder = imageUrlBuilder(client)
@@ -56,7 +56,7 @@ const renderFileAsset = (fileAsset: FileAsset) => {
         }
 
         console.log(data);
-        return <a href={data.SanityFileAsset.url}>{fileAsset.text || data.SanityFileAsset.label}</a>
+        return <Typography><MaterialLink href={data.SanityFileAsset.url}>{fileAsset.text || data.SanityFileAsset.label}</MaterialLink></Typography>
     }}</FileAssetByIdComponent>
 }
 
@@ -74,6 +74,13 @@ const renderPostImage = (image: PostImage, maxWidth?: number) => {
 }
 
 export const serializers = {
+    list: (props: any) => {
+        console.log(props)
+
+        const element = props.type === 'bullet' ? 'ul' : 'ol'
+
+        return <Container>{createElement(element, null, <Typography>{props.children}</Typography>)}</Container>
+    },
     types: {
         block: (props: any) => {
             const classes = useStyles();

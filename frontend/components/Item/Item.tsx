@@ -34,10 +34,7 @@ const Item = (props: Props) => {
   const classes = useStyles();
   const slug = item.slug && item.slug.current
 
-  item.type === 'centered'
-  const element = item.type === 'centered' ? 'div' : Container
-
-  return React.createElement(element, {
+  return React.createElement('div', {
     className: clsx(classes.container, {
       [classes.centered]: item.type === 'centered'
     })
