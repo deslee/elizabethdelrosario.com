@@ -37,7 +37,7 @@ const FrontPage = ({ siteSettings }: Props) => {
     return <Error statusCode={404} />
 }
 
-export default compose<Props, {}>(
+export default compose<Props, unknown>(
     withSanity,
     withSiteSettings({ props: props => ({ siteSettings: props.data }) })
 )(FrontPage)

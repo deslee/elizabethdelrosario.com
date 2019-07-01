@@ -1,0 +1,153 @@
+import { VideoAsset, MultipleImages, PostImage, FileAsset, ImageAssetByIdComponent, FileAssetByIdComponent } from "../../graphql";
+import ReactPlayer from 'react-player'
+import { makeStyles, Grid, Container } from "@material-ui/core";
+import client from '../../client'
+import imageUrlBuilder from '@sanity/image-url'
+import { GridProps } from "@material-ui/core/Grid";
+import ProgressiveImage from "react-progressive-image";
+import { Fragment } from "react";
+
+const builder = imageUrlBuilder(client)
+
+const useStyles = makeStyles(theme => ({
+    videoAsset: {
+        maxWidth: theme.breakpoints.width('md'),
+        margin: '0 auto'
+    },
+    playerWrapper: {
+        position: 'relative',
+        paddingTop: '56.25%', /* Player ratio: 100 / (1280 / 720) */
+    },
+    multipleImages: {
+        '& img': {
+            margin: 0,
+            height: '100%',
+            width: '100%',
+            objectFit: 'cover',
+            cursor: 'pointer'
+        }
+    },
+    postImage: {
+        '& img': {
+            width: '100%'
+        }
+    },
+    centered: {
+        textAlign: 'center'
+    }
+}))
+
+const renderFileAsset = (fileAsset: FileAsset) => {
+    if (!fileAsset || !fileAsset.file || !fileAsset.file.asset) {
+        return <Fragment />
+    }
+
+    const file = fileAsset.file;
+
+    const assetId = (file && file.asset as any)['_ref'];
+    return <FileAssetByIdComponent variables={{ id: assetId }}>{({ loading, data }) => {
+        if (loading) {
+            return <Fragment />
+        }
+
+        if (!data || !data.SanityFileAsset || !data.SanityFileAsset.url) {
+            return <Fragment />
+        }
+
+        console.log(data);
+        return <a href={data.SanityFileAsset.url}>{fileAsset.text || data.SanityFileAsset.label}</a>
+    }}</FileAssetByIdComponent>
+}
+
+const renderPostImage = (image: PostImage, maxWidth?: number) => {
+    const assetId = (image && image.asset as any)['_ref'];
+    return <ImageAssetByIdComponent variables={{ id: assetId }}>{({ loading, data }) => {
+        if (loading) {
+            return <Fragment />
+        }
+
+        const placeholderImageUrl = data && data.SanityImageAsset && data.SanityImageAsset.metadata && data.SanityImageAsset.metadata.lqip ? data.SanityImageAsset.metadata.lqip : '';
+        const thumbnailUrl = builder.image(data && data.SanityImageAsset).width(maxWidth).url()
+        return <ProgressiveImage src={thumbnailUrl} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt={image.description || ''} />}</ProgressiveImage>
+    }}</ImageAssetByIdComponent>
+}
+
+export const serializers = {
+    types: {
+        block: (props: any) => {
+            const classes = useStyles();
+            if (!props || !props.node) {
+                return <Fragment />
+            }
+
+            const style = props.node.style;
+            let className = ''
+            if (style === 'centered') {
+                className = classes.centered
+            }
+
+            return <p className={className}>{props.children}</p>
+        },
+        code: (props: any) => (
+            <Container>
+                <pre data-language={props.node.language}>
+                    <code>{props.node.code}</code>
+                </pre>
+            </Container>
+        ),
+        postImage: (props: { node: PostImage }) => {
+            const classes = useStyles();
+
+            if (!props.node || !props.node.asset) {
+                return <Fragment />
+            }
+            return <Container className={classes.postImage}>
+                {renderPostImage(props.node, 1000)}
+            </Container>
+        },
+        multipleImages: (props: { node: MultipleImages }) => {
+            const classes = useStyles();
+            if (!props || !props.node || !props.node.images) {
+                return <Fragment />
+            }
+
+            const numberOfColumns = props.node.columns && isNaN(parseInt(props.node.columns)) ? parseInt(props.node.columns) : 3;
+            const gridItemProps = {
+                sm: 12 / numberOfColumns
+            } as GridProps
+            
+            return <Container>
+                <Grid container item className={classes.multipleImages} spacing={1}>{props.node.images.map(image => {
+                    if (!image || !image._key || !image.asset) {
+                        return <Fragment />
+                    }
+
+                    return <Grid container item key={image._key} {...gridItemProps}>
+                        {renderPostImage(image, 400)}
+                    </Grid>
+                })}</Grid>
+            </Container>
+            
+        },
+        videoAsset: (props: { node: VideoAsset }) => {
+            const classes = useStyles();
+            if (!props || !props.node || !props.node.url || !props.node.autoplay || !props.node.loop) {
+                return <Fragment />
+            }
+            return <Container className={classes.videoAsset}>
+                <div className={classes.playerWrapper}>
+                    <ReactPlayer url={props.node.url} playing={props.node.autoplay} loop={props.node.loop} width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0 }} />
+                </div>
+            </Container>
+        },
+        fileAsset: ({ node }: { node: FileAsset }) => {
+            console.log(node)
+            if (!node) {
+                return <Fragment />
+            }
+            return <Container>
+                {renderFileAsset(node)}
+            </Container>
+        }
+    }
+}

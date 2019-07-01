@@ -22,6 +22,17 @@ export default {
             }
         },
         {
+            name: 'type',
+            type: 'string',
+            title: 'Type',
+            options: {
+                list: [
+                    { title: 'Normal', value: 'normal' },
+                    { title: 'Centered', value: 'centered' }
+                ]
+            }
+        },
+        {
             name: 'content',
             title: 'Content',
             type: 'postContent'

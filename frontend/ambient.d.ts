@@ -11,4 +11,4 @@ declare module 'next-apollo' {
 
 declare module '@sanity/block-content-to-react';
 
-declare module '@sanity/image-url';
+declare module '@sanity/image-url'

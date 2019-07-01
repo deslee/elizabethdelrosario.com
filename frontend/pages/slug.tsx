@@ -7,6 +7,8 @@ import { DataValue } from 'react-apollo';
 import ItemContainer from '../containers/ItemContainer';
 import Head from 'next/head';
 
+// TODO: merge this page into index.tsx
+
 interface InitialProps {
     slug: string
 }

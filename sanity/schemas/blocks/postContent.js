@@ -29,7 +29,8 @@ export default {
         {title: 'H2', value: 'h2'},
         {title: 'H3', value: 'h3'},
         {title: 'H4', value: 'h4'},
-        {title: 'Quote', value: 'blockquote'}
+        {title: 'Quote', value: 'blockquote'},
+        {title: 'Center', value: 'centered'}
       ],
       lists: [{title: 'Bullet', value: 'bullet'}],
       // Marks let you mark up inline text in the block editor.
@@ -58,9 +59,8 @@ export default {
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
     {
-      name: 'postImage',
       title: 'Image',
-      type: 'image'
+      type: 'postImage'
     },
     {
       type: 'multipleImages'
