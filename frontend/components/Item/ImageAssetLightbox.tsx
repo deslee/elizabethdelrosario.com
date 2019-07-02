@@ -39,9 +39,9 @@ const LightboxController = ({ assetIds, assetOpen, onClose }: LightboxController
         const prevAssetId = assetIds[(index + length - 1) % length]
 
         return <Lightbox
-            mainSrc={builder.image(data.allSanityImageAssets.find(a => a._id === assetId)).width(maxWidth).url()}
-            nextSrc={builder.image(data.allSanityImageAssets.find(a => a._id === nextAssetId)).width(maxWidth).url()}
-            prevSrc={builder.image(data.allSanityImageAssets.find(a => a._id === prevAssetId)).width(maxWidth).url()}
+            mainSrc={builder.image(data.allSanityImageAssets.find(a => a._id === assetId)).auto('format').width(maxWidth).url()}
+            nextSrc={builder.image(data.allSanityImageAssets.find(a => a._id === nextAssetId)).auto('format').width(maxWidth).url()}
+            prevSrc={builder.image(data.allSanityImageAssets.find(a => a._id === prevAssetId)).auto('format').width(maxWidth).url()}
             onMovePrevRequest={() => setIndex(((index || 0) + assetIds.length - 1) % assetIds.length)}
             onMoveNextRequest={() => setIndex(((index || 0) + 1) % assetIds.length)}
             onCloseRequest={onClose}

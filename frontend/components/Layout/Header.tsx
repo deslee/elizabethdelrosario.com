@@ -108,7 +108,7 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     
     const gradient = fade(theme.palette.secondary.main, .3)
     // TODO: figure out prefetching header links with next
-    return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl}>{(src: any) =>
+    return <ProgressiveImage src={builder.image(headerImage).auto('format').url()} placeholder={placeholderImageUrl}>{(src: any) =>
         <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
             <h1 className={classes.title}><a href="/">{title}</a></h1>
             {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} /></div>}

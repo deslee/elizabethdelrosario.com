@@ -69,7 +69,7 @@ const renderPostImage = (image: PostImage, maxWidth?: number) => {
         }
 
         const placeholderImageUrl = data && data.SanityImageAsset && data.SanityImageAsset.metadata && data.SanityImageAsset.metadata.lqip ? data.SanityImageAsset.metadata.lqip : '';
-        const thumbnailUrl = builder.image(data && data.SanityImageAsset).width(maxWidth).url()
+        const thumbnailUrl = builder.image(data && data.SanityImageAsset).auto('format').width(maxWidth).url()
         return <ProgressiveImage src={thumbnailUrl} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt={image.description || ''} />}</ProgressiveImage>
     }}</ImageAssetByIdComponent>
 }
