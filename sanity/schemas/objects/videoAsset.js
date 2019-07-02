@@ -2,7 +2,7 @@ import React from 'react'
 import { MdVideoLabel } from "react-icons/lib/md"
 import ReactPlayer from 'react-player'
 
-const Preview = ({value: {url, autoplay, loop}}) => <ReactPlayer url={url} playing={autoplay} loop={loop} />
+const Preview = ({value: {url, autoplay, loop}}) => <ReactPlayer muted={autoplay} url={url} playing={autoplay} loop={loop} />
 
 export default {
     name: 'videoAsset',

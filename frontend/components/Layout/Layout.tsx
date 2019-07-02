@@ -69,6 +69,8 @@ export default (props: Props) => {
                     </span> :
                     <Fragment key={idx} />
             )}</div>
+            {/* TODO: google analytics */}
+            {/* TODO: add email */}
             <BlockContent blocks={settings.siteFooter.contentRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} />
         </div> }
     </>

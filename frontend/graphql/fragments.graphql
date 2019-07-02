@@ -84,6 +84,7 @@ fragment page on Page {
     current
   }
   type
+  password
   contentRaw
 }
 

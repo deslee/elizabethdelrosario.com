@@ -158,7 +158,7 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
             }
             return <Container className={classes.videoAsset}>
                 <div className={classes.playerWrapper}>
-                    <ReactPlayer url={props.node.url} playing={props.node.autoplay} loop={props.node.loop} width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0 }} />
+                    <ReactPlayer muted={props.node.autoplay} url={props.node.url} playing={props.node.autoplay} loop={props.node.loop} width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0 }} />
                 </div>
             </Container>
         },

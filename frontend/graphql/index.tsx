@@ -113,6 +113,8 @@ export type Page = Document & {
   title?: Maybe<Scalars["String"]>;
   slug?: Maybe<Slug>;
   type?: Maybe<Scalars["String"]>;
+  /** Optional password protect */
+  password?: Maybe<Scalars["String"]>;
   contentRaw?: Maybe<Scalars["JSON"]>;
 };
 
@@ -189,6 +191,14 @@ export type PageFilter = {
   type_matches?: Maybe<Scalars["String"]>;
   type_in?: Maybe<Array<Scalars["String"]>>;
   type_not_in?: Maybe<Array<Scalars["String"]>>;
+  /** All documents that are equal to given value */
+  password?: Maybe<Scalars["String"]>;
+  /** All documents that are not equal to given value */
+  password_not?: Maybe<Scalars["String"]>;
+  /** All documents contain (match) the given word/words */
+  password_matches?: Maybe<Scalars["String"]>;
+  password_in?: Maybe<Array<Scalars["String"]>>;
+  password_not_in?: Maybe<Array<Scalars["String"]>>;
   /** All documents that are drafts */
   is_draft?: Maybe<Scalars["Boolean"]>;
 };
@@ -243,7 +253,7 @@ export type PostCollection = Document & {
   type?: Maybe<Scalars["String"]>;
   /** This will go above the posts */
   contentRaw?: Maybe<Scalars["JSON"]>;
-  /** Number of posts to show per page */
+  /** Number of posts to show per page. Leave blank for default. */
   showPerPage?: Maybe<Scalars["Float"]>;
   posts?: Maybe<Array<Maybe<Post>>>;
 };
@@ -1133,7 +1143,7 @@ export type ImageFragment = { __typename?: "Image" } & {
 
 export type PageFragment = { __typename?: "Page" } & Pick<
   Page,
-  "title" | "type" | "contentRaw"
+  "title" | "type" | "password" | "contentRaw"
 > & { slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">> };
 
 export type PostFragment = { __typename?: "Post" } & Pick<
@@ -1323,6 +1333,7 @@ export const pageFragmentDoc = gql`
       current
     }
     type
+    password
     contentRaw
   }
 `;

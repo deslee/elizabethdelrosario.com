@@ -33,6 +33,12 @@ export default {
             }
         },
         {
+            name: 'password',
+            title: 'Password',
+            description: "Optional password protect",
+            type: 'string'
+        },
+        {
             name: 'content',
             title: 'Content',
             type: 'postContent'

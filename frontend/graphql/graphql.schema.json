@@ -821,6 +821,14 @@
             "deprecationReason": null
           },
           {
+            "name": "password",
+            "description": "Optional password protect",
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "contentRaw",
             "description": null,
             "args": [],
@@ -943,7 +951,7 @@
           },
           {
             "name": "showPerPage",
-            "description": "Number of posts to show per page",
+            "description": "Number of posts to show per page. Leave blank for default.",
             "args": [],
             "type": { "kind": "SCALAR", "name": "Float", "ofType": null },
             "isDeprecated": false,
@@ -2981,6 +2989,52 @@
           },
           {
             "name": "type_not_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "password",
+            "description": "All documents that are equal to given value",
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "defaultValue": null
+          },
+          {
+            "name": "password_not",
+            "description": "All documents that are not equal to given value",
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "defaultValue": null
+          },
+          {
+            "name": "password_matches",
+            "description": "All documents contain (match) the given word/words",
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "defaultValue": null
+          },
+          {
+            "name": "password_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "password_not_in",
             "description": null,
             "type": {
               "kind": "LIST",
