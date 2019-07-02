@@ -63,17 +63,13 @@ const Item = (props: Props) => {
     }
 
     if (item.__typename === 'Page' || item.__typename === 'Post') {
-      return <Container key="container">
-        <Typography gutterBottom variant="h2" className={classes.title}>
-          <Link prefetch withData href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
-        </Typography>
-      </Container>
+      return <Typography gutterBottom variant="h2" className={classes.title}>
+        <Link prefetch withData href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
+      </Typography>
     } else {
-      return <Container>
-        <Typography component="div" className={classes.collectionTitle}>
-          <span>{item.title}</span>
-        </Typography>
-      </Container>
+      return <Typography component="div" className={classes.collectionTitle}>
+        <span>{item.title}</span>
+      </Typography>
     }
   }
 
