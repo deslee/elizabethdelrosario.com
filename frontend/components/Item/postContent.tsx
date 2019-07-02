@@ -99,8 +99,10 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
                 }
             )
 
+            const variant = ['h1','h2','h3','h4','h5','h6'].find(x => x === style);
+
             return <Container>
-                <Typography paragraph gutterBottom className={className}>{props.children}</Typography>
+                <Typography variant={variant as any} paragraph gutterBottom className={className}>{props.children}</Typography>
             </Container>
         },
         code: (props: any) => (
