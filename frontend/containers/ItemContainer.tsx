@@ -33,7 +33,9 @@ const ItemContainer = (props: Props) => {
         return <Error statusCode={404} />
     }
 
-    return <Layout siteSettings={siteSettings} title={item.title}>
+    const title = (item.__typename === 'Post' || ((item.__typename === 'Page' || item.__typename === 'PostCollection') && item.showTitle)) ? item.title : undefined;
+
+    return <Layout siteSettings={siteSettings} title={title}>
         <Item item={item} />
         {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Fragment key={idx}>
             <Item item={post} />
