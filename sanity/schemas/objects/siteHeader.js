@@ -5,7 +5,7 @@ export const siteHeaderInternalReference = {
     type: 'object',
     fields: [
         { name: 'internal', title: 'Item', description: 'Post, page, or collection', type: 'reference', to: [{ type: 'post' }, { type: 'page' }, { type: 'postCollection' }], },
-        { name: 'title', title: 'Title', type: 'string', description: 'Optional. If empty, will use the item\'s title' }
+        { name: 'title', title: 'Title', type: 'string' }
     ],
 }
 

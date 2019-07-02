@@ -805,6 +805,14 @@
             "deprecationReason": null
           },
           {
+            "name": "showTitle",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "slug",
             "description": null,
             "args": [],
@@ -841,6 +849,16 @@
         "interfaces": [
           { "kind": "INTERFACE", "name": "Document", "ofType": null }
         ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -922,6 +940,14 @@
             "description": null,
             "args": [],
             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "showTitle",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -1769,16 +1795,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "SanityImageHotspot",
         "description": null,
@@ -1931,7 +1947,7 @@
           },
           {
             "name": "title",
-            "description": "Optional. If empty, will use the item's title",
+            "description": null,
             "args": [],
             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
             "isDeprecated": false,
@@ -2956,6 +2972,18 @@
             "defaultValue": null
           },
           {
+            "name": "showTitle",
+            "description": "All documents that are equal to given value",
+            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+            "defaultValue": null
+          },
+          {
+            "name": "showTitle_not",
+            "description": "All documents that are not equal to given value",
+            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+            "defaultValue": null
+          },
+          {
             "name": "type",
             "description": "All documents that are equal to given value",
             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
@@ -3364,6 +3392,18 @@
                 "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
               }
             },
+            "defaultValue": null
+          },
+          {
+            "name": "showTitle",
+            "description": "All documents that are equal to given value",
+            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+            "defaultValue": null
+          },
+          {
+            "name": "showTitle_not",
+            "description": "All documents that are not equal to given value",
+            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
             "defaultValue": null
           },
           {

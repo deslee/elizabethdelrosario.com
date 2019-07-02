@@ -111,6 +111,7 @@ export type Page = Document & {
   _rev: Scalars["String"];
   _key?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
+  showTitle?: Maybe<Scalars["Boolean"]>;
   slug?: Maybe<Slug>;
   type?: Maybe<Scalars["String"]>;
   /** Optional password protect */
@@ -184,6 +185,10 @@ export type PageFilter = {
   title_in?: Maybe<Array<Scalars["String"]>>;
   title_not_in?: Maybe<Array<Scalars["String"]>>;
   /** All documents that are equal to given value */
+  showTitle?: Maybe<Scalars["Boolean"]>;
+  /** All documents that are not equal to given value */
+  showTitle_not?: Maybe<Scalars["Boolean"]>;
+  /** All documents that are equal to given value */
   type?: Maybe<Scalars["String"]>;
   /** All documents that are not equal to given value */
   type_not?: Maybe<Scalars["String"]>;
@@ -249,6 +254,7 @@ export type PostCollection = Document & {
   _rev: Scalars["String"];
   _key?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
+  showTitle?: Maybe<Scalars["Boolean"]>;
   slug?: Maybe<Slug>;
   type?: Maybe<Scalars["String"]>;
   /** This will go above the posts */
@@ -323,6 +329,10 @@ export type PostCollectionFilter = {
   title_matches?: Maybe<Scalars["String"]>;
   title_in?: Maybe<Array<Scalars["String"]>>;
   title_not_in?: Maybe<Array<Scalars["String"]>>;
+  /** All documents that are equal to given value */
+  showTitle?: Maybe<Scalars["Boolean"]>;
+  /** All documents that are not equal to given value */
+  showTitle_not?: Maybe<Scalars["Boolean"]>;
   /** All documents that are equal to given value */
   type?: Maybe<Scalars["String"]>;
   /** All documents that are not equal to given value */
@@ -947,7 +957,6 @@ export type SiteHeaderInternalReference = {
   _type?: Maybe<Scalars["String"]>;
   /** Post, page, or collection */
   internal?: Maybe<PageOrPostOrPostCollection>;
-  /** Optional. If empty, will use the item's title */
   title?: Maybe<Scalars["String"]>;
 };
 
@@ -1143,7 +1152,7 @@ export type ImageFragment = { __typename?: "Image" } & {
 
 export type PageFragment = { __typename?: "Page" } & Pick<
   Page,
-  "title" | "type" | "password" | "contentRaw"
+  "title" | "showTitle" | "type" | "password" | "contentRaw"
 > & { slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">> };
 
 export type PostFragment = { __typename?: "Post" } & Pick<
@@ -1153,7 +1162,7 @@ export type PostFragment = { __typename?: "Post" } & Pick<
 
 export type PostCollectionFragment = { __typename?: "PostCollection" } & Pick<
   PostCollection,
-  "title" | "type" | "contentRaw" | "showPerPage"
+  "title" | "showTitle" | "type" | "contentRaw" | "showPerPage"
 > & {
     slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
     posts: Maybe<Array<Maybe<{ __typename?: "Post" } & PostFragment>>>;
@@ -1329,6 +1338,7 @@ export const fileAssetFragmentDoc = gql`
 export const pageFragmentDoc = gql`
   fragment page on Page {
     title
+    showTitle
     slug {
       current
     }
@@ -1353,6 +1363,7 @@ export const postFragmentDoc = gql`
 export const postCollectionFragmentDoc = gql`
   fragment postCollection on PostCollection {
     title
+    showTitle
     slug {
       current
     }

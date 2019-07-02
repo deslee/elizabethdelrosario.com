@@ -12,6 +12,11 @@ export default {
             type: 'string'
         },
         {
+            name: 'showTitle',
+            title: 'Show title',
+            type: 'boolean'
+        },
+        {
             name: 'slug',
             title: 'Slug',
             description: 'The part of the URL.',

@@ -12,6 +12,11 @@ export default {
             type: 'string'
         },
         {
+            name: 'showTitle',
+            title: 'Show title',
+            type: 'boolean'
+        },
+        {
             name: 'slug',
             title: 'Slug',
             type: 'slug',

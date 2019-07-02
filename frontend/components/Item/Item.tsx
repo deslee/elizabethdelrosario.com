@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { PostFragment, PageFragment, PostCollectionFragment, ImageAssetByIdsComponent, ImageAssetByIdDocument } from "../../graphql";
 import * as BlockContent from '@sanity/block-content-to-react'
 import { makeStyles, Container, Typography, Link as MaterialLink, TextField, InputAdornment, IconButton, LinearProgress, Grid, Button } from "@material-ui/core";
@@ -31,6 +31,17 @@ const useStyles = makeStyles(theme => ({
       color: 'inherit',
       textDecoration: 'inherit'
     }
+  },
+  collectionTitle: {
+    fontSize: '1.45rem',
+    textAlign: 'center',
+    borderBottom: `2px solid ${theme.palette.divider}`,
+    lineHeight: '.1em',
+    margin: '50px auto 40px',
+    '& span': {
+      padding: `0 .5rem`,
+      background: theme.palette.common.white,
+    }
   }
 }))
 
@@ -46,10 +57,31 @@ const Item = (props: Props) => {
   const itemPassword = (item.__typename === 'Page' || item.__typename === 'Post') && item.password;
   const [locked, setLocked] = React.useState(!!itemPassword)
 
+  const title = () => {
+    if ((item.__typename === 'Page' || item.__typename === 'PostCollection') && !item.showTitle) {
+      return <Fragment />
+    }
+
+    if (item.__typename === 'Page' || item.__typename === 'Post') {
+      return <Container key="container">
+        <Typography gutterBottom variant="h2" className={classes.title}>
+          <Link href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
+        </Typography>
+      </Container>
+      return
+    } else {
+      return <Container>
+        <Typography component="div" className={classes.collectionTitle}>
+          <span>{item.title}</span>
+        </Typography>
+      </Container>
+    }
+  }
+
   const itemBlock = () => {
-    const itemNode = () => <BlockContent key='block' projectId={projectId} dataset={dataset} blocks={item.contentRaw} serializers={serializers({
+    const itemNode = () => item.contentRaw ? <BlockContent key='block' projectId={projectId} dataset={dataset} blocks={item.contentRaw} serializers={serializers({
       assetSelected: (assetId) => setAssetOpen(assetId)
-    })} />;
+    })} /> : <Fragment />;
 
     if (item.contentRaw && item.contentRaw.map) {
       const imageRefs: any = item.contentRaw.map((block: any) => {
@@ -132,7 +164,7 @@ const Item = (props: Props) => {
             />
             {checkingPassword && <LinearProgress />}
           </Grid>
-          <Grid item xs={3} style={{display: 'flex'}}>
+          <Grid item xs={3} style={{ display: 'flex' }}>
             <Button
               fullWidth
               variant="contained"
@@ -154,7 +186,9 @@ const Item = (props: Props) => {
   return <div className={clsx(classes.container, {
     [classes.leftAlign]: item.type === 'normal'
   })}>
-    {item.title && <Container key="container"><Typography gutterBottom variant="h2" className={classes.title}><Link href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link></Typography></Container>}
+    {item.title && <Container key="container">
+      <Typography gutterBottom variant="h2" className={classes.title}>{title()}</Typography>
+    </Container>}
     {item.contentRaw && locked ? passwordProtect() : itemBlock()}
   </div>
 }

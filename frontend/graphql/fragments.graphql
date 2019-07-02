@@ -80,6 +80,7 @@ fragment image on Image {
 
 fragment page on Page {
   title
+  showTitle
   slug {
     current
   }
@@ -102,6 +103,7 @@ fragment post on Post {
 
 fragment postCollection on PostCollection {
   title
+  showTitle
   slug {
     current
   }
