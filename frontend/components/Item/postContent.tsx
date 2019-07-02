@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
     },
     centered: {
         textAlign: 'center'
+    },
+    textMargins: {
+        margin: theme.spacing(5, 0, 1)
     }
 }))
 
@@ -93,13 +96,14 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
             }
 
             const style = props.node.style;
+
+            const variant = ['h1','h2','h3','h4','h5','h6'].find(x => x === style);
             let className = clsx(
                 {
                     [classes.centered]: style === 'centered',
-                }
+                    [classes.textMargins]: !!variant,
+                },
             )
-
-            const variant = ['h1','h2','h3','h4','h5','h6'].find(x => x === style);
 
             return <Container>
                 <Typography variant={variant as any} paragraph gutterBottom className={className}>{props.children}</Typography>
