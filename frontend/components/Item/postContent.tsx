@@ -143,7 +143,7 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
                     }
 
                     return <Grid className={classes.clickableImage} onClick={() => assetSelected((image && image.asset as any)['_ref'])} container item key={image._key} {...gridItemProps}>
-                        {renderPostImage(image, columns >= 3 ? 400 : 1920)}
+                        {renderPostImage(image, columns >= 3 ? 400 : 1200)}
                     </Grid>
                 })}</Grid>
             </Container>
