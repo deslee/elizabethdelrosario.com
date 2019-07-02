@@ -35,6 +35,8 @@ const ItemContainer = (props: Props) => {
 
     const title = (item.__typename === 'Post' || ((item.__typename === 'Page' || item.__typename === 'PostCollection') && item.showTitle)) ? item.title : undefined;
 
+    // TODO: add meta tags
+
     return <Layout siteSettings={siteSettings} title={title}>
         <Item item={item} />
         {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Fragment key={idx}>
