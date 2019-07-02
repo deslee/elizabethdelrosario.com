@@ -91,8 +91,9 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
         }
         if (menuItem.__typename === 'SiteHeaderInternalReference' && menuItem.internal && menuItem.internal.slug && menuItem.internal.slug.current) {
             return {
-                href: `/?slug=${menuItem.internal.slug.current}`,
+                //href: `/?slug=${menuItem.internal.slug.current}`,
                 as: `/${menuItem.internal.slug.current}`,
+                href: `/${menuItem.internal.slug.current}`,
                 title: menuItem.title || menuItem.internal.title || 'Untitled'
             }
         } 
