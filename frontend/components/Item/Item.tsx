@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { PostFragment, PageFragment, PostCollectionFragment, ImageAssetByIdsComponent, ImageAssetByIdDocument } from "../../graphql";
 import * as BlockContent from '@sanity/block-content-to-react'
 import { makeStyles, Container, Typography, Link as MaterialLink, TextField, InputAdornment, IconButton, LinearProgress, Grid, Button } from "@material-ui/core";
-import Link from "next/link";
+import { Link } from 'next-apollo'
 import { serializers } from "./postContent";
 import { projectId, dataset } from "../../client";
 import clsx from 'clsx'
@@ -65,10 +65,9 @@ const Item = (props: Props) => {
     if (item.__typename === 'Page' || item.__typename === 'Post') {
       return <Container key="container">
         <Typography gutterBottom variant="h2" className={classes.title}>
-          <Link href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
+          <Link prefetch withData href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
         </Typography>
       </Container>
-      return
     } else {
       return <Container>
         <Typography component="div" className={classes.collectionTitle}>
@@ -180,8 +179,6 @@ const Item = (props: Props) => {
       </form>
     </Container>
   }
-
-  // TODO: password protection
 
   return <div className={clsx(classes.container, {
     [classes.leftAlign]: item.type === 'normal'

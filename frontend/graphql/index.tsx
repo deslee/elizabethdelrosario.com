@@ -1261,6 +1261,14 @@ export type IndexPageQuery = { __typename?: "RootQuery" } & {
   siteSettings: Maybe<{ __typename?: "SiteSettings" } & SiteSettingsFragment>;
 };
 
+export type AllImageAssetsQueryVariables = {};
+
+export type AllImageAssetsQuery = { __typename?: "RootQuery" } & {
+  allSanityImageAssets: Array<
+    { __typename?: "SanityImageAsset" } & ImageAssetFragment
+  >;
+};
+
 export type PostByIdQueryVariables = {
   id: Scalars["ID"];
 };
@@ -1637,6 +1645,50 @@ export function withIndexPage<TProps, TChildProps = {}>(
     IndexPageProps<TChildProps>
   >(IndexPageDocument, {
     alias: "withIndexPage",
+    ...operationOptions
+  });
+}
+export const AllImageAssetsDocument = gql`
+  query AllImageAssets {
+    allSanityImageAssets {
+      ...imageAsset
+    }
+  }
+  ${imageAssetFragmentDoc}
+`;
+export type AllImageAssetsComponentProps = Omit<
+  ReactApollo.QueryProps<AllImageAssetsQuery, AllImageAssetsQueryVariables>,
+  "query"
+>;
+
+export const AllImageAssetsComponent = (
+  props: AllImageAssetsComponentProps
+) => (
+  <ReactApollo.Query<AllImageAssetsQuery, AllImageAssetsQueryVariables>
+    query={AllImageAssetsDocument}
+    {...props}
+  />
+);
+
+export type AllImageAssetsProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<AllImageAssetsQuery, AllImageAssetsQueryVariables>
+> &
+  TChildProps;
+export function withAllImageAssets<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    AllImageAssetsQuery,
+    AllImageAssetsQueryVariables,
+    AllImageAssetsProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    AllImageAssetsQuery,
+    AllImageAssetsQueryVariables,
+    AllImageAssetsProps<TChildProps>
+  >(AllImageAssetsDocument, {
+    alias: "withAllImageAssets",
     ...operationOptions
   });
 }

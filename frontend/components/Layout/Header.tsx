@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { Maybe, MenuItemFragment, ImageFragment } from '../../graphql';
 import ProgressiveImage from 'react-progressive-image';
 import client, { projectId, dataset } from '../../client'
@@ -104,12 +103,12 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     ]
     
     const gradient = fade(theme.palette.secondary.main, .3)
-
+    // TODO: figure out prefetching header links with next
     return <ProgressiveImage src={builder.image(headerImage).url()} placeholder={placeholderImageUrl}>{(src: any) =>
         <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
-            <h1 className={classes.title}><Link href="/"><a>{title}</a></Link></h1>
+            <h1 className={classes.title}><a href="/">{title}</a></h1>
             {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} /></div>}
-            <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><Link href={menuItem.href} as={menuItem.as}><a>{menuItem.title}</a></Link></li>)}</ul></nav>
+            <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><a href={menuItem.href}>{menuItem.title}</a></li>)}</ul></nav>
         </header>
     }</ProgressiveImage>
 }

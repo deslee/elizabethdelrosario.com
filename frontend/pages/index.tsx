@@ -1,3 +1,4 @@
+import React from 'react'
 import { compose } from "recompose";
 import Error from 'next/error';
 import { withSiteSettings, SiteSettingsQuery, withAllSlugs, AllSlugsQuery, PageByIdComponent, PostByIdComponent, PostCollectionByIdComponent } from "../graphql";
@@ -13,7 +14,7 @@ interface InitialProps {
 
 interface Props extends InitialProps {
     allSlugs: DataValue<AllSlugsQuery>,
-    siteSettings: DataValue<SiteSettingsQuery>
+    siteSettings: DataValue<SiteSettingsQuery>,
 }
 
 const FrontPage: NextFunctionComponent<Props, InitialProps> = ({ siteSettings, slug, allSlugs }) => {
@@ -23,7 +24,7 @@ const FrontPage: NextFunctionComponent<Props, InitialProps> = ({ siteSettings, s
             <Head>
                 <title>Loading</title>
             </Head>
-            
+
         </>
     }
 
@@ -31,7 +32,7 @@ const FrontPage: NextFunctionComponent<Props, InitialProps> = ({ siteSettings, s
         console.log("site settings not found")
         return <>
             <Error statusCode={500} />
-            <span style={{display: 'none'}}>Site settings not found</span>
+            <span style={{ display: 'none' }}>Site settings not found</span>
         </>
     }
     const settings = siteSettings.settings;
