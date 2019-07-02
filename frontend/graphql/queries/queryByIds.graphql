@@ -22,6 +22,12 @@ query ImageAssetById($id: ID!) {
   }
 }
 
+query ImageAssetByIds($ids: [String!]!) {
+  allSanityImageAssets(where: {_id_in: $ids}) {
+    ...imageAsset
+  }
+}
+
 query FileAssetById($id:ID!){
   SanityFileAsset(id:$id){
     ...fileAsset

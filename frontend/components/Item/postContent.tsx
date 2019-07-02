@@ -25,8 +25,10 @@ const useStyles = makeStyles(theme => ({
             height: '100%',
             width: '100%',
             objectFit: 'cover',
-            cursor: 'pointer'
         }
+    },
+    clickableImage: {
+        cursor: 'pointer'
     },
     postImage: {
         '& img': {
@@ -55,7 +57,6 @@ const renderFileAsset = (fileAsset: FileAsset) => {
             return <Fragment />
         }
 
-        console.log(data);
         return <Typography><MaterialLink href={data.SanityFileAsset.url}>{fileAsset.text || data.SanityFileAsset.label}</MaterialLink></Typography>
     }}</FileAssetByIdComponent>
 }
@@ -73,7 +74,12 @@ const renderPostImage = (image: PostImage, maxWidth?: number) => {
     }}</ImageAssetByIdComponent>
 }
 
-export const serializers = {
+
+interface SerializerOptions {
+    assetSelected?: (assetId: string) => void
+}
+
+export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) => ({
     list: (props: any) => {
         console.log(props)
 
@@ -113,7 +119,11 @@ export const serializers = {
                 return <Fragment />
             }
             return <Container className={classes.postImage}>
-                {renderPostImage(props.node, 1000)}
+                <Grid container item className={classes.multipleImages} spacing={1}>
+                    <Grid className={classes.clickableImage} onClick={() => assetSelected((props.node && props.node.asset as any)['_ref'])} container item>
+                        {renderPostImage(props.node, 1000)}
+                    </Grid>
+                </Grid>
             </Container>
         },
         multipleImages: (props: { node: MultipleImages }) => {
@@ -123,8 +133,9 @@ export const serializers = {
             }
 
             const numberOfColumns = props.node.columns && isNaN(parseInt(props.node.columns)) ? parseInt(props.node.columns) : 3;
+            const columns = Math.min(numberOfColumns, props.node.images.length);
             const gridItemProps = {
-                sm: 12 / numberOfColumns
+                sm: 12 / columns
             } as GridProps
             
             return <Container>
@@ -133,8 +144,8 @@ export const serializers = {
                         return <Fragment />
                     }
 
-                    return <Grid container item key={image._key} {...gridItemProps}>
-                        {renderPostImage(image, 400)}
+                    return <Grid className={classes.clickableImage} onClick={() => assetSelected((image && image.asset as any)['_ref'])} container item key={image._key} {...gridItemProps}>
+                        {renderPostImage(image, columns >= 3 ? 400 : 1920)}
                     </Grid>
                 })}</Grid>
             </Container>
@@ -161,4 +172,4 @@ export const serializers = {
             </Container>
         }
     }
-}
+})

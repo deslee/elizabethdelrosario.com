@@ -4,15 +4,13 @@ import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemo
 import introspectionResult from './introspection-result';
 import { projectId, dataset } from '../client';
 
-
-
 const createCache = () => {
     const fragmentMatcher = new IntrospectionFragmentMatcher({
         introspectionQueryResultData: introspectionResult,
     });
 
     const cache = new InMemoryCache({
-        fragmentMatcher,
+        fragmentMatcher
     });
 
     return cache;

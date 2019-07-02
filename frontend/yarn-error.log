@@ -1,30 +1,30 @@
 Arguments: 
-  /usr/local/bin/node /Users/desmondlee/.yarn/bin/yarn.js add @types/clsx
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/react-image-lightbox
 
 PATH: 
-  /Users/desmondlee/.yarn/bin:/Users/desmondlee/.config/yarn/global/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/desmondlee/Library/Android/sdk/tools:/Users/desmondlee/Library/Android/sdk/tools/bin:/Users/desmondlee/Library/Android/sdk/platform-tools:/Users/desmondlee/Library/Android/sdk/emulator:/Users/desmondlee/Library/Android/sdk/tools:/Users/desmondlee/Library/Android/sdk/tools/bin:/Users/desmondlee/Library/Android/sdk/platform-tools:/Users/desmondlee/Library/Android/sdk/emulator
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Desmond\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Desmond\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\PuTTY;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin;C:\Program Files\dotnet;C:\Go\bin;C:\Win-builds\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\NVIDIA Corporation\NVIDIA NGX;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Desmond\AppData\Local\Microsoft\WindowsApps;C:\Users\Desmond\AppData\Roaming\npm;C:\Users\Desmond\AppData\Local\Yarn\bin;C:\Users\Desmond\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\Desmond\AppData\Local\Programs\Python\Python37-32;C:\Users\Desmond\.dotnet\tools;C:\Users\Desmond\go\bin;C:\Program Files (x86)\mitmproxy\bin;C:\Program Files\JetBrains\WebStorm 2019.1.3\bin
 
 Yarn version: 
   1.16.0
 
 Node version: 
-  8.11.4
+  10.14.1
 
 Platform: 
-  darwin x64
+  win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fclsx: Not found
-      at Request.params.callback [as _callback] (/Users/desmondlee/.yarn/lib/cli.js:66091:18)
-      at Request.self.callback (/Users/desmondlee/.yarn/lib/cli.js:129590:22)
-      at emitTwo (events.js:126:13)
-      at Request.emit (events.js:214:7)
-      at Request.<anonymous> (/Users/desmondlee/.yarn/lib/cli.js:130562:10)
-      at emitOne (events.js:116:13)
-      at Request.emit (events.js:211:7)
-      at IncomingMessage.<anonymous> (/Users/desmondlee/.yarn/lib/cli.js:130484:12)
-      at Object.onceWrapper (events.js:313:30)
-      at emitNone (events.js:111:20)
+  Error: https://registry.yarnpkg.com/@types%2freact-image-lightbox: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65200:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:129590:22)
+      at Request.emit (events.js:182:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130562:10)
+      at Request.emit (events.js:182:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130484:12)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1094:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
   {
@@ -45,6 +45,10 @@ npm manifest:
     "author": "",
     "license": "ISC",
     "dependencies": {
+      "@fortawesome/fontawesome-svg-core": "^1.2.19",
+      "@fortawesome/free-brands-svg-icons": "^5.9.0",
+      "@fortawesome/free-solid-svg-icons": "^5.9.0",
+      "@fortawesome/react-fontawesome": "^0.1.4",
       "@material-ui/core": "^4.1.3",
       "@material-ui/styles": "^4.1.2",
       "@sanity/block-content-to-react": "^2.0.6",
@@ -61,6 +65,7 @@ npm manifest:
       "react": "^16.8.6",
       "react-apollo": "^2.5.8",
       "react-dom": "^16.8.6",
+      "react-image-lightbox": "^5.1.0",
       "react-player": "^1.11.1",
       "react-progressive-image": "^0.6.0",
       "recompose": "^0.30.0",
@@ -852,6 +857,40 @@ Lockfile:
     version "0.7.2"
     resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.2.tgz#53211e564604beb9befa7a4400ebf8147473eeef"
     integrity sha512-RMtr1i6E8MXaBWwhXL3yeOU8JXRnz8GNxHvaUfVvwxokvayUY0zoBeWbKw1S9XkufmGEEdQd228pSZXFkAln8Q==
+  
+  "@fortawesome/fontawesome-common-types@^0.2.19":
+    version "0.2.19"
+    resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.19.tgz#754a0f85e1290858152e1c05700ab502b11197f1"
+    integrity sha512-nd2Ul/CUs8U9sjofQYAALzOGpgkVJQgEhIJnOHaoyVR/LeC3x2mVg4eB910a4kS6WgLPebAY0M2fApEI497raQ==
+  
+  "@fortawesome/fontawesome-svg-core@^1.2.19":
+    version "1.2.19"
+    resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.19.tgz#0eca1ce9285c3d99e6e340633ee8f615f9d1a2e0"
+    integrity sha512-D4ICXg9oU08eF9o7Or392gPpjmwwgJu8ecCFusthbID95CLVXOgIyd4mOKD9Nud5Ckz+Ty59pqkNtThDKR0erA==
+    dependencies:
+      "@fortawesome/fontawesome-common-types" "^0.2.19"
+  
+  "@fortawesome/free-brands-svg-icons@^5.9.0":
+    version "5.9.0"
+    resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.9.0.tgz#4ebedba0ea026368f8c21f2c598b4458c32236e5"
+    integrity sha512-sOz1wFyslaHUak8tY6IEhSAV1mAWbCLssBR8yFQV6f065k8nUCkjyrcxW4RVl9+wiLXmeG1CJUABUJV9DiW+7Q==
+    dependencies:
+      "@fortawesome/fontawesome-common-types" "^0.2.19"
+  
+  "@fortawesome/free-solid-svg-icons@^5.9.0":
+    version "5.9.0"
+    resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.9.0.tgz#1c73e7bac17417d23f934d83f7fff5b100a7fda9"
+    integrity sha512-U8YXPfWcSozsCW0psCtlRGKjjRs5+Am5JJwLOUmVHFZbIEWzaz4YbP84EoPwUsVmSAKrisu3QeNcVOtmGml0Xw==
+    dependencies:
+      "@fortawesome/fontawesome-common-types" "^0.2.19"
+  
+  "@fortawesome/react-fontawesome@^0.1.4":
+    version "0.1.4"
+    resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.1.4.tgz#18d61d9b583ca289a61aa7dccc05bd164d6bc9ad"
+    integrity sha512-GwmxQ+TK7PEdfSwvxtGnMCqrfEm0/HbRHArbUudsYiy9KzVCwndxa2KMcfyTQ8El0vROrq8gOOff09RF1oQe8g==
+    dependencies:
+      humps "^2.0.1"
+      prop-types "^15.5.10"
   
   "@graphql-codegen/cli@^1.3.1":
     version "1.3.1"
@@ -3045,6 +3084,11 @@ Lockfile:
       signal-exit "^3.0.0"
       strip-eof "^1.0.0"
   
+  exenv@^1.2.0:
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+    integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
+  
   expand-brackets@^2.1.4:
     version "2.1.4"
     resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
@@ -3726,6 +3770,11 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
     integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
+  
+  humps@^2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/humps/-/humps-2.0.1.tgz#dd02ea6081bd0568dc5d073184463957ba9ef9aa"
+    integrity sha1-3QLqYIG9BWjcXQcxhEY5V7qe+ao=
   
   hyperscript@^2.0.2:
     version "2.0.2"
@@ -5573,7 +5622,7 @@ Lockfile:
       loose-envify "^1.3.1"
       object-assign "^4.1.1"
   
-  prop-types@15.7.2, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+  prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5736,15 +5785,33 @@ Lockfile:
       prop-types "^15.6.0"
       warning "^4.0.1"
   
+  react-image-lightbox@^5.1.0:
+    version "5.1.0"
+    resolved "https://registry.yarnpkg.com/react-image-lightbox/-/react-image-lightbox-5.1.0.tgz#b47b904b027c918acdd9efa94dc0a0ddd8125c86"
+    integrity sha512-R46QvffoDBscLQgTl4s3kFxVbnP7a+nIh7AXJNS0EXVeDaa6zKDKtIT+jFeEvs+F9oUHtZfenG1NHhTkO4hEOA==
+    dependencies:
+      prop-types "^15.6.2"
+      react-modal "^3.6.1"
+  
   react-is@16.8.6, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1:
     version "16.8.6"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
     integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
   
-  react-lifecycles-compat@^3.0.2:
+  react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2:
     version "3.0.4"
     resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
     integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+  
+  react-modal@^3.6.1:
+    version "3.8.2"
+    resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.8.2.tgz#c47397a8602beb7aae0059a3b404f20416241d03"
+    integrity sha512-wxNk94wy/DMh2LyJa8K+LyOQDhQfhKuBrZ4SxS091p75cpW+STfY+9GpAuvl6P6Yt2r/+wxYH8Z3G5Ww/L8Tiw==
+    dependencies:
+      exenv "^1.2.0"
+      prop-types "^15.5.10"
+      react-lifecycles-compat "^3.0.0"
+      warning "^4.0.3"
   
   react-player@^1.11.1:
     version "1.11.1"
@@ -6965,7 +7032,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
     integrity sha512-iq+S7vZJE60yejDYM0ek6zg308+UZsdtPExWP9VZoCFCz1zkJoXFnAX7aZfd/ZwrkidzdUZL0C/ryW+JwAiIGw==
   
-  warning@^4.0.1:
+  warning@^4.0.1, warning@^4.0.3:
     version "4.0.3"
     resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
     integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==

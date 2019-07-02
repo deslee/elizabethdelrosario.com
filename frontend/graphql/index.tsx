@@ -1278,6 +1278,16 @@ export type ImageAssetByIdQuery = { __typename?: "RootQuery" } & {
   >;
 };
 
+export type ImageAssetByIdsQueryVariables = {
+  ids: Array<Scalars["String"]>;
+};
+
+export type ImageAssetByIdsQuery = { __typename?: "RootQuery" } & {
+  allSanityImageAssets: Array<
+    { __typename?: "SanityImageAsset" } & ImageAssetFragment
+  >;
+};
+
 export type FileAssetByIdQueryVariables = {
   id: Scalars["ID"];
 };
@@ -1789,6 +1799,51 @@ export function withImageAssetById<TProps, TChildProps = {}>(
     ImageAssetByIdProps<TChildProps>
   >(ImageAssetByIdDocument, {
     alias: "withImageAssetById",
+    ...operationOptions
+  });
+}
+export const ImageAssetByIdsDocument = gql`
+  query ImageAssetByIds($ids: [String!]!) {
+    allSanityImageAssets(where: { _id_in: $ids }) {
+      ...imageAsset
+    }
+  }
+  ${imageAssetFragmentDoc}
+`;
+export type ImageAssetByIdsComponentProps = Omit<
+  ReactApollo.QueryProps<ImageAssetByIdsQuery, ImageAssetByIdsQueryVariables>,
+  "query"
+> &
+  ({ variables: ImageAssetByIdsQueryVariables; skip?: false } | { skip: true });
+
+export const ImageAssetByIdsComponent = (
+  props: ImageAssetByIdsComponentProps
+) => (
+  <ReactApollo.Query<ImageAssetByIdsQuery, ImageAssetByIdsQueryVariables>
+    query={ImageAssetByIdsDocument}
+    {...props}
+  />
+);
+
+export type ImageAssetByIdsProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<ImageAssetByIdsQuery, ImageAssetByIdsQueryVariables>
+> &
+  TChildProps;
+export function withImageAssetByIds<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    ImageAssetByIdsQuery,
+    ImageAssetByIdsQueryVariables,
+    ImageAssetByIdsProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    ImageAssetByIdsQuery,
+    ImageAssetByIdsQueryVariables,
+    ImageAssetByIdsProps<TChildProps>
+  >(ImageAssetByIdsDocument, {
+    alias: "withImageAssetByIds",
     ...operationOptions
   });
 }

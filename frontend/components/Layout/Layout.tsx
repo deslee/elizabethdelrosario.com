@@ -9,6 +9,7 @@ import { serializers } from "../Item/postContent";
 import { projectId, dataset } from "../../client";
 import { Fragment } from "react";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
+import 'react-image-lightbox/style.css';
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -68,7 +69,7 @@ export default (props: Props) => {
                     </span> :
                     <Fragment key={idx} />
             )}</div>
-            <BlockContent blocks={settings.siteFooter.contentRaw} serializers={serializers} projectId={projectId} dataset={dataset} />
+            <BlockContent blocks={settings.siteFooter.contentRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} />
         </div> }
     </>
 }
