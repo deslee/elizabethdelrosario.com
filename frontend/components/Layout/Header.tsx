@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme: Theme) => ({
             padding: theme.spacing(1, 2),
             letterSpacing: '.1rem'
         },
+        '& a': {
+            fontSize: '.8rem'
+        }
     },
 }))
 
