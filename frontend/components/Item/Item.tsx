@@ -92,7 +92,6 @@ const Item = (props: Props) => {
           })
         }
       }).filter((a: any) => a).reduce((a: any, b: any) => a.concat(b), []).filter((a: any) => a);
-
       if (imageRefs && imageRefs.length) {
         return <ImageAssetByIdsComponent variables={{ ids: imageRefs }} onCompleted={(data) => {
           data.allSanityImageAssets.forEach(image => {
@@ -180,7 +179,7 @@ const Item = (props: Props) => {
     [classes.leftAlign]: item.type === 'normal'
   })}>
     {item.title && <Container key="container">
-      <Typography gutterBottom variant="h2" className={classes.title}>{title()}</Typography>
+      {title()}
     </Container>}
     {item.contentRaw && locked ? passwordProtect() : itemBlock()}
   </div>

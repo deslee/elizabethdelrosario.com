@@ -81,8 +81,6 @@ interface SerializerOptions {
 
 export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) => ({
     list: (props: any) => {
-        console.log(props)
-
         const element = props.type === 'bullet' ? 'ul' : 'ol'
 
         return <Container>{createElement(element, null, <Typography>{props.children}</Typography>)}</Container>
@@ -163,7 +161,6 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
             </Container>
         },
         fileAsset: ({ node }: { node: FileAsset }) => {
-            console.log(node)
             if (!node) {
                 return <Fragment />
             }

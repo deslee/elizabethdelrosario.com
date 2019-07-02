@@ -17,7 +17,6 @@ const LightboxController = ({ assetIds, assetOpen, onClose }: LightboxController
     React.useEffect(() => {
         if (assetOpen) {
             const index = assetIds.indexOf(assetOpen);
-            console.log(assetIds, assetOpen, index)
             setIndex(index)
         } else {
             setIndex(undefined);
@@ -35,6 +34,7 @@ const LightboxController = ({ assetIds, assetOpen, onClose }: LightboxController
 
         const maxWidth = 1920;
         const assetId = assetIds[index]
+        const length = assetIds.length;
         const nextAssetId = assetIds[(index + 1) % length]
         const prevAssetId = assetIds[(index + length - 1) % length]
 
