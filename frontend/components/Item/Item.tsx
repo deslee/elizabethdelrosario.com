@@ -89,7 +89,7 @@ const Item = (props: Props) => {
   return <div className={clsx(classes.container, {
     [classes.centered]: item.type === 'centered'
   })}>
-    {item.title && <Container key="container"><Typography gutterBottom variant="h2" className={classes.title}><Link href={`/slug?slug=${slug}`} as={`/${slug}`}><MaterialLink>{item.title}</MaterialLink></Link></Typography></Container>}
+    {item.title && <Container key="container"><Typography gutterBottom variant="h2" className={classes.title}><Link href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink>{item.title}</MaterialLink></Link></Typography></Container>}
     {item.contentRaw && itemBlock()}
   </div>
 }
