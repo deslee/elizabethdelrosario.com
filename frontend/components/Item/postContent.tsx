@@ -132,7 +132,7 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
                 return <Fragment />
             }
 
-            const numberOfColumns = props.node.columns && isNaN(parseInt(props.node.columns)) ? parseInt(props.node.columns) : 3;
+            const numberOfColumns = props.node.columns && !isNaN(parseInt(props.node.columns)) ? parseInt(props.node.columns) : 3;
             const columns = Math.min(numberOfColumns, props.node.images.length);
             const gridItemProps = {
                 sm: 12 / columns
