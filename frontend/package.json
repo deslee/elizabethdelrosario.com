@@ -9,7 +9,9 @@
     "next": "next",
     "build": "next build",
     "start": "next start",
+    "export": "next export",
     "now-dev": "next",
+    "now-build": "cross-env NODE_ENV=production npm-run-all build export",
     "generate": "graphql-codegen --config codegen.yml",
     "generate:watch": "graphql-codegen --config codegen.yml --watch"
   },
@@ -33,6 +35,7 @@
     "apollo-client": "^2.6.3",
     "apollo-link-http": "^1.5.15",
     "clsx": "^1.0.4",
+    "cross-env": "^5.2.0",
     "graphql": "^14.4.0",
     "next": "^8.1.0",
     "next-apollo": "^2.1.3",

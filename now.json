@@ -3,7 +3,10 @@
     "builds": [
         {
             "src": "frontend/next.config.js",
-            "use": "@now/next"
+            "use": "@now/static-build",
+            "config": {
+                "distDir": "out"
+            }
         },
         {
             "src": "sanity/package.json",
