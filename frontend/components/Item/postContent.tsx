@@ -1,4 +1,4 @@
-import { VideoAsset, MultipleImages, PostImage, FileAsset, ImageAssetByIdComponent, FileAssetByIdComponent } from "../../graphql";
+import { VideoAsset, MultipleImages, PostImage, FileAsset } from "../../graphql";
 import ReactPlayer from 'react-player'
 import { makeStyles, Grid, Container, Typography, Link as MaterialLink } from "@material-ui/core";
 import client from '../../client'
@@ -7,6 +7,9 @@ import { GridProps } from "@material-ui/core/Grid";
 import ProgressiveImage from "react-progressive-image";
 import { Fragment, createElement } from "react";
 import clsx from "clsx";
+import LazyLoad from 'react-lazyload';
+
+const Lazy: React.ComponentType<{children: React.ReactNode}> = process.browser ? LazyLoad as any : Fragment
 
 const builder = imageUrlBuilder(client)
 
@@ -50,39 +53,26 @@ const renderFileAsset = (fileAsset: FileAsset) => {
 
     const file = fileAsset.file;
 
-    const assetId = (file && file.asset as any)['_ref'];
-    return <FileAssetByIdComponent variables={{ id: assetId }}>{({ loading, data }) => {
-        if (loading) {
-            return <Fragment />
-        }
+    if (!file || !file.asset || !file.asset.url) {
+        return <Fragment />
+    }
 
-        if (!data || !data.SanityFileAsset || !data.SanityFileAsset.url) {
-            return <Fragment />
-        }
-
-        return <Typography><MaterialLink href={data.SanityFileAsset.url}>{fileAsset.text || data.SanityFileAsset.label}</MaterialLink></Typography>
-    }}</FileAssetByIdComponent>
+    return <Typography><MaterialLink href={file.asset.url}>{fileAsset.text || file.asset.label}</MaterialLink></Typography>
 }
 
 const renderPostImage = (image: PostImage, maxWidth?: number) => {
-    const assetId = (image && image.asset as any)['_ref'];
-    return <ImageAssetByIdComponent variables={{ id: assetId }}>{({ loading, data }) => {
-        if (loading) {
-            return <Fragment />
-        }
-
-        const placeholderImageUrl = data && data.SanityImageAsset && data.SanityImageAsset.metadata && data.SanityImageAsset.metadata.lqip ? data.SanityImageAsset.metadata.lqip : '';
-        const thumbnailUrl = builder.image(data && data.SanityImageAsset).auto('format').width(maxWidth).url()
-        return <ProgressiveImage src={thumbnailUrl} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt={image.description || ''} />}</ProgressiveImage>
-    }}</ImageAssetByIdComponent>
+    const placeholderImageUrl = image.asset && image.asset.metadata && image.asset.metadata.lqip ? image.asset.metadata.lqip : '';
+    const thumbnailUrl = builder.image(image.asset).auto('format').width(maxWidth).url()
+    return <Lazy>
+        <ProgressiveImage src={thumbnailUrl} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt={image.description || ''} />}</ProgressiveImage>
+    </Lazy>
 }
-
 
 interface SerializerOptions {
     assetSelected?: (assetId: string) => void
 }
 
-export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) => ({
+export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) => ({
     list: (props: any) => {
         const element = props.type === 'bullet' ? 'ul' : 'ol'
 
@@ -97,7 +87,7 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
 
             const style = props.node.style;
 
-            const variant = ['h1','h2','h3','h4','h5','h6'].find(x => x === style);
+            const variant = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].find(x => x === style);
             let className = clsx(
                 {
                     [classes.centered]: style === 'centered',
@@ -124,7 +114,7 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
             }
             return <Container className={classes.postImage}>
                 <Grid container item className={classes.multipleImages} spacing={1}>
-                    <Grid className={classes.clickableImage} onClick={() => assetSelected((props.node && props.node.asset as any)['_ref'])} container item>
+                    <Grid className={classes.clickableImage} onClick={() => props.node.asset && assetSelected(props.node.asset._id)} container item>
                         {renderPostImage(props.node, 1000)}
                     </Grid>
                 </Grid>
@@ -141,19 +131,19 @@ export const serializers = ({ assetSelected = (_) => {} }: SerializerOptions) =>
             const gridItemProps = {
                 sm: 12 / columns
             } as GridProps
-            
+
             return <Container>
                 <Grid container item className={classes.multipleImages} spacing={1}>{props.node.images.map(image => {
                     if (!image || !image._key || !image.asset) {
                         return <Fragment />
                     }
 
-                    return <Grid className={classes.clickableImage} onClick={() => assetSelected((image && image.asset as any)['_ref'])} container item key={image._key} {...gridItemProps}>
+                    return <Grid className={classes.clickableImage} onClick={() => image.asset && assetSelected(image.asset._id)} container item key={image._key} {...gridItemProps}>
                         {renderPostImage(image, columns >= 3 ? 400 : 1200)}
                     </Grid>
                 })}</Grid>
             </Container>
-            
+
         },
         videoAsset: (props: { node: VideoAsset }) => {
             const classes = useStyles();

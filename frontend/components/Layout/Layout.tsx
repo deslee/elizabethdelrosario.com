@@ -4,12 +4,14 @@ import Head from 'next/head'
 import Maybe from "graphql/tsutils/Maybe";
 import Header from "./Header";
 import * as BlockContent from '@sanity/block-content-to-react'
-import { makeStyles, Link, Divider } from "@material-ui/core";
+import { makeStyles, Link, Divider, LinearProgress } from "@material-ui/core";
 import { serializers } from "../Item/postContent";
 import { projectId, dataset } from "../../client";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import 'react-image-lightbox/style.css';
+import Router from "next/router";
+import ReactGA from 'react-ga';
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -51,27 +53,58 @@ export default (props: Props) => {
         title
     } = props;
 
+    const [loading, setLoading] = useState(false);
     const classes = useStyles();
-    
+    useEffect(() => {
+        if (process.browser) {
+            if (settings.googleAnalyticsId) {
+                ReactGA.initialize(settings.googleAnalyticsId)
+                ReactGA.pageview(window.location.pathname)
+            }
+            Router.onRouteChangeStart = () => {
+                setLoading(true)
+            }
+            Router.onRouteChangeComplete = (url) => {
+                setLoading(false)
+                ReactGA.pageview(url)
+            }
+            Router.onRouteChangeError = () => {
+                setLoading(false)
+            }
+        }
+    }, [])
+
     return <>
         <Head>
             <title>{title ? `${title} | ` : undefined}{settings.title}</title>
         </Head>
         {settings.siteHeader && <Header header={settings.siteHeader} title={settings.title} subtitleRaw={settings.subtitleRaw} />}
+        {loading && <LinearProgress color="primary" />}
         {children}
         {settings.siteFooter && settings.siteFooter.contentRaw && <div className={classes.footer}>
             <Divider className={classes.divider} />
-            <div className={classes.socialMedia}>{(settings.siteFooter.socialMedia || []).filter(s => s && s._key).map(s => s).map((socialMedia, idx) =>
-                socialMedia && socialMedia._key && socialMedia.url && socialMedia.icon ?
+            <div className={classes.socialMedia}>{(settings.siteFooter.socialMedia || []).filter(s => s && s._key).map(s => s).map((socialMedia, idx) => {
+                let icon = socialMedia ? socialMedia.icon : undefined;
+                if (icon === 'email') {
+                    icon = 'envelope'
+                }
+                if (icon === 'vimeo') {
+                    icon = 'vimeo-v'
+                }
+                if (icon === 'facebook') {
+                    icon = 'facebook-f'
+                }
+                if (icon === 'linkedin') {
+                    icon = 'linkedin-in'
+                }
+                const prefix = icon ? (icon === 'envelope' ? 'fa' : 'fab') : undefined;
+                return socialMedia && socialMedia._key && socialMedia.url && socialMedia.icon && prefix ?
                     <span key={socialMedia._key}>
-                        <Link className={classes.socialMediaLink} href={socialMedia.url} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={['fab', socialMedia.icon as IconName]} /></Link>
-                        {/* <a href={socialMedia!.url!} target="_blank" rel="noopener noreferrer"></a> */}
+                        <Link className={classes.socialMediaLink} href={socialMedia.url} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={[prefix, icon as IconName]} /></Link>
                     </span> :
                     <Fragment key={idx} />
-            )}</div>
-            {/* TODO: google analytics */}
-            {/* TODO: add email */}
+            })}</div>
             <BlockContent blocks={settings.siteFooter.contentRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} />
-        </div> }
+        </div>}
     </>
 }

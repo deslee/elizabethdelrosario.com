@@ -8,6 +8,11 @@ module.exports = withCSS(withTypescript({
     })
     return config
   },
+  exportPathMap: async function(defaultPageMap) {
+    return {
+      '/': { page: '/' },
+      '/bio': { page: '/', query: { slug: 'bio' } }
+    }
+  }
   /* config options here */
-  target: 'serverless'
 }))

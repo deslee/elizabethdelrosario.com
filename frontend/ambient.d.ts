@@ -1,3 +1,9 @@
+declare namespace NodeJS {
+    export interface Process {
+        browser: boolean
+    }
+}
+
 declare module '@sanity/client';
 
 declare module "*.graphql" {

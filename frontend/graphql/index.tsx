@@ -1152,17 +1152,17 @@ export type ImageFragment = { __typename?: "Image" } & {
 
 export type PageFragment = { __typename?: "Page" } & Pick<
   Page,
-  "title" | "showTitle" | "type" | "password" | "contentRaw"
+  "_id" | "title" | "showTitle" | "type" | "password" | "contentRaw"
 > & { slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">> };
 
 export type PostFragment = { __typename?: "Post" } & Pick<
   Post,
-  "title" | "type" | "password" | "date" | "categories" | "contentRaw"
+  "_id" | "title" | "type" | "password" | "date" | "categories" | "contentRaw"
 > & { slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">> };
 
 export type PostCollectionFragment = { __typename?: "PostCollection" } & Pick<
   PostCollection,
-  "title" | "showTitle" | "type" | "contentRaw" | "showPerPage"
+  "_id" | "title" | "showTitle" | "type" | "contentRaw" | "showPerPage"
 > & {
     slug: Maybe<{ __typename?: "Slug" } & Pick<Slug, "current">>;
     posts: Maybe<Array<Maybe<{ __typename?: "Post" } & PostFragment>>>;
@@ -1345,6 +1345,7 @@ export const fileAssetFragmentDoc = gql`
 `;
 export const pageFragmentDoc = gql`
   fragment page on Page {
+    _id
     title
     showTitle
     slug {
@@ -1357,6 +1358,7 @@ export const pageFragmentDoc = gql`
 `;
 export const postFragmentDoc = gql`
   fragment post on Post {
+    _id
     title
     slug {
       current
@@ -1370,6 +1372,7 @@ export const postFragmentDoc = gql`
 `;
 export const postCollectionFragmentDoc = gql`
   fragment postCollection on PostCollection {
+    _id
     title
     showTitle
     slug {

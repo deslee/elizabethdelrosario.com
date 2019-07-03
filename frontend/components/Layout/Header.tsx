@@ -7,6 +7,7 @@ import { makeStyles, Theme, WithTheme, withTheme } from '@material-ui/core';
 import * as BlockContent from '@sanity/block-content-to-react'
 import { serializers } from '../Item/postContent';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import Link from 'next/link';
 
 const builder = imageUrlBuilder(client)
 
@@ -91,9 +92,8 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
         }
         if (menuItem.__typename === 'SiteHeaderInternalReference' && menuItem.internal && menuItem.internal.slug && menuItem.internal.slug.current) {
             return {
-                //href: `/?slug=${menuItem.internal.slug.current}`,
+                href: `/?slug=${menuItem.internal.slug.current}`,
                 as: `/${menuItem.internal.slug.current}`,
-                href: `/${menuItem.internal.slug.current}`,
                 title: menuItem.title || menuItem.internal.title || 'Untitled'
             }
         } 
@@ -110,9 +110,9 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     // TODO: figure out prefetching header links with next
     return <ProgressiveImage src={builder.image(headerImage).auto('format').url()} placeholder={placeholderImageUrl}>{(src: any) =>
         <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
-            <h1 className={classes.title}><a href="/">{title}</a></h1>
+            <h1 className={classes.title}><Link href="/"><a href="/">{title}</a></Link></h1>
             {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} /></div>}
-            <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><a href={menuItem.href}>{menuItem.title}</a></li>)}</ul></nav>
+            <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><Link href={menuItem.href} as={menuItem.as}><a href={menuItem.href}>{menuItem.title}</a></Link></li>)}</ul></nav>
         </header>
     }</ProgressiveImage>
 }

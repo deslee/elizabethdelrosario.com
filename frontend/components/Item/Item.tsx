@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { PostFragment, PageFragment, PostCollectionFragment, ImageAssetByIdsComponent, ImageAssetByIdDocument } from "../../graphql";
+import { PostFragment, PageFragment, PostCollectionFragment } from "../../graphql";
 import * as BlockContent from '@sanity/block-content-to-react'
 import { makeStyles, Container, Typography, Link as MaterialLink, TextField, InputAdornment, IconButton, LinearProgress, Grid, Button } from "@material-ui/core";
 import { Link } from 'next-apollo'
@@ -7,16 +7,15 @@ import { serializers } from "./postContent";
 import { projectId, dataset } from "../../client";
 import clsx from 'clsx'
 import { compose } from 'recompose';
-import { withApollo, WithApolloClient } from 'react-apollo';
-import ImageAssetLightbox from './ImageAssetLightbox';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 interface ComponentProps {
   item: PostFragment | PageFragment | PostCollectionFragment
+  onAssetOpen: (assetId: string) => void
 }
 
-type Props = WithApolloClient<ComponentProps>
+type Props = ComponentProps
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -46,16 +45,20 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Item = (props: Props) => {
-  const { item } = props;
+  const { item, onAssetOpen } = props;
   const classes = useStyles();
   const slug = item.slug && item.slug.current
-  const [assetOpen, setAssetOpen] = React.useState<string | undefined>(undefined);
   const [password, setPassword] = React.useState('')
   const [showPassword, setShowPassword] = React.useState(false)
   const [checkingPassword, setCheckingPassword] = React.useState(false)
   const [wrongPassword, setWrongPassword] = React.useState(false)
   const itemPassword = (item.__typename === 'Page' || item.__typename === 'Post') && item.password;
   const [locked, setLocked] = React.useState(!!itemPassword)
+  const renderContent = React.useMemo(() => {
+    return item.contentRaw ? <BlockContent key='block' projectId={projectId} dataset={dataset} blocks={item.contentRaw} serializers={serializers({
+      assetSelected: (assetId) => onAssetOpen(assetId)
+    })} /> : <Fragment />
+  }, [item._id, onAssetOpen])
 
   const title = () => {
     if ((item.__typename === 'Page' || item.__typename === 'PostCollection') && !item.showTitle) {
@@ -71,54 +74,6 @@ const Item = (props: Props) => {
         <span>{item.title}</span>
       </Typography>
     }
-  }
-
-  const itemBlock = () => {
-    const itemNode = () => item.contentRaw ? <BlockContent key='block' projectId={projectId} dataset={dataset} blocks={item.contentRaw} serializers={serializers({
-      assetSelected: (assetId) => setAssetOpen(assetId)
-    })} /> : <Fragment />;
-
-    if (item.contentRaw && item.contentRaw.map) {
-      const imageRefs: any = item.contentRaw.map((block: any) => {
-        if (block && block._type === 'postImage' && block.asset) {
-          return block.asset._ref
-        }
-
-        if (block && block._type === 'multipleImages' && block.images && block.images.map) {
-          return block.images.map((image: any) => {
-            if (image && image.asset) {
-              return image.asset._ref
-            }
-          })
-        }
-      }).filter((a: any) => a).reduce((a: any, b: any) => a.concat(b), []).filter((a: any) => a);
-      if (imageRefs && imageRefs.length) {
-        return <ImageAssetByIdsComponent variables={{ ids: imageRefs }} onCompleted={(data) => {
-          data.allSanityImageAssets.forEach(image => {
-            props.client.writeQuery({
-              query: ImageAssetByIdDocument,
-              variables: { id: image._id },
-              data: { SanityImageAsset: image }
-            })
-          })
-        }}>{({ loading }) => {
-          // block until they're all loaded and stored in the cache
-          if (loading) {
-            return <React.Fragment />
-          } else {
-            return <>
-              <ImageAssetLightbox
-                assetIds={imageRefs}
-                assetOpen={assetOpen}
-                onClose={() => setAssetOpen(undefined)}
-              />
-              {itemNode()}
-            </>;
-          }
-        }}</ImageAssetByIdsComponent>
-      }
-    }
-    return itemNode();
   }
 
   const passwordProtect = () => {
@@ -178,13 +133,10 @@ const Item = (props: Props) => {
   return <div className={clsx(classes.container, {
     [classes.leftAlign]: item.type === 'normal'
   })}>
-    {item.title && <Container key="container">
-      {title()}
-    </Container>}
-    {item.contentRaw && locked ? passwordProtect() : itemBlock()}
+    {item.title && <Container key="container">{title()}</Container>}
+    {locked ? passwordProtect() : renderContent}
   </div>
 }
 
 export default compose<Props, ComponentProps>(
-  withApollo
 )(Item);

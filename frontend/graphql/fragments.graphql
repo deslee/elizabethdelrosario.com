@@ -79,6 +79,7 @@ fragment image on Image {
 }
 
 fragment page on Page {
+  _id
   title
   showTitle
   slug {
@@ -90,6 +91,7 @@ fragment page on Page {
 }
 
 fragment post on Post {
+  _id
   title
   slug {
     current
@@ -102,6 +104,7 @@ fragment post on Post {
 }
 
 fragment postCollection on PostCollection {
+  _id
   title
   showTitle
   slug {
