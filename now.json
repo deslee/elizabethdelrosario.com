@@ -27,7 +27,7 @@
             "dest": "/frontend/_next/$1"
         },
         {
-            "src": "/(?<slug>[^/]+)$",
+            "src": "/(?<slug>[^/]+)",
             "dest": "/frontend/?slug=$slug"
         },
         {
