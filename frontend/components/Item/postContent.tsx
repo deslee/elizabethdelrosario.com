@@ -62,7 +62,7 @@ const renderFileAsset = (fileAsset: FileAsset) => {
 
 const renderPostImage = (image: PostImage, maxWidth?: number) => {
     const placeholderImageUrl = image.asset && image.asset.metadata && image.asset.metadata.lqip ? image.asset.metadata.lqip : '';
-    const thumbnailUrl = builder.image(image.asset).auto('format').width(maxWidth).url()
+    const thumbnailUrl = builder.image(image).auto('format').width(maxWidth).url()
     return <Lazy>
         <ProgressiveImage src={thumbnailUrl} placeholder={placeholderImageUrl}>{(src: any) => <img src={src} alt={image.description || ''} />}</ProgressiveImage>
     </Lazy>
