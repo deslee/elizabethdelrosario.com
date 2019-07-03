@@ -2,11 +2,8 @@
     "version": 2,
     "builds": [
         {
-            "src": "frontend/package.json",
-            "use": "@now/static-build",
-            "config": {
-                "distDir": "out"
-            }
+            "src": "frontend/next.config.js",
+            "use": "@now/next"
         },
         {
             "src": "sanity/package.json",
@@ -27,7 +24,7 @@
             "dest": "/frontend/_next/$1"
         },
         {
-            "src": "/(?<slug>[^/]+)",
+            "src": "/(?<slug>[^/]+)$",
             "dest": "/frontend/?slug=$slug"
         },
         {
