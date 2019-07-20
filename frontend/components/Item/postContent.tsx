@@ -80,7 +80,7 @@ export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) =
     },
     types: {
         block: (props: any) => {
-            const classes = useStyles();
+            const classes = useStyles({});
             if (!props || !props.node) {
                 return <Fragment />
             }
@@ -107,7 +107,7 @@ export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) =
             </Container>
         ),
         postImage: (props: { node: PostImage }) => {
-            const classes = useStyles();
+            const classes = useStyles({});
 
             if (!props.node || !props.node.asset) {
                 return <Fragment />
@@ -121,7 +121,7 @@ export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) =
             </Container>
         },
         multipleImages: (props: { node: MultipleImages }) => {
-            const classes = useStyles();
+            const classes = useStyles({});
             if (!props || !props.node || !props.node.images) {
                 return <Fragment />
             }
@@ -146,7 +146,7 @@ export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) =
 
         },
         videoAsset: (props: { node: VideoAsset }) => {
-            const classes = useStyles();
+            const classes = useStyles({});
             if (!props || !props.node || !props.node.url) {
                 return <Fragment />
             }

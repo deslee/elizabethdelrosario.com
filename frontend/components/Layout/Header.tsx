@@ -78,7 +78,7 @@ interface MenuItem {
 
 const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     const headerImage = header && header.headerImage;
-    const classes = useStyles();
+    const classes = useStyles({});
     const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip ? headerImage.asset.metadata.lqip : '';
 
     const menuItems = [

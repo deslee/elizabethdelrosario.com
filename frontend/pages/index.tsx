@@ -3,8 +3,8 @@ import { compose } from "recompose";
 import { SiteSettingsQuery, AllSlugsQuery, SiteSettingsDocument, SiteSettingsQueryVariables, AllSlugsQueryVariables, AllSlugsDocument, PageByIdQuery, PageByIdQueryVariables, PageByIdDocument, PostByIdQuery, PostByIdQueryVariables, PostCollectionByIdQuery, PostCollectionByIdQueryVariables, PostByIdDocument, PostCollectionByIdDocument, PostFragment, Maybe, PageFragment, PostCollectionFragment, SiteSettingsFragment, ImageAssetByIdQuery, ImageAssetByIdQueryVariables, ImageAssetByIdDocument, FileAssetByIdQueryVariables, FileAssetByIdQuery, FileAssetByIdDocument, ImageAssetFragment, FileAssetFragment } from "../graphql";
 import withSanity from "../graphql/withSanity";
 import ItemContainer from "../containers/ItemContainer";
-import { NextFunctionComponent, NextContext } from "next";
 import apolloClient from '../graphql/apolloClient';
+import { NextPage } from 'next';
 
 type AssetsList = (FileAssetFragment | ImageAssetFragment)[];
 
@@ -18,7 +18,7 @@ interface InitialProps {
 interface Props extends InitialProps {
 }
 
-const Page: NextFunctionComponent<Props, InitialProps> = ({ settings, item, assets }) => {
+const Page: NextPage<Props> = ({ settings, item, assets }) => {
     return <>
         <ItemContainer siteSettings={settings} item={item} assets={assets} />
     </>
@@ -113,7 +113,7 @@ async function hydrateItem(item: Maybe<PostFragment> | Maybe<PageFragment> | May
 }
 
 
-Page.getInitialProps = async (ctx: NextContext) => {
+Page.getInitialProps = async (ctx) => {
     const slug = ctx.query.slug && ctx.query.slug.toString()
 
     var { data: { settings } } = await apolloClient.query<SiteSettingsQuery, SiteSettingsQueryVariables>({

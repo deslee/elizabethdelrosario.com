@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { PostFragment, PageFragment, PostCollectionFragment } from "../../graphql";
 import * as BlockContent from '@sanity/block-content-to-react'
 import { makeStyles, Container, Typography, Link as MaterialLink, TextField, InputAdornment, IconButton, LinearProgress, Grid, Button } from "@material-ui/core";
-import { Link } from 'next-apollo'
+import Link from 'next/link';
 import { serializers } from "./postContent";
 import { projectId, dataset } from "../../client";
 import clsx from 'clsx'
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 const Item = (props: Props) => {
   const { item, onAssetOpen } = props;
-  const classes = useStyles();
+  const classes = useStyles({});
   const slug = item.slug && item.slug.current
   const [password, setPassword] = React.useState('')
   const [showPassword, setShowPassword] = React.useState(false)
@@ -71,7 +71,7 @@ const Item = (props: Props) => {
 
     if (item.__typename === 'Page' || item.__typename === 'Post') {
       return <Typography gutterBottom variant="h2" className={classes.title}>
-        <Link prefetch withData href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
+        <Link href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
       </Typography>
     } else {
       return <Typography component="div" className={classes.collectionTitle}>

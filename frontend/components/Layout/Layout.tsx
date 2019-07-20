@@ -7,7 +7,7 @@ import { makeStyles, Link, Divider, LinearProgress } from "@material-ui/core";
 import { serializers } from "../Item/postContent";
 import { projectId, dataset } from "../../client";
 import { Fragment, useEffect, useState } from "react";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 import 'react-image-lightbox/style.css';
 import Router from "next/router";
 import ReactGA from 'react-ga';
@@ -56,23 +56,23 @@ export default (props: Props) => {
     } = props;
 
     const [loading, setLoading] = useState(false);
-    const classes = useStyles();
+    const classes = useStyles({});
     useEffect(() => {
         if (process.browser) {
             if (settings.googleAnalyticsId) {
                 ReactGA.initialize(settings.googleAnalyticsId)
                 ReactGA.pageview(window.location.pathname)
             }
-            Router.onRouteChangeStart = () => {
+            Router.events.on('routeChangeStart', () => {
                 setLoading(true)
-            }
-            Router.onRouteChangeComplete = (url) => {
+            })
+            Router.events.on('routeChangeComplete', (url) => {
                 setLoading(false)
                 ReactGA.pageview(url)
-            }
-            Router.onRouteChangeError = () => {
+            })
+            Router.events.on('routeChangeError', () => {
                 setLoading(false)
-            }
+            })
         }
     }, [])
 
@@ -119,7 +119,7 @@ export default (props: Props) => {
                 return socialMedia && socialMedia._key && socialMedia.url && socialMedia.icon && prefix ?
                     <span key={socialMedia._key}>
                         {twitterMetaTag}
-                        <Link className={classes.socialMediaLink} href={socialMedia.url} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={[prefix, icon as IconName]} /></Link>
+                        <Link className={classes.socialMediaLink} href={socialMedia.url} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={[prefix as IconPrefix, icon as IconName]} /></Link>
                     </span> :
                     <Fragment key={idx} />
             })}</div>

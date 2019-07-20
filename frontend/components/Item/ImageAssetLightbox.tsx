@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import Lightbox from 'react-image-lightbox';
-import { ImageAssetByIdsComponent, ImageAssetFragment, SanityImageAsset } from '../../graphql';
+import { SanityImageAsset } from '../../graphql';
 import client from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
 

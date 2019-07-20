@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 const ItemContainer = (props: Props) => {
     const { siteSettings, item, loading, assets } = props;
     const [assetOpen, setAssetOpen] = useState<string | undefined>(undefined);
-    const classes = useStyles();
+    const classes = useStyles({});
     const onAssetOpen = useCallback((id: string) => {
         setAssetOpen(id)
     }, [setAssetOpen])
