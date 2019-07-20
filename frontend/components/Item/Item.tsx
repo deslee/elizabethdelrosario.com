@@ -59,6 +59,10 @@ const Item = (props: Props) => {
       assetSelected: (assetId) => onAssetOpen(assetId)
     })} /> : <Fragment />
   }, [item._id, onAssetOpen])
+  React.useEffect(() => {
+    // set locked state when item changes
+    setLocked(!!itemPassword)
+  }, [item])
 
   const title = () => {
     if ((item.__typename === 'Page' || item.__typename === 'PostCollection') && !item.showTitle) {

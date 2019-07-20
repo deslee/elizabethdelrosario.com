@@ -49,10 +49,10 @@ const ItemContainer = (props: Props) => {
         {description && <PageDescription description={description} />}
         {firstImage && <PageMetaImage image={firstImage} />}
         <Item item={item} onAssetOpen={onAssetOpen} />
-        {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Fragment key={idx}>
+        {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <div key={post._id}>
             <Item item={post} onAssetOpen={onAssetOpen} />
             {idx !== (item.posts || []).length - 1 && <Divider className={classes.divider} />}
-        </Fragment> : null)}
+        </div> : undefined)}
 
         <ImageAssetLightbox
             assets={assets.filter(asset => asset.__typename === 'SanityImageAsset') as SanityImageAsset[]}
