@@ -110,6 +110,7 @@ export default (props: Props) => {
                     if (match && match.groups && match.groups.username) {
                         twitterMetaTag = <Head>
                             <meta name="twitter:site" key="twitter:site" content={`@${match.groups.username}`} />
+                            <meta name="twitter:creator" key="twitter:creator" content={`@${match.groups.username}`} />
                         </Head>
                     }
                 }
