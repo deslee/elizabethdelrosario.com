@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import apolloClient from "../graphql/apolloClient";
 import { SiteSettingsQuery, SiteSettingsQueryVariables, SiteSettingsDocument, AllSlugsQuery, AllSlugsQueryVariables, AllSlugsDocument, PostFragment, PageFragment, PostCollectionFragment, PageByIdQuery, PageByIdQueryVariables, PageByIdDocument, PostByIdQuery, PostByIdQueryVariables, PostByIdDocument, PostCollectionByIdQuery, PostCollectionByIdQueryVariables, PostCollectionByIdDocument, FileAssetFragment, ImageAssetFragment } from "../graphql";
 import Maybe from "graphql/tsutils/Maybe";
-import { hydrateItem } from "./itemUtils";
+import { hydrateItem, prefetchAssets } from "./itemUtils";
 
 type AssetsList = (FileAssetFragment | ImageAssetFragment)[];
 
@@ -83,11 +83,13 @@ export const getPageInitialProps = async (ctx: NextPageContext) => {
     }
 
     if (item) {
+        await prefetchAssets([item])
         const result = await hydrateItem(item);
         item = result.item;
         result.assets.forEach(a => assets.push(a))
     }
     if (item && item.__typename === 'PostCollection' && item.posts && item.posts.length) {
+        await prefetchAssets([item, ...item.posts])
         const result = await Promise.all(item.posts.map(async post => {
             return await hydrateItem(post);
         }))

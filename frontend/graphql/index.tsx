@@ -1271,6 +1271,16 @@ export type AllImageAssetsQuery = { __typename?: "RootQuery" } & {
   >;
 };
 
+export type AllImageAssetsFilterQueryVariables = {
+  filter?: Maybe<SanityImageAssetFilter>;
+};
+
+export type AllImageAssetsFilterQuery = { __typename?: "RootQuery" } & {
+  allSanityImageAssets: Array<
+    { __typename?: "SanityImageAsset" } & ImageAssetFragment
+  >;
+};
+
 export type PostByIdQueryVariables = {
   id: Scalars["ID"];
 };
@@ -1697,6 +1707,59 @@ export function withAllImageAssets<TProps, TChildProps = {}>(
     AllImageAssetsProps<TChildProps>
   >(AllImageAssetsDocument, {
     alias: "withAllImageAssets",
+    ...operationOptions
+  });
+}
+export const AllImageAssetsFilterDocument = gql`
+  query AllImageAssetsFilter($filter: SanityImageAssetFilter) {
+    allSanityImageAssets(where: $filter) {
+      ...imageAsset
+    }
+  }
+  ${imageAssetFragmentDoc}
+`;
+export type AllImageAssetsFilterComponentProps = Omit<
+  ReactApollo.QueryProps<
+    AllImageAssetsFilterQuery,
+    AllImageAssetsFilterQueryVariables
+  >,
+  "query"
+>;
+
+export const AllImageAssetsFilterComponent = (
+  props: AllImageAssetsFilterComponentProps
+) => (
+  <ReactApollo.Query<
+    AllImageAssetsFilterQuery,
+    AllImageAssetsFilterQueryVariables
+  >
+    query={AllImageAssetsFilterDocument}
+    {...props}
+  />
+);
+
+export type AllImageAssetsFilterProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<
+    AllImageAssetsFilterQuery,
+    AllImageAssetsFilterQueryVariables
+  >
+> &
+  TChildProps;
+export function withAllImageAssetsFilter<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    AllImageAssetsFilterQuery,
+    AllImageAssetsFilterQueryVariables,
+    AllImageAssetsFilterProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    AllImageAssetsFilterQuery,
+    AllImageAssetsFilterQueryVariables,
+    AllImageAssetsFilterProps<TChildProps>
+  >(AllImageAssetsFilterDocument, {
+    alias: "withAllImageAssetsFilter",
     ...operationOptions
   });
 }

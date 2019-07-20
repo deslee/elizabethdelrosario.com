@@ -1,11 +1,51 @@
 import Maybe from "graphql/tsutils/Maybe";
-import { PostFragment, PageFragment, PostCollectionFragment, ImageAssetByIdQuery, ImageAssetByIdQueryVariables, ImageAssetByIdDocument, FileAssetByIdQuery, FileAssetByIdQueryVariables, FileAssetByIdDocument, FileAssetFragment, ImageAssetFragment } from "../graphql";
+import { PostFragment, PageFragment, PostCollectionFragment, ImageAssetByIdQuery, ImageAssetByIdQueryVariables, ImageAssetByIdDocument, FileAssetByIdQuery, FileAssetByIdQueryVariables, FileAssetByIdDocument, FileAssetFragment, ImageAssetFragment, AllImageAssetsQuery, AllImageAssetsFilterQuery, AllImageAssetsFilterQueryVariables, AllImageAssetsFilterDocument } from "../graphql";
 import apolloClient from "../graphql/apolloClient";
 
+type Item = Maybe<PostFragment> | Maybe<PageFragment> | Maybe<PostCollectionFragment>
 
 type AssetsList = (FileAssetFragment | ImageAssetFragment)[];
 
-export async function hydrateItem(item: Maybe<PostFragment> | Maybe<PageFragment> | Maybe<PostCollectionFragment>): Promise<{ item: Maybe<PostFragment> | Maybe<PageFragment> | Maybe<PostCollectionFragment>, assets: AssetsList }> {
+export async function prefetchAssets(items: Item[]) {
+    const imageAssetIds: string[] = [];
+    items.map(item => {
+        if (item && item.contentRaw && item.contentRaw.length) {
+            // get image assets
+            item.contentRaw.filter((block: any) => ['postImage', 'multipleImages'].indexOf(block._type) >= 0).map((block: any) => {
+                if (block && block.asset && block.asset._ref) {
+                    imageAssetIds.push(block.asset._ref)
+                }
+                else if (block && block.images && block.images.length) {
+                    block.images.filter((image: any) => !!image.asset && !!image.asset._ref).map((image: any) => imageAssetIds.push(image.asset._ref))
+                }
+            })
+        }
+    })
+
+    if (imageAssetIds.length) {
+        const { data: { allSanityImageAssets } } = await apolloClient.query<AllImageAssetsFilterQuery, AllImageAssetsFilterQueryVariables>({
+            query: AllImageAssetsFilterDocument,
+            variables: {
+                filter: {
+                    _id_in: imageAssetIds
+                }
+            }
+        })
+        allSanityImageAssets.forEach(imageAsset => {
+            apolloClient.cache.writeQuery({
+                query: ImageAssetByIdDocument,
+                variables: {
+                    id: imageAsset._id
+                },
+                data: {
+                    SanityImageAsset: imageAsset
+                }
+            })
+        })
+    }
+}
+
+export async function hydrateItem(item: Item): Promise<{ item: Item, assets: AssetsList }> {
     if (item && item.contentRaw && item.contentRaw.length) {
         const result = await Promise.all((item.contentRaw as any[]).map<Promise<{ block: any, assets: AssetsList }>>(async (block: any) => {
             if (block && block.asset && block.asset._ref) {

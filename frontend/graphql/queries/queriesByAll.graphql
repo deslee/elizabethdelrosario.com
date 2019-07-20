@@ -1,5 +1,11 @@
-query AllImageAssets{
+query AllImageAssets {
   allSanityImageAssets {
+    ...imageAsset
+  }
+}
+
+query AllImageAssetsFilter($filter: SanityImageAssetFilter) {
+  allSanityImageAssets(where: $filter) {
     ...imageAsset
   }
 }
