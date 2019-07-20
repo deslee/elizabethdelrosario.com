@@ -64,6 +64,19 @@ export const getPageInitialProps = async (ctx: NextPageContext) => {
                     },
                     query: PostCollectionByIdDocument
                 })
+                if (PostCollection.posts) {
+                    PostCollection.posts.forEach(post => {
+                        apolloClient.cache.writeQuery({
+                            query: PostByIdDocument,
+                            variables: {
+                                id: post._id
+                            },
+                            data: {
+                                Post: post
+                            }
+                        })
+                    })
+                }
                 item = PostCollection;
             }
         }
