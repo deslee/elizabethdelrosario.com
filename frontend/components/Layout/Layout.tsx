@@ -1,6 +1,5 @@
 import { SiteSettingsFragment } from "../../graphql";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Head from 'next/head'
 import Maybe from "graphql/tsutils/Maybe";
 import Header from "./Header";
 import * as BlockContent from '@sanity/block-content-to-react'
@@ -12,6 +11,8 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import 'react-image-lightbox/style.css';
 import Router from "next/router";
 import ReactGA from 'react-ga';
+import { PageTitle, PageDescription } from "../Meta";
+import { toPlainText } from "../../utility/blockUtils";
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -74,10 +75,11 @@ export default (props: Props) => {
         }
     }, [])
 
+    const pageTitle = title ? `${title} | ${settings.title}` : settings.title
+    const description = settings.subtitleRaw && toPlainText(settings.subtitleRaw)
     return <>
-        <Head>
-            <title>{title ? `${title} | ` : undefined}{settings.title}</title>
-        </Head>
+        {pageTitle && <PageTitle title={pageTitle} />}
+        {description && <PageDescription description={description} />}
         {settings.siteHeader && <Header header={settings.siteHeader} title={settings.title} subtitleRaw={settings.subtitleRaw} />}
         {loading && <LinearProgress color="primary" />}
         {children}

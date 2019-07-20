@@ -1,10 +1,12 @@
-import { Fragment, useState, useEffect, useCallback } from 'react';
+import { Fragment, useState, useCallback } from 'react';
 import Layout from "../components/Layout/Layout";
 import Error from 'next/error';
 import { PostFragment, PageFragment, PostCollectionFragment, SiteSettingsFragment, Maybe, FileAssetFragment, ImageAssetFragment, SanityImageAsset } from "../graphql";
 import Item from "../components/Item/Item";
 import ImageAssetLightbox from '../components/Item/ImageAssetLightbox';
 import { makeStyles, Divider, LinearProgress } from "@material-ui/core";
+import { PageDescription, PageMetaImage } from '../components/Meta';
+import { toPlainText, getFirstImage } from '../utility/blockUtils';
 
 interface ComponentProps {
     item?: Maybe<PostFragment> | Maybe<PageFragment> | Maybe<PostCollectionFragment>
@@ -40,8 +42,12 @@ const ItemContainer = (props: Props) => {
     }
 
     const title = (item.__typename === 'Post' || ((item.__typename === 'Page' || item.__typename === 'PostCollection') && item.showTitle)) ? item.title : undefined;
+    const description = toPlainText(item.contentRaw);
+    const firstImage = getFirstImage(item.contentRaw);
 
     return <Layout siteSettings={siteSettings} title={title}>
+        {description && <PageDescription description={description} />}
+        {firstImage && <PageMetaImage image={firstImage} />}
         <Item item={item} onAssetOpen={onAssetOpen} />
         {item.__typename === 'PostCollection' && (item.posts || []).map((post, idx) => post ? <Fragment key={idx}>
             <Item item={post} onAssetOpen={onAssetOpen} />

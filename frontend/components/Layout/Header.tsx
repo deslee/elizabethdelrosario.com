@@ -8,6 +8,7 @@ import * as BlockContent from '@sanity/block-content-to-react'
 import { serializers } from '../Item/postContent';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Link from 'next/link';
+import { PageMetaImage } from '../Meta';
 
 const builder = imageUrlBuilder(client)
 
@@ -108,13 +109,16 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     
     const gradient = fade(theme.palette.secondary.main, .3)
     // TODO: figure out prefetching header links with next
-    return <ProgressiveImage src={builder.image(headerImage).auto('format').url()} placeholder={placeholderImageUrl}>{(src: any) =>
-        <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
-            <h1 className={classes.title}><Link href="/"><a href="/">{title}</a></Link></h1>
-            {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} /></div>}
-            <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><Link href={menuItem.href} as={menuItem.as}><a href={menuItem.href}>{menuItem.title}</a></Link></li>)}</ul></nav>
-        </header>
-    }</ProgressiveImage>
+    return <>
+        <PageMetaImage image={builder.image(headerImage).auto('format').url()} />
+        <ProgressiveImage src={builder.image(headerImage).auto('format').url()} placeholder={placeholderImageUrl}>{(src: any) =>
+            <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
+                <h1 className={classes.title}><Link href="/"><a href="/">{title}</a></Link></h1>
+                {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} /></div>}
+                <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.href}><Link href={menuItem.href} as={menuItem.as}><a href={menuItem.href}>{menuItem.title}</a></Link></li>)}</ul></nav>
+            </header>
+        }</ProgressiveImage>
+    </>
 }
 
 export default withTheme(Header);
