@@ -15,4 +15,5 @@ export const PageDescription = ({ description }: { description: string }) => <He
 export const PageMetaImage = ({ image }: { image: string }) => <Head>
     <meta property="og:image" key="og:image" content={image} />
     <meta name="twitter:image" key="twitter:image" content={image} />
+    <meta name="twitter:card" key="twitter:card" content="summary_large_image" />
 </Head>
