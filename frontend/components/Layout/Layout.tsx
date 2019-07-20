@@ -106,11 +106,11 @@ export default (props: Props) => {
 
                 let twitterMetaTag: React.ReactNode | undefined = undefined;
                 if (icon === 'twitter' && socialMedia && socialMedia.url) {
-                    const match = socialMedia.url.match(/.*twitter.com\/(?<username>.*)/)
-                    if (match && match.groups && match.groups.username) {
+                    const match = socialMedia.url.match(/.*twitter.com\/(.*)/)
+                    if (match && match.length > 0 && match[1]) {
                         twitterMetaTag = <Head>
-                            <meta name="twitter:site" key="twitter:site" content={`@${match.groups.username}`} />
-                            <meta name="twitter:creator" key="twitter:creator" content={`@${match.groups.username}`} />
+                            <meta name="twitter:site" key="twitter:site" content={`@${match[1]}`} />
+                            <meta name="twitter:creator" key="twitter:creator" content={`@${match[1]}`} />
                         </Head>
                     }
                 }
