@@ -9,6 +9,8 @@ import { serializers } from '../Item/postContent';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Link from 'next/link';
 import { PageMetaImage } from '../Meta';
+import { loadSlug } from '../../utility/pageUtils';
+import { prefetchAssets } from '../../utility/itemUtils';
 
 const builder = imageUrlBuilder(client)
 
@@ -74,39 +76,49 @@ interface MenuItem {
     href: string;
     as: string;
     title: string;
+    slug?: string;
 }
 
 const Header = ({ header, title, subtitleRaw, theme }: Props) => {
     const headerImage = header && header.headerImage;
     const classes = useStyles({});
+    const preload = React.useCallback(async (slug: string) => {
+        const item = await loadSlug(slug);
+        if (item) {
+            await prefetchAssets(item);
+        }
+    }, [])
+
     const placeholderImageUrl = headerImage && headerImage.asset && headerImage.asset.metadata && headerImage.asset.metadata.lqip ? headerImage.asset.metadata.lqip : '';
 
     const menuItems = [
         {
             href: '/',
             as: '/',
-            title: 'Home'
+            title: 'Home',
+            slug: undefined
         },
         ...(header.menuItems || []).map<MenuItem | undefined>(menuItem => {
-        if (!menuItem) {
-            return
-        }
-        if (menuItem.__typename === 'SiteHeaderInternalReference' && menuItem.internal && menuItem.internal.slug && menuItem.internal.slug.current) {
-            return {
-                href: `/[slug]`,
-                as: `/${menuItem.internal.slug.current}`,
-                title: menuItem.title || menuItem.internal.title || 'Untitled'
+            if (!menuItem) {
+                return
             }
-        } 
-        // if (menuItem.__typename === 'SiteHeaderExternalReference' && menuItem.title && menuItem.url) {
-        //     return {
-        //         href: menuItem.url,
-        //         title: menuItem.title || 'Untitled'
-        //     }
-        // } 
+            if (menuItem.__typename === 'SiteHeaderInternalReference' && menuItem.internal && menuItem.internal.slug && menuItem.internal.slug.current) {
+                return {
+                    href: `/[slug]`,
+                    as: `/${menuItem.internal.slug.current}`,
+                    title: menuItem.title || menuItem.internal.title || 'Untitled',
+                    slug: menuItem.internal.slug.current
+                }
+            }
+            // if (menuItem.__typename === 'SiteHeaderExternalReference' && menuItem.title && menuItem.url) {
+            //     return {
+            //         href: menuItem.url,
+            //         title: menuItem.title || 'Untitled'
+            //     }
+            // } 
         }).filter(menuItem => menuItem).map<MenuItem>(menuItem => menuItem!)
     ]
-    
+
     const gradient = fade(theme.palette.secondary.main, .3)
     // TODO: figure out prefetching header links with next
     return <>
@@ -115,7 +127,7 @@ const Header = ({ header, title, subtitleRaw, theme }: Props) => {
             <header className={classes.root} style={{ backgroundImage: `linear-gradient(${gradient},${gradient}),url(${src})` }}>
                 <h1 className={classes.title}><Link prefetch href="/"><a>{title}</a></Link></h1>
                 {subtitleRaw && <div className={classes.subtitle}><BlockContent blocks={subtitleRaw} serializers={serializers({})} projectId={projectId} dataset={dataset} /></div>}
-                <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.as}><Link prefetch href={menuItem.href} as={menuItem.as}><a>{menuItem.title}</a></Link></li>)}</ul></nav>
+                <nav className={classes.nav}><ul>{menuItems.map(menuItem => <li key={menuItem.as}><Link prefetch href={menuItem.href} as={menuItem.as}><a onMouseOver={() => menuItem.slug && preload(menuItem.slug)}>{menuItem.title}</a></Link></li>)}</ul></nav>
             </header>
         }</ProgressiveImage>
     </>

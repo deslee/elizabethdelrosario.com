@@ -6,7 +6,12 @@ type Item = Maybe<PostFragment> | Maybe<PageFragment> | Maybe<PostCollectionFrag
 
 type AssetsList = (FileAssetFragment | ImageAssetFragment)[];
 
-export async function prefetchAssets(items: Item[]) {
+export async function prefetchAssets(item: Item) {
+    const items = [item]
+    if (item && item.__typename === 'PostCollection' && item.posts && item.posts.length) {
+        item.posts.forEach(post => items.push(post));
+    }
+
     const imageAssetIds: string[] = [];
     items.map(item => {
         if (item && item.contentRaw && item.contentRaw.length) {
