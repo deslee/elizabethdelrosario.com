@@ -13,6 +13,7 @@ import Router from "next/router";
 import ReactGA from 'react-ga';
 import { PageTitle, PageDescription } from "../Meta";
 import { toPlainText } from "../../utility/blockUtils";
+import Head from "next/head";
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -78,6 +79,9 @@ export default (props: Props) => {
     const pageTitle = title ? `${title} | ${settings.title}` : settings.title
     const description = settings.subtitleRaw && toPlainText(settings.subtitleRaw)
     return <>
+        <Head>
+            <meta name="twitter:card" key="twitter:card" content="summary" />
+        </Head>
         {pageTitle && <PageTitle title={pageTitle} />}
         {description && <PageDescription description={description} />}
         {settings.siteHeader && <Header header={settings.siteHeader} title={settings.title} subtitleRaw={settings.subtitleRaw} />}
@@ -99,9 +103,21 @@ export default (props: Props) => {
                 if (icon === 'linkedin') {
                     icon = 'linkedin-in'
                 }
+
+                let twitterMetaTag: React.ReactNode | undefined = undefined;
+                if (icon === 'twitter' && socialMedia && socialMedia.url) {
+                    const match = socialMedia.url.match(/.*twitter.com\/(?<username>.*)/)
+                    if (match && match.groups && match.groups.username) {
+                        twitterMetaTag = <Head>
+                            <meta name="twitter:site" key="twitter:site" content={`@${match.groups.username}`} />
+                        </Head>
+                    }
+                }
+
                 const prefix = icon ? (icon === 'envelope' ? 'fa' : 'fab') : undefined;
                 return socialMedia && socialMedia._key && socialMedia.url && socialMedia.icon && prefix ?
                     <span key={socialMedia._key}>
+                        {twitterMetaTag}
                         <Link className={classes.socialMediaLink} href={socialMedia.url} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={[prefix, icon as IconName]} /></Link>
                     </span> :
                     <Fragment key={idx} />
