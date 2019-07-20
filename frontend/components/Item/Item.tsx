@@ -71,7 +71,7 @@ const Item = (props: Props) => {
 
     if (item.__typename === 'Page' || item.__typename === 'Post') {
       return <Typography gutterBottom variant="h2" className={classes.title}>
-        <Link href={`/?slug=${slug}`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
+        <Link href={`/[slug]`} as={`/${slug}`}><MaterialLink href={`/${slug}`}>{item.title}</MaterialLink></Link>
       </Typography>
     } else {
       return <Typography component="div" className={classes.collectionTitle}>

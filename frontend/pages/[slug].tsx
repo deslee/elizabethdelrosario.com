@@ -11,6 +11,7 @@ type AssetsList = (FileAssetFragment | ImageAssetFragment)[];
 interface InitialProps {
     item: Maybe<PostFragment> | Maybe<PageFragment> | Maybe<PostCollectionFragment> | undefined
     settings: SiteSettingsFragment;
+    slug?: string;
     assets: AssetsList;
 }
 
