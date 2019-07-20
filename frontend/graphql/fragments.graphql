@@ -192,6 +192,9 @@ fragment fileAsset on SanityFileAsset {
 }
 
 fragment siteSettings on SiteSettings {
+  favicon {
+    ...image
+  }
   title
   subtitleRaw
   frontPage {

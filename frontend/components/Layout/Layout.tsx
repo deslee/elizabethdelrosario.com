@@ -14,6 +14,10 @@ import ReactGA from 'react-ga';
 import { PageTitle, PageDescription } from "../Meta";
 import { toPlainText } from "../../utility/blockUtils";
 import Head from "next/head";
+import client from '../../client'
+import imageUrlBuilder from '@sanity/image-url'
+
+const builder = imageUrlBuilder(client)
 
 interface ComponentProps {
     children: React.ReactNode;
@@ -78,9 +82,12 @@ export default (props: Props) => {
 
     const pageTitle = title ? `${title} | ${settings.title}` : settings.title
     const description = settings.subtitleRaw && toPlainText(settings.subtitleRaw)
+    const favicon = settings.favicon && settings.favicon.asset && builder.image(settings.favicon.asset).format('png').width(32).height(32).url()
+
     return <>
         <Head>
             <meta name="twitter:card" key="twitter:card" content="summary" />
+            {favicon && <link rel="icon" type="image/x-icon" href={favicon} />}
         </Head>
         {pageTitle && <PageTitle title={pageTitle} />}
         {description && <PageDescription description={description} />}

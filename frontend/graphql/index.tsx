@@ -973,6 +973,7 @@ export type SiteSettings = Document & {
   /** Current document revision */
   _rev: Scalars["String"];
   _key?: Maybe<Scalars["String"]>;
+  favicon?: Maybe<Image>;
   title?: Maybe<Scalars["String"]>;
   subtitleRaw?: Maybe<Scalars["JSON"]>;
   frontPage?: Maybe<PageOrPostOrPostCollection>;
@@ -1207,6 +1208,7 @@ export type SiteSettingsFragment = { __typename?: "SiteSettings" } & Pick<
   SiteSettings,
   "title" | "subtitleRaw" | "googleAnalyticsId"
 > & {
+    favicon: Maybe<{ __typename?: "Image" } & ImageFragment>;
     frontPage: Maybe<
 
         | ({ __typename?: "Page" } & PageFragment)
@@ -1343,50 +1345,6 @@ export const fileAssetFragmentDoc = gql`
     _updatedAt
   }
 `;
-export const pageFragmentDoc = gql`
-  fragment page on Page {
-    _id
-    title
-    showTitle
-    slug {
-      current
-    }
-    type
-    password
-    contentRaw
-  }
-`;
-export const postFragmentDoc = gql`
-  fragment post on Post {
-    _id
-    title
-    slug {
-      current
-    }
-    type
-    password
-    date
-    categories
-    contentRaw
-  }
-`;
-export const postCollectionFragmentDoc = gql`
-  fragment postCollection on PostCollection {
-    _id
-    title
-    showTitle
-    slug {
-      current
-    }
-    type
-    contentRaw
-    showPerPage
-    posts {
-      ...post
-    }
-  }
-  ${postFragmentDoc}
-`;
 export const dimensionsFragmentDoc = gql`
   fragment dimensions on SanityImageDimensions {
     height
@@ -1478,6 +1436,50 @@ export const imageFragmentDoc = gql`
   }
   ${imageAssetFragmentDoc}
 `;
+export const pageFragmentDoc = gql`
+  fragment page on Page {
+    _id
+    title
+    showTitle
+    slug {
+      current
+    }
+    type
+    password
+    contentRaw
+  }
+`;
+export const postFragmentDoc = gql`
+  fragment post on Post {
+    _id
+    title
+    slug {
+      current
+    }
+    type
+    password
+    date
+    categories
+    contentRaw
+  }
+`;
+export const postCollectionFragmentDoc = gql`
+  fragment postCollection on PostCollection {
+    _id
+    title
+    showTitle
+    slug {
+      current
+    }
+    type
+    contentRaw
+    showPerPage
+    posts {
+      ...post
+    }
+  }
+  ${postFragmentDoc}
+`;
 export const menuItemFragmentDoc = gql`
   fragment menuItem on SiteHeaderInternalReference {
     _key
@@ -1513,6 +1515,9 @@ export const socialMediaFragmentDoc = gql`
 `;
 export const siteSettingsFragmentDoc = gql`
   fragment siteSettings on SiteSettings {
+    favicon {
+      ...image
+    }
     title
     subtitleRaw
     frontPage {
@@ -1542,10 +1547,10 @@ export const siteSettingsFragmentDoc = gql`
       contentRaw
     }
   }
+  ${imageFragmentDoc}
   ${pageFragmentDoc}
   ${postFragmentDoc}
   ${postCollectionFragmentDoc}
-  ${imageFragmentDoc}
   ${menuItemFragmentDoc}
   ${socialMediaFragmentDoc}
 `;

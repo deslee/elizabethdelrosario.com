@@ -4,6 +4,12 @@ export default {
     type: 'document',
     fields: [
         {
+            name: 'favicon',
+            title: 'Favicon',
+            type: 'image',
+            options: { hotspot: true },
+        },
+        {
             name: 'title',
             title: 'Site title',
             type: 'string'

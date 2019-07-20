@@ -1087,6 +1087,14 @@
             "deprecationReason": null
           },
           {
+            "name": "favicon",
+            "description": null,
+            "args": [],
+            "type": { "kind": "OBJECT", "name": "Image", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "title",
             "description": null,
             "args": [],
@@ -1143,71 +1151,6 @@
         "interfaces": [
           { "kind": "INTERFACE", "name": "Document", "ofType": null }
         ],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "UNION",
-        "name": "PageOrPostOrPostCollection",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": [
-          { "kind": "OBJECT", "name": "Page", "ofType": null },
-          { "kind": "OBJECT", "name": "Post", "ofType": null },
-          { "kind": "OBJECT", "name": "PostCollection", "ofType": null }
-        ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "SiteHeader",
-        "description": null,
-        "fields": [
-          {
-            "name": "_key",
-            "description": null,
-            "args": [],
-            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_type",
-            "description": null,
-            "args": [],
-            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "headerImage",
-            "description": null,
-            "args": [],
-            "type": { "kind": "OBJECT", "name": "Image", "ofType": null },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "menuItems",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "SiteHeaderInternalReference",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -1903,6 +1846,71 @@
             "description": null,
             "args": [],
             "type": { "kind": "SCALAR", "name": "Float", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "PageOrPostOrPostCollection",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          { "kind": "OBJECT", "name": "Page", "ofType": null },
+          { "kind": "OBJECT", "name": "Post", "ofType": null },
+          { "kind": "OBJECT", "name": "PostCollection", "ofType": null }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SiteHeader",
+        "description": null,
+        "fields": [
+          {
+            "name": "_key",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_type",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "headerImage",
+            "description": null,
+            "args": [],
+            "type": { "kind": "OBJECT", "name": "Image", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "menuItems",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "SiteHeaderInternalReference",
+                "ofType": null
+              }
+            },
             "isDeprecated": false,
             "deprecationReason": null
           }
