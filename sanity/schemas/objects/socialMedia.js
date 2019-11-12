@@ -21,6 +21,7 @@ export default {
                     { title: 'Youtube', value: 'youtube' },
                     { title: 'Vimeo', value: 'vimeo' },
                     { title: 'Twitter', value: 'twitter' },
+                    { title: 'IMDb', value: 'imdb' },
                 ]
             }
         }
