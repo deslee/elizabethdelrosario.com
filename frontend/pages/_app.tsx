@@ -5,10 +5,10 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme, { GlobalCss } from '../theme';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faFacebookF, faInstagram, faTwitch, faTwitter, faLinkedinIn, faYoutube, faVimeoV } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookF, faInstagram, faTwitch, faTwitter, faLinkedinIn, faYoutube, faVimeoV, faImdb } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faFacebookF, faTwitch, faTwitter, faInstagram, faLinkedinIn, faYoutube, faVimeoV, faEnvelope)
+library.add(faFacebookF, faTwitch, faTwitter, faInstagram, faLinkedinIn, faYoutube, faVimeoV, faEnvelope, faImdb)
 
 class CustomApp extends App {
   componentDidMount() {
