@@ -18,5 +18,6 @@ declare module 'next-apollo' {
 }
 
 declare module '@sanity/block-content-to-react';
+declare module 'pdfobject';
 
 declare module '@sanity/image-url'

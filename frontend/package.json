@@ -41,6 +41,7 @@
     "graphql": "^14.4.0",
     "next": "^9.0.2",
     "next-apollo": "^2.1.3",
+    "pdfobject": "^2.1.1",
     "react": "^16.8.6",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",

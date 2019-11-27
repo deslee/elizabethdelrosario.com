@@ -8,6 +8,7 @@ import ProgressiveImage from "react-progressive-image";
 import { Fragment, createElement } from "react";
 import clsx from "clsx";
 import LazyLoad from 'react-lazyload';
+import PdfViewer from '../PdfViewer'
 
 const Lazy: React.ComponentType<{children: React.ReactNode}> = process.browser ? LazyLoad as any : Fragment
 
@@ -163,6 +164,11 @@ export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) =
             return <Container>
                 {renderFileAsset(node)}
             </Container>
+        },
+        pdfEmbed: ({ node }: { node: any }) => {
+            console.log(node.asset.url)
+            return <PdfViewer url={node.asset.url} />
+
         }
     }
 })
