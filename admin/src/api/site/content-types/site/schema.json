@@ -15,6 +15,23 @@
     "Title": {
       "type": "string",
       "required": true
+    },
+    "Header": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Subtitle": {
+      "type": "string"
+    },
+    "Footer": {
+      "type": "string"
     }
   }
 }

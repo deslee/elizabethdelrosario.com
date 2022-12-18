@@ -12,10 +12,6 @@ const nextConfig = {
         destination: `${process.env.STRAPI_BASE_URL}/uploads/:path*`
       }
     ]
-  },
-  experimental: {
-    appDir: true,
-    runtime: 'experimental-edge',
   }
 }
 

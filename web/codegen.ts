@@ -8,12 +8,15 @@ const config: CodegenConfig = {
       }
     }
   },
-  documents: ['components/**/*.tsx', 'queries/**/*.ts'],
+  documents: ['components/**/*.tsx', 'pages/**/*.tsx'],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     './gql/generated/': {
       preset: 'client',
       plugins: [],
+      config: {
+        dedupeFragments: true
+      }
     },
     './gql/generated/introspection.json': {
       plugins: ['introspection']

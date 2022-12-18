@@ -107,6 +107,36 @@ export type CategoryRelationResponseCollection = {
   data: Array<CategoryEntity>;
 };
 
+export type ComponentLayoutSection = {
+  __typename?: 'ComponentLayoutSection';
+  Description?: Maybe<Scalars['String']>;
+  Media?: Maybe<UploadFileRelationResponseCollection>;
+  Title?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+
+export type ComponentLayoutSectionMediaArgs = {
+  filters?: InputMaybe<UploadFileFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ComponentLayoutSectionFiltersInput = {
+  Description?: InputMaybe<StringFilterInput>;
+  Title?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<ComponentLayoutSectionFiltersInput>>>;
+  not?: InputMaybe<ComponentLayoutSectionFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentLayoutSectionFiltersInput>>>;
+};
+
+export type ComponentLayoutSectionInput = {
+  Description?: InputMaybe<Scalars['String']>;
+  Media?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  Title?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
@@ -192,7 +222,7 @@ export type FrontPageInput = {
   publishedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type GenericMorph = Category | FrontPage | I18NLocale | Post | Site | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Category | ComponentLayoutSection | FrontPage | I18NLocale | Post | Site | SlugifySlug | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -308,6 +338,7 @@ export type Mutation = {
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
   createCategory?: Maybe<CategoryEntityResponse>;
   createPost?: Maybe<PostEntityResponse>;
+  createSlugifySlug?: Maybe<SlugifySlugEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Create a new role */
@@ -318,6 +349,7 @@ export type Mutation = {
   deleteFrontPage?: Maybe<FrontPageEntityResponse>;
   deletePost?: Maybe<PostEntityResponse>;
   deleteSite?: Maybe<SiteEntityResponse>;
+  deleteSlugifySlug?: Maybe<SlugifySlugEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Delete an existing role */
@@ -340,6 +372,7 @@ export type Mutation = {
   updateFrontPage?: Maybe<FrontPageEntityResponse>;
   updatePost?: Maybe<PostEntityResponse>;
   updateSite?: Maybe<SiteEntityResponse>;
+  updateSlugifySlug?: Maybe<SlugifySlugEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Update an existing role */
@@ -364,6 +397,11 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreatePostArgs = {
   data: PostInput;
+};
+
+
+export type MutationCreateSlugifySlugArgs = {
+  data: SlugifySlugInput;
 };
 
 
@@ -393,6 +431,11 @@ export type MutationDeleteCategoryArgs = {
 
 
 export type MutationDeletePostArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteSlugifySlugArgs = {
   id: Scalars['ID'];
 };
 
@@ -485,6 +528,12 @@ export type MutationUpdateSiteArgs = {
 };
 
 
+export type MutationUpdateSlugifySlugArgs = {
+  data: SlugifySlugInput;
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdateUploadFileArgs = {
   data: UploadFileInput;
   id: Scalars['ID'];
@@ -534,8 +583,7 @@ export type PaginationArg = {
 
 export type Post = {
   __typename?: 'Post';
-  Content?: Maybe<Scalars['String']>;
-  Media?: Maybe<UploadFileRelationResponseCollection>;
+  Sections?: Maybe<Array<Maybe<ComponentLayoutSection>>>;
   Slug: Scalars['String'];
   Title?: Maybe<Scalars['String']>;
   Type: Enum_Post_Type;
@@ -546,8 +594,8 @@ export type Post = {
 };
 
 
-export type PostMediaArgs = {
-  filters?: InputMaybe<UploadFileFiltersInput>;
+export type PostSectionsArgs = {
+  filters?: InputMaybe<ComponentLayoutSectionFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -578,7 +626,7 @@ export type PostEntityResponseCollection = {
 };
 
 export type PostFiltersInput = {
-  Content?: InputMaybe<StringFilterInput>;
+  Sections?: InputMaybe<ComponentLayoutSectionFiltersInput>;
   Slug?: InputMaybe<StringFilterInput>;
   Title?: InputMaybe<StringFilterInput>;
   Type?: InputMaybe<StringFilterInput>;
@@ -593,8 +641,7 @@ export type PostFiltersInput = {
 };
 
 export type PostInput = {
-  Content?: InputMaybe<Scalars['String']>;
-  Media?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  Sections?: InputMaybe<Array<InputMaybe<ComponentLayoutSectionInput>>>;
   Slug?: InputMaybe<Scalars['String']>;
   Title?: InputMaybe<Scalars['String']>;
   Type?: InputMaybe<Enum_Post_Type>;
@@ -623,6 +670,8 @@ export type Query = {
   post?: Maybe<PostEntityResponse>;
   posts?: Maybe<PostEntityResponseCollection>;
   site?: Maybe<SiteEntityResponse>;
+  slugifySlug?: Maybe<SlugifySlugEntityResponse>;
+  slugifySlugs?: Maybe<SlugifySlugEntityResponseCollection>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -682,6 +731,18 @@ export type QuerySiteArgs = {
 };
 
 
+export type QuerySlugifySlugArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QuerySlugifySlugsArgs = {
+  filters?: InputMaybe<SlugifySlugFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
 export type QueryUploadFileArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -736,6 +797,9 @@ export type ResponseCollectionMeta = {
 
 export type Site = {
   __typename?: 'Site';
+  Footer?: Maybe<Scalars['String']>;
+  Header?: Maybe<UploadFileEntityResponse>;
+  Subtitle?: Maybe<Scalars['String']>;
   Title: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -754,8 +818,52 @@ export type SiteEntityResponse = {
 };
 
 export type SiteInput = {
+  Footer?: InputMaybe<Scalars['String']>;
+  Header?: InputMaybe<Scalars['ID']>;
+  Subtitle?: InputMaybe<Scalars['String']>;
   Title?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SlugifySlug = {
+  __typename?: 'SlugifySlug';
+  count?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  slug?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type SlugifySlugEntity = {
+  __typename?: 'SlugifySlugEntity';
+  attributes?: Maybe<SlugifySlug>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type SlugifySlugEntityResponse = {
+  __typename?: 'SlugifySlugEntityResponse';
+  data?: Maybe<SlugifySlugEntity>;
+};
+
+export type SlugifySlugEntityResponseCollection = {
+  __typename?: 'SlugifySlugEntityResponseCollection';
+  data: Array<SlugifySlugEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type SlugifySlugFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<SlugifySlugFiltersInput>>>;
+  count?: InputMaybe<IntFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<SlugifySlugFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<SlugifySlugFiltersInput>>>;
+  slug?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type SlugifySlugInput = {
+  count?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type StringFilterInput = {
@@ -793,6 +901,7 @@ export type UploadFile = {
   height?: Maybe<Scalars['Int']>;
   mime: Scalars['String'];
   name: Scalars['String'];
+  placeholder?: Maybe<Scalars['String']>;
   previewUrl?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   provider_metadata?: Maybe<Scalars['JSON']>;
@@ -836,6 +945,7 @@ export type UploadFileFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UploadFileFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UploadFileFiltersInput>>>;
+  placeholder?: InputMaybe<StringFilterInput>;
   previewUrl?: InputMaybe<StringFilterInput>;
   provider?: InputMaybe<StringFilterInput>;
   provider_metadata?: InputMaybe<JsonFilterInput>;
@@ -856,6 +966,7 @@ export type UploadFileInput = {
   height?: InputMaybe<Scalars['Int']>;
   mime?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  placeholder?: InputMaybe<Scalars['String']>;
   previewUrl?: InputMaybe<Scalars['String']>;
   provider?: InputMaybe<Scalars['String']>;
   provider_metadata?: InputMaybe<Scalars['JSON']>;
@@ -1155,46 +1266,44 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
-export type SiteQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoryFragmentFragment = { __typename?: 'Category', Name: string, Description?: string | null, Slug: string, posts?: { __typename?: 'PostRelationResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null, attributes?: (
+        { __typename?: 'Post' }
+        & { ' $fragmentRefs'?: { 'PostFragmentFragment': PostFragmentFragment } }
+      ) | null }> } | null } & { ' $fragmentName'?: 'CategoryFragmentFragment' };
 
+export type Layout_QueryFragmentFragment = { __typename?: 'Query', site?: { __typename?: 'SiteEntityResponse', data?: { __typename?: 'SiteEntity', id?: string | null, attributes?: { __typename?: 'Site', Title: string, Subtitle?: string | null, Footer?: string | null, Header?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, placeholder?: string | null } | null } | null } | null } | null } | null } | null, categories?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null, attributes?: { __typename?: 'Category', Name: string, Slug: string } | null }> } | null } & { ' $fragmentName'?: 'Layout_QueryFragmentFragment' };
 
-export type SiteQuery = { __typename?: 'Query', site?: { __typename?: 'SiteEntityResponse', data?: { __typename?: 'SiteEntity', id?: string | null, attributes?: { __typename?: 'Site', Title: string } | null } | null } | null, categories?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null, attributes?: { __typename?: 'Category', Name: string, Description?: string | null, Slug: string } | null }> } | null };
+export type MediaFragmentFragment = { __typename?: 'UploadFile', url: string, previewUrl?: string | null, width?: number | null, height?: number | null, mime: string, placeholder?: string | null, alternativeText?: string | null } & { ' $fragmentName'?: 'MediaFragmentFragment' };
 
-export type FrontPageQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostFragmentFragment = { __typename?: 'Post', Title?: string | null, Slug: string, Sections?: Array<(
+    { __typename?: 'ComponentLayoutSection' }
+    & { ' $fragmentRefs'?: { 'SectionFragmentFragment': SectionFragmentFragment } }
+  ) | null> | null } & { ' $fragmentName'?: 'PostFragmentFragment' };
 
-
-export type FrontPageQuery = { __typename?: 'Query', frontPage?: { __typename?: 'FrontPageEntityResponse', data?: { __typename?: 'FrontPageEntity', id?: string | null, attributes?: { __typename?: 'FrontPage', Title: string } | null } | null } | null };
-
-export type UploadFileFragment = { __typename?: 'UploadFile', name: string, alternativeText?: string | null, caption?: string | null, width?: number | null, height?: number | null, formats?: any | null, hash: string, ext?: string | null, mime: string, size: number, url: string, previewUrl?: string | null, provider: string } & { ' $fragmentName'?: 'UploadFileFragment' };
-
-export type PostFragment = { __typename?: 'Post', Title?: string | null, Slug: string, Content?: string | null, Type: Enum_Post_Type, Media?: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', id?: string | null, attributes?: (
+export type SectionFragmentFragment = { __typename?: 'ComponentLayoutSection', Title?: string | null, Description?: string | null, Media?: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', id?: string | null, attributes?: (
         { __typename?: 'UploadFile' }
-        & { ' $fragmentRefs'?: { 'UploadFileFragment': UploadFileFragment } }
-      ) | null }> } | null } & { ' $fragmentName'?: 'PostFragment' };
+        & { ' $fragmentRefs'?: { 'MediaFragmentFragment': MediaFragmentFragment } }
+      ) | null }> } | null } & { ' $fragmentName'?: 'SectionFragmentFragment' };
 
-export type PostQueryVariables = Exact<{
+export type SlugPage_QueryQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', posts?: { __typename?: 'PostEntityResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null, attributes?: (
+export type SlugPage_QueryQuery = (
+  { __typename?: 'Query', categoriesBySlug?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null, attributes?: (
+        { __typename?: 'Category' }
+        & { ' $fragmentRefs'?: { 'CategoryFragmentFragment': CategoryFragmentFragment } }
+      ) | null }> } | null, postsBySlug?: { __typename?: 'PostEntityResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null, attributes?: (
         { __typename?: 'Post' }
-        & { ' $fragmentRefs'?: { 'PostFragment': PostFragment } }
-      ) | null }> } | null };
+        & { ' $fragmentRefs'?: { 'PostFragmentFragment': PostFragmentFragment } }
+      ) | null }> } | null }
+  & { ' $fragmentRefs'?: { 'Layout_QueryFragmentFragment': Layout_QueryFragmentFragment } }
+);
 
-export type CategoryQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type CategoryQuery = { __typename?: 'Query', category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null, attributes?: { __typename?: 'Category', Name: string, Slug: string, Description?: string | null, posts?: { __typename?: 'PostRelationResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null, attributes?: (
-              { __typename?: 'Post' }
-              & { ' $fragmentRefs'?: { 'PostFragment': PostFragment } }
-            ) | null }> } | null } | null } | null } | null };
-
-export const UploadFileFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UploadFile"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UploadFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}},{"kind":"Field","name":{"kind":"Name","value":"hash"}},{"kind":"Field","name":{"kind":"Name","value":"ext"}},{"kind":"Field","name":{"kind":"Name","value":"mime"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"previewUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}}]}}]} as unknown as DocumentNode<UploadFileFragment, unknown>;
-export const PostFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Post"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Post"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Title"}},{"kind":"Field","name":{"kind":"Name","value":"Slug"}},{"kind":"Field","name":{"kind":"Name","value":"Content"}},{"kind":"Field","name":{"kind":"Name","value":"Type"}},{"kind":"Field","name":{"kind":"Name","value":"Media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UploadFile"}}]}}]}}]}}]}},...UploadFileFragmentDoc.definitions]} as unknown as DocumentNode<PostFragment, unknown>;
-export const SiteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Title"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Name"}},{"kind":"Field","name":{"kind":"Name","value":"Description"}},{"kind":"Field","name":{"kind":"Name","value":"Slug"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SiteQuery, SiteQueryVariables>;
-export const FrontPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"frontPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Title"}}]}}]}}]}}]}}]} as unknown as DocumentNode<FrontPageQuery, FrontPageQueryVariables>;
-export const PostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"post"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"Slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Post"}}]}}]}}]}}]}},...PostFragmentDoc.definitions]} as unknown as DocumentNode<PostQuery, PostQueryVariables>;
-export const CategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"category"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Name"}},{"kind":"Field","name":{"kind":"Name","value":"Slug"}},{"kind":"Field","name":{"kind":"Name","value":"Description"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Post"}}]}}]}}]}}]}}]}}]}}]}},...PostFragmentDoc.definitions]} as unknown as DocumentNode<CategoryQuery, CategoryQueryVariables>;
+export const MediaFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UploadFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"previewUrl"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"mime"}},{"kind":"Field","name":{"kind":"Name","value":"placeholder"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]} as unknown as DocumentNode<MediaFragmentFragment, unknown>;
+export const SectionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SectionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentLayoutSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Title"}},{"kind":"Field","name":{"kind":"Name","value":"Description"}},{"kind":"Field","name":{"kind":"Name","value":"Media"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MediaFragment"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SectionFragmentFragment, unknown>;
+export const PostFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PostFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Post"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Title"}},{"kind":"Field","name":{"kind":"Name","value":"Slug"}},{"kind":"Field","name":{"kind":"Name","value":"Sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SectionFragment"}}]}}]}}]} as unknown as DocumentNode<PostFragmentFragment, unknown>;
+export const CategoryFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CategoryFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Category"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Name"}},{"kind":"Field","name":{"kind":"Name","value":"Description"}},{"kind":"Field","name":{"kind":"Name","value":"Slug"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PostFragment"}}]}}]}}]}}]}}]} as unknown as DocumentNode<CategoryFragmentFragment, unknown>;
+export const Layout_QueryFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Layout_QueryFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Query"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Title"}},{"kind":"Field","name":{"kind":"Name","value":"Subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"Footer"}},{"kind":"Field","name":{"kind":"Name","value":"Header"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"placeholder"}}]}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Name"}},{"kind":"Field","name":{"kind":"Name","value":"Slug"}}]}}]}}]}}]}}]} as unknown as DocumentNode<Layout_QueryFragmentFragment, unknown>;
+export const SlugPage_QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SlugPage_Query"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Layout_QueryFragment"}},{"kind":"Field","alias":{"kind":"Name","value":"categoriesBySlug"},"name":{"kind":"Name","value":"categories"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"Slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CategoryFragment"}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"postsBySlug"},"name":{"kind":"Name","value":"posts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"Slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PostFragment"}}]}}]}}]}}]}},...Layout_QueryFragmentFragmentDoc.definitions,...CategoryFragmentFragmentDoc.definitions,...PostFragmentFragmentDoc.definitions,...SectionFragmentFragmentDoc.definitions,...MediaFragmentFragmentDoc.definitions]} as unknown as DocumentNode<SlugPage_QueryQuery, SlugPage_QueryQueryVariables>;

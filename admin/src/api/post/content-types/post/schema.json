@@ -20,20 +20,6 @@
       "unique": true,
       "required": true
     },
-    "Content": {
-      "type": "richtext"
-    },
-    "Media": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "Type": {
       "type": "enumeration",
       "enum": [
@@ -47,6 +33,11 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "inversedBy": "posts"
+    },
+    "Sections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "layout.section"
     }
   }
 }
