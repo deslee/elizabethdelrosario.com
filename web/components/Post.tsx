@@ -2,10 +2,8 @@ import clsx from "clsx";
 import Head from "next/head";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { FragmentType, graphql, useFragment } from "../gql";
 import { useSiteTitle } from "./Layout";
-import Media from "./Media";
 import Section from "./Section";
 
 const PostFragment = graphql(`

@@ -21,15 +21,17 @@ const CategoryFragment = graphql(`
 
 type Props = {
   category: FragmentType<typeof CategoryFragment>;
+  setTitle?: boolean;
 };
 
 export default function Category(props: Props) {
   const category = useFragment(CategoryFragment, props.category);
+  const { setTitle } = props;
   const siteTitle = useSiteTitle()
   return (
     <div>
       <Head>
-        <title>{`${category.Name} | ${siteTitle}`}</title>
+        {setTitle && <title>{`${category.Name} | ${siteTitle}`}</title>}
       </Head>
       <div className="text-center relative mt-12 mb-8">
         <div className="border-b-2 h-1 absolute w-full h-1/2 -z-10" />

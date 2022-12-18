@@ -4,7 +4,6 @@ import Category from "../components/Category";
 import Layout from "../components/Layout";
 import Post from "../components/Post";
 import { setApolloState, initializeApollo, graphql } from "../gql";
-import { filterNonNullish } from "../utils";
 
 const SlugPage_Query = graphql(`
   query SlugPage_Query($slug: String!) {
@@ -36,18 +35,26 @@ export default function SlugPage(props: { slug: string }) {
   });
 
   const component = data.categoriesBySlug.data.length ? (
-    <Category category={data.categoriesBySlug.data[0].attributes} />
+    <Category setTitle={props.slug !== 'featured'} category={data.categoriesBySlug.data[0].attributes} />
   ) : data.postsBySlug.data.length ? (
-    <Post setTitle post={data.postsBySlug.data[0].attributes} className="mt-12" />
+    <Post
+      setTitle
+      post={data.postsBySlug.data[0].attributes}
+      className="mt-12"
+    />
   ) : (
     <>not found</>
   );
-  return <Layout key="layout" query={data}>{component}</Layout>;
+  return (
+    <Layout key="layout" query={data} slug={props.slug}>
+      {component}
+    </Layout>
+  );
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const apolloClient = initializeApollo();
-  const slug = context.params.slug?.[0] ?? 'featured';
+  const slug = context.params.slug?.[0] ?? "featured";
 
   await apolloClient.query({
     query: SlugPage_Query,
@@ -62,13 +69,52 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props,
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 
+const allSlugsQuery = graphql(`
+  query allSlugs {
+    categories {
+      data {
+        attributes {
+          Slug
+        }
+      }
+    }
+    posts {
+      data {
+        attributes {
+          Slug
+        }
+      }
+    }
+  }
+`);
+
 export const getStaticPaths: GetStaticPaths = async (context) => {
+  const apollo = initializeApollo();
+  const result = await apollo.query({
+    query: allSlugsQuery,
+  });
+
+  const slugs = [
+    ...result.data.categories.data.map((d) => d.attributes.Slug),
+    ...result.data.posts.data.map((d) => d.attributes.Slug),
+  ];
+
   return {
-    paths: [],
+    paths: slugs
+      .map((slug) => ({
+        params: {
+          slug: [slug],
+        },
+      }))
+      .concat({
+        params: {
+          slug: undefined,
+        },
+      }),
     fallback: "blocking",
   };
 };

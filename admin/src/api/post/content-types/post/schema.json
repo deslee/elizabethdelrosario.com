@@ -20,14 +20,6 @@
       "unique": true,
       "required": true
     },
-    "Type": {
-      "type": "enumeration",
-      "enum": [
-        "Post",
-        "Page"
-      ],
-      "required": true
-    },
     "categories": {
       "type": "relation",
       "relation": "manyToMany",

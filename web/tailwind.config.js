@@ -12,6 +12,9 @@ module.exports = {
         primary: ['var(--sans-font)', ...fontFamily.sans],
         sans: ['var(--sans-font)', ...fontFamily.sans],
       },
+      colors: {
+        primary: '#1ca086'
+      }
     }
   },
   plugins: [

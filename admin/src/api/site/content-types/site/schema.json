@@ -27,11 +27,24 @@
         "audios"
       ]
     },
-    "Subtitle": {
-      "type": "string"
-    },
     "Footer": {
       "type": "string"
+    },
+    "Socials": {
+      "type": "component",
+      "repeatable": true,
+      "component": "layout.social-icon"
+    },
+    "Favicon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Subtitle": {
+      "type": "richtext"
     }
   }
 }

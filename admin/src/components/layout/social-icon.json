@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_layout_social_icons",
+  "info": {
+    "displayName": "SocialIcon"
+  },
+  "options": {},
+  "attributes": {
+    "Icon": {
+      "type": "enumeration",
+      "enum": [
+        "LinkedIn",
+        "Facebook",
+        "Twitter",
+        "Instagram",
+        "Vimeo",
+        "Email",
+        "Youtube",
+        "IMDb"
+      ]
+    },
+    "Url": {
+      "type": "string"
+    }
+  }
+}
