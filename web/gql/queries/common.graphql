@@ -1,0 +1,14 @@
+fragment Site on Site {
+  Title
+}
+
+query Site {
+  site {
+    data {
+      id
+      attributes {
+        ...Site
+      }
+    }
+  }
+}
