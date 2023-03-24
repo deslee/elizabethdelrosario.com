@@ -2,6 +2,9 @@
   "name": "sanity",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": "16.x"
+  },
   "description": "",
   "main": "package.json",
   "author": "Desmond Lee <desmondclee@gmail.com>",
