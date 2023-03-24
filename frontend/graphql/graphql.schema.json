@@ -6028,7 +6028,7 @@
       },
       {
         "kind": "UNION",
-        "name": "BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrVideoAsset",
+        "name": "BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrSpeakerDeckOrVideoAsset",
         "description": null,
         "fields": null,
         "inputFields": null,
@@ -6040,6 +6040,7 @@
           { "kind": "OBJECT", "name": "MultipleImages", "ofType": null },
           { "kind": "OBJECT", "name": "PdfEmbed", "ofType": null },
           { "kind": "OBJECT", "name": "PostImage", "ofType": null },
+          { "kind": "OBJECT", "name": "SpeakerDeck", "ofType": null },
           { "kind": "OBJECT", "name": "VideoAsset", "ofType": null }
         ]
       },
@@ -6277,6 +6278,41 @@
               "name": "SanityFileAsset",
               "ofType": null
             },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SpeakerDeck",
+        "description": null,
+        "fields": [
+          {
+            "name": "_key",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_type",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "url",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
             "isDeprecated": false,
             "deprecationReason": null
           }

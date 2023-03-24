@@ -76,6 +76,11 @@ export default {
       type: 'videoAsset',
     },
     {
+      name: 'speakerDeck',
+      title: 'SpeakerDeck',
+      type: 'speakerDeck',
+    },
+    {
       name: 'pdfEmbed',
       title: 'PDF Embed',
       type: 'pdfEmbed',

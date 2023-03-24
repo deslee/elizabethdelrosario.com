@@ -53,6 +53,16 @@ export async function prefetchAssets(item: Item) {
 export async function hydrateItem(item: Item): Promise<{ item: Item, assets: AssetsList }> {
     if (item && item.contentRaw && item.contentRaw.length) {
         const result = await Promise.all((item.contentRaw as any[]).map<Promise<{ block: any, assets: AssetsList }>>(async (block: any) => {
+            if (block && block._type === 'speakerDeck') {
+                const result = await fetch("https://speakerdeck.com/oembed.json?url=" + block.url).then(resp => resp.json())
+                return {
+                    block: {
+                        ...block,
+                        speakerDeck: result
+                    },
+                    assets: []
+                };
+            }
             if (block && block.asset && block.asset._ref) {
                 const { data: { SanityImageAsset } } = await apolloClient.query<ImageAssetByIdQuery, ImageAssetByIdQueryVariables>({
                     variables: {

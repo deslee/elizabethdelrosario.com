@@ -33,12 +33,13 @@ export type Block = {
   list?: Maybe<Scalars["String"]>;
 };
 
-export type BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrVideoAsset =
+export type BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrSpeakerDeckOrVideoAsset =
   | Block
   | FileAsset
   | MultipleImages
   | PdfEmbed
   | PostImage
+  | SpeakerDeck
   | VideoAsset;
 
 /** A Sanity document */
@@ -1081,6 +1082,13 @@ export type Span = {
   _type?: Maybe<Scalars["String"]>;
   marks?: Maybe<Array<Maybe<Scalars["String"]>>>;
   text?: Maybe<Scalars["String"]>;
+};
+
+export type SpeakerDeck = {
+  __typename?: "SpeakerDeck";
+  _key?: Maybe<Scalars["String"]>;
+  _type?: Maybe<Scalars["String"]>;
+  url?: Maybe<Scalars["String"]>;
 };
 
 export type VideoAsset = {

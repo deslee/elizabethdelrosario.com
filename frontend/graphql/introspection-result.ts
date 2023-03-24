@@ -55,7 +55,7 @@ const result: IntrospectionResultData = {
       {
         kind: "UNION",
         name:
-          "BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrVideoAsset",
+          "BlockOrFileAssetOrMultipleImagesOrPdfEmbedOrPostImageOrSpeakerDeckOrVideoAsset",
         possibleTypes: [
           {
             name: "Block"
@@ -71,6 +71,9 @@ const result: IntrospectionResultData = {
           },
           {
             name: "PostImage"
+          },
+          {
+            name: "SpeakerDeck"
           },
           {
             name: "VideoAsset"
