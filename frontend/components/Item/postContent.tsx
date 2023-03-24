@@ -170,10 +170,6 @@ export const serializers = ({ assetSelected = (_) => { } }: SerializerOptions) =
 
         },
         speakerDeck: ({node}: {node: any}) => {
-            console.log(node)
-            // fetch("https://speakerdeck.com/oembed.json?url=" + node.url)
-            //   .then((response) => response.json())
-            //   .then((result) => console.log(result));
             return <div dangerouslySetInnerHTML={{__html: node.speakerDeck.html}}></div>
         }
     }
