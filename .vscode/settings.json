@@ -1,6 +1,6 @@
 {
   "eslint.workingDirectories": [
-    { "pattern": "admin/" },
+    { "pattern": "strapi/" },
     { "pattern": "web/" }
   ]
 }
