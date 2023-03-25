@@ -1,3 +1,3 @@
-schema: 'web/gql/generated/introspection.json'
+schema: 'web/gql/introspection.json'
 documents: 
-  - web/**/*.tsx
+  - web/src/**/*.tsx

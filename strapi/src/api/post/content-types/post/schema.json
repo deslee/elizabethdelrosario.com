@@ -19,7 +19,8 @@
       "type": "richtext"
     },
     "slug": {
-      "type": "string"
+      "type": "string",
+      "unique": true
     },
     "categories": {
       "type": "relation",
