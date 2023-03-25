@@ -1,17 +1,21 @@
 import React from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
 import "./CustomEditor.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
+  faCode,
   faItalic,
+  faLink,
   faListOl,
   faListUl,
   faQuoteLeft,
   faStrikethrough,
 } from "@fortawesome/free-solid-svg-icons";
 import { StrapiMedia } from "../tiptap/extension-strapi-media";
+import { OEmbed } from "../tiptap/extension-oembed";
 
 const MenuBar = ({ editor }: { editor: Editor }) => {
   if (!editor) {
@@ -39,6 +43,36 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
         className={editor.isActive("italic") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faItalic} />
+      </button>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          const previousUrl = editor.getAttributes("link").href;
+          const url = window.prompt("URL", previousUrl);
+
+          // cancelled
+          if (url === null) {
+            return;
+          }
+
+          // empty
+          if (url === "") {
+            editor.chain().focus().extendMarkRange("link").unsetLink().run();
+
+            return;
+          }
+
+          // update link
+          editor
+            .chain()
+            .focus()
+            .extendMarkRange("link")
+            .setLink({ href: url })
+            .run();
+        }}
+        className={editor.isActive("link") ? "is-active" : ""}
+      >
+        <FontAwesomeIcon icon={faLink} />
       </button>
       <button
         onClick={(e) => {
@@ -206,18 +240,52 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
       >
         Video
       </button>
+      <button
+        onClick={async (e) => {
+          e.preventDefault();
+          const urlInput = window.prompt("Enter url");
+          const url = new URL(urlInput);
+
+          const oembedData = await fetch(
+            `/api/utils/oembed?url=${url.toString()}`
+          ).then((response) => response.json());
+
+          if (!oembedData) {
+            alert("Invalid url");
+            return;
+          }
+
+          return editor
+            .chain()
+            .focus()
+            .insertOembed({
+              oembedData,
+            })
+            .run();
+        }}
+      >
+        <FontAwesomeIcon icon={faCode} />
+      </button>
     </div>
   );
 };
 
 export default (props) => {
   const editor = useEditor({
-    extensions: [StarterKit.configure({}), StrapiMedia],
+    extensions: [
+      StarterKit.configure({}),
+      StrapiMedia,
+      OEmbed,
+      Link.configure({
+        openOnClick: false,
+      }),
+    ],
     content: props.value,
   });
 
   const editorHtml = editor?.getHTML();
   React.useEffect(() => {
+    console.log(editorHtml);
     props.onChange({
       target: {
         name: props.name,
