@@ -1,6 +1,7 @@
 import { getSiteData } from "../data";
 import Category from "./category";
 import { getCategoryData, getPostData } from "./data";
+import Post from "./post";
 
 type Params = {
   slug: string;
@@ -21,7 +22,8 @@ async function getData(slug: string) {
 export default async function Slug({ params }: { params: Params }) {
   const data = await getData(params.slug);
   if (data?.__typename === "Post") {
-    return <div>post {data.title}</div>;
+    {/* @ts-expect-error Server Component */}
+    return <Post post={data} className="mt-12" />;
   } else if (data?.__typename === "Category") {
     return <Category category={data} />;
   } else {

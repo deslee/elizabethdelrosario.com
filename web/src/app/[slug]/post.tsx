@@ -1,9 +1,12 @@
+import OEmbed from "@/components/OEmbed";
+import StrapiMedia from "@/components/StrapiMedia";
 import clsx from "clsx";
 import Link from "next/link";
 import { createElement, Fragment, HTMLAttributes } from "react";
 import rehypeParse from "rehype-parse";
 import rehypeReact from "rehype-react";
 import { unified } from "unified";
+import { visit } from "unist-util-visit";
 import { getPostData } from "./data";
 
 type Props = {
@@ -12,7 +15,40 @@ type Props = {
 
 const processor = unified()
   .use(rehypeParse, { fragment: true })
-  .use(rehypeReact, { createElement, Fragment });
+  .use([
+    function transformDataDivs() {
+      return (tree) => {
+        visit(tree, "element", (node) => {
+          if (typeof node.properties?.dataOembed === "string") {
+            node.tagName = "OEmbed";
+            node.properties = {
+              data: node.properties.dataOembed
+            }
+          }
+          if (
+            typeof node.properties?.dataStrapiMedia === "string" &&
+            typeof node.properties.dataFiles === "string" &&
+            typeof node.properties.dataType === "string"
+          ) {
+            const type = node.properties.dataType;
+            node.properties = {
+              type,
+              data: node.properties.dataFiles,
+            };
+            node.tagName = "StrapiMedia";
+          }
+        });
+      };
+    },
+  ])
+  .use(rehypeReact, {
+    createElement,
+    Fragment,
+    components: {
+      StrapiMedia,
+      OEmbed,
+    } as any,
+  });
 
 export default async function Post({
   post,
