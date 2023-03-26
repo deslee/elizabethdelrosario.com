@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any;
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
@@ -128,6 +130,111 @@ export type ComponentLayoutSocialIconInput = {
   url?: InputMaybe<Scalars['String']>;
 };
 
+export type ComponentResumeEducation = {
+  __typename?: 'ComponentResumeEducation';
+  degree: Scalars['String'];
+  description: Scalars['String'];
+  graduationDate: Scalars['Date'];
+  icon?: Maybe<UploadFileEntityResponse>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type ComponentResumeEducationFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentResumeEducationFiltersInput>>>;
+  degree?: InputMaybe<StringFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  graduationDate?: InputMaybe<DateFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentResumeEducationFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentResumeEducationFiltersInput>>>;
+};
+
+export type ComponentResumeEducationInput = {
+  degree?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  graduationDate?: InputMaybe<Scalars['Date']>;
+  icon?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type ComponentResumeSoftware = {
+  __typename?: 'ComponentResumeSoftware';
+  icon?: Maybe<UploadFileEntityResponse>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type ComponentResumeSoftwareFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentResumeSoftwareFiltersInput>>>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentResumeSoftwareFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentResumeSoftwareFiltersInput>>>;
+};
+
+export type ComponentResumeSoftwareInput = {
+  icon?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type ComponentResumeWorkExperience = {
+  __typename?: 'ComponentResumeWorkExperience';
+  description: Scalars['String'];
+  endDate?: Maybe<Scalars['Date']>;
+  icon?: Maybe<UploadFileEntityResponse>;
+  id: Scalars['ID'];
+  position: Scalars['String'];
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
+};
+
+export type ComponentResumeWorkExperienceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentResumeWorkExperienceFiltersInput>>>;
+  description?: InputMaybe<StringFilterInput>;
+  endDate?: InputMaybe<DateFilterInput>;
+  not?: InputMaybe<ComponentResumeWorkExperienceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentResumeWorkExperienceFiltersInput>>>;
+  position?: InputMaybe<StringFilterInput>;
+  startDate?: InputMaybe<DateFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentResumeWorkExperienceInput = {
+  description?: InputMaybe<Scalars['String']>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  icon?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  position?: InputMaybe<Scalars['String']>;
+  startDate?: InputMaybe<Scalars['Date']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type DateFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  between?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  contains?: InputMaybe<Scalars['Date']>;
+  containsi?: InputMaybe<Scalars['Date']>;
+  endsWith?: InputMaybe<Scalars['Date']>;
+  eq?: InputMaybe<Scalars['Date']>;
+  eqi?: InputMaybe<Scalars['Date']>;
+  gt?: InputMaybe<Scalars['Date']>;
+  gte?: InputMaybe<Scalars['Date']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  lt?: InputMaybe<Scalars['Date']>;
+  lte?: InputMaybe<Scalars['Date']>;
+  ne?: InputMaybe<Scalars['Date']>;
+  not?: InputMaybe<DateFilterInput>;
+  notContains?: InputMaybe<Scalars['Date']>;
+  notContainsi?: InputMaybe<Scalars['Date']>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  notNull?: InputMaybe<Scalars['Boolean']>;
+  null?: InputMaybe<Scalars['Boolean']>;
+  or?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  startsWith?: InputMaybe<Scalars['Date']>;
+};
+
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
@@ -228,7 +335,7 @@ export type FrontPageInput = {
   publishedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type GenericMorph = Category | ComponentLayoutSocialIcon | FrontPage | I18NLocale | Post | Site | SlugifySlug | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Category | ComponentLayoutSocialIcon | ComponentResumeEducation | ComponentResumeSoftware | ComponentResumeWorkExperience | FrontPage | I18NLocale | Post | Resume | Site | SlugifySlug | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -354,6 +461,7 @@ export type Mutation = {
   deleteCategory?: Maybe<CategoryEntityResponse>;
   deleteFrontPage?: Maybe<FrontPageEntityResponse>;
   deletePost?: Maybe<PostEntityResponse>;
+  deleteResume?: Maybe<ResumeEntityResponse>;
   deleteSite?: Maybe<SiteEntityResponse>;
   deleteSlugifySlug?: Maybe<SlugifySlugEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -377,6 +485,7 @@ export type Mutation = {
   updateFileInfo: UploadFileEntityResponse;
   updateFrontPage?: Maybe<FrontPageEntityResponse>;
   updatePost?: Maybe<PostEntityResponse>;
+  updateResume?: Maybe<ResumeEntityResponse>;
   updateSite?: Maybe<SiteEntityResponse>;
   updateSlugifySlug?: Maybe<SlugifySlugEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -529,6 +638,11 @@ export type MutationUpdatePostArgs = {
 };
 
 
+export type MutationUpdateResumeArgs = {
+  data: ResumeInput;
+};
+
+
 export type MutationUpdateSiteArgs = {
   data: SiteInput;
 };
@@ -666,6 +780,7 @@ export type Query = {
   me?: Maybe<UsersPermissionsMe>;
   post?: Maybe<PostEntityResponse>;
   posts?: Maybe<PostEntityResponseCollection>;
+  resume?: Maybe<ResumeEntityResponse>;
   site?: Maybe<SiteEntityResponse>;
   slugifySlug?: Maybe<SlugifySlugEntityResponse>;
   slugifySlugs?: Maybe<SlugifySlugEntityResponseCollection>;
@@ -727,6 +842,11 @@ export type QueryPostsArgs = {
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type QueryResumeArgs = {
+  publicationState?: InputMaybe<PublicationState>;
 };
 
 
@@ -797,6 +917,61 @@ export type QueryUsersPermissionsUsersArgs = {
 export type ResponseCollectionMeta = {
   __typename?: 'ResponseCollectionMeta';
   pagination: Pagination;
+};
+
+export type Resume = {
+  __typename?: 'Resume';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  education: Array<Maybe<ComponentResumeEducation>>;
+  email: Scalars['String'];
+  experience: Array<Maybe<ComponentResumeWorkExperience>>;
+  intro: Scalars['String'];
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  software: Array<Maybe<ComponentResumeSoftware>>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type ResumeEducationArgs = {
+  filters?: InputMaybe<ComponentResumeEducationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type ResumeExperienceArgs = {
+  filters?: InputMaybe<ComponentResumeWorkExperienceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type ResumeSoftwareArgs = {
+  filters?: InputMaybe<ComponentResumeSoftwareFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ResumeEntity = {
+  __typename?: 'ResumeEntity';
+  attributes?: Maybe<Resume>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type ResumeEntityResponse = {
+  __typename?: 'ResumeEntityResponse';
+  data?: Maybe<ResumeEntity>;
+};
+
+export type ResumeInput = {
+  education?: InputMaybe<Array<InputMaybe<ComponentResumeEducationInput>>>;
+  email?: InputMaybe<Scalars['String']>;
+  experience?: InputMaybe<Array<InputMaybe<ComponentResumeWorkExperienceInput>>>;
+  intro?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  software?: InputMaybe<Array<InputMaybe<ComponentResumeSoftwareInput>>>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type Site = {
@@ -1315,8 +1490,14 @@ export type FrontPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FrontPageQuery = { __typename?: 'Query', frontPage?: { __typename?: 'FrontPageEntityResponse', data?: { __typename?: 'FrontPageEntity', attributes?: { __typename?: 'FrontPage', featuredPosts?: { __typename?: 'PostRelationResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null, attributes?: { __typename?: 'Post', slug?: string | null, title?: string | null, body?: string | null } | null }> } | null } | null } | null } | null };
 
+export type ResumeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResumeQuery = { __typename?: 'Query', resume?: { __typename?: 'ResumeEntityResponse', data?: { __typename?: 'ResumeEntity', id?: string | null, attributes?: { __typename?: 'Resume', title: string, email: string, intro: string, experience: Array<{ __typename?: 'ComponentResumeWorkExperience', id: string, title: string, position: string, startDate: any, endDate?: any | null, description: string, icon?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, width?: number | null, height?: number | null, alternativeText?: string | null } | null } | null } | null } | null>, software: Array<{ __typename?: 'ComponentResumeSoftware', id: string, name: string, icon?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, width?: number | null, height?: number | null, alternativeText?: string | null } | null } | null } | null } | null>, education: Array<{ __typename?: 'ComponentResumeEducation', id: string, name: string, degree: string, graduationDate: any, description: string, icon?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, width?: number | null, height?: number | null, alternativeText?: string | null } | null } | null } | null } | null> } | null } | null } | null };
+
 
 export const PostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Post"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findSlug"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"modelName"},"value":{"kind":"StringValue","value":"post","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PostEntityResponse"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"body"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<PostQuery, PostQueryVariables>;
 export const CategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Category"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findSlug"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"modelName"},"value":{"kind":"StringValue","value":"category","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CategoryEntityResponse"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"body"}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<CategoryQuery, CategoryQueryVariables>;
 export const SiteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"favicon"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"header"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"placeholder"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"footer"}},{"kind":"Field","name":{"kind":"Name","value":"socials"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"icon"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SiteQuery, SiteQueryVariables>;
 export const FrontPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FrontPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"featuredPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"body"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<FrontPageQuery, FrontPageQueryVariables>;
+export const ResumeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Resume"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"resume"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"intro"}},{"kind":"Field","name":{"kind":"Name","value":"experience"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"icon"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"software"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"icon"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"education"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"degree"}},{"kind":"Field","name":{"kind":"Name","value":"graduationDate"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"icon"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ResumeQuery, ResumeQueryVariables>;

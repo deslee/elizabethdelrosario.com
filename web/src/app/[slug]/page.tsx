@@ -2,6 +2,7 @@ import { getSiteData } from "../data";
 import Category from "./category";
 import { getCategoryData, getPostData } from "./data";
 import Post from "./post";
+import { notFound } from 'next/navigation';
 
 type Params = {
   slug: string;
@@ -21,8 +22,21 @@ async function getData(slug: string) {
 
 export async function generateMetadata({ params }: { params: Params }) {
   const data = await getData(params.slug);
+  const siteData = await getSiteData();
+  const title = data?.__typename === "Category" ? data.name : data?.title;
   return {
-    title: data?.__typename === "Category" ? data.name : data?.title,
+    title,
+    openGraph: {
+      title,
+      url: "https://elizabethdelrosario.com",
+      siteName: siteData.title,
+      locale: "en-US",
+      type: "website",
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+    },
   };
 }
 
@@ -34,6 +48,6 @@ export default async function Slug({ params }: { params: Params }) {
   } else if (data?.__typename === "Category") {
     return <Category category={data} />;
   } else {
-    return <div>sluggy</div>;
+    notFound()
   }
 }

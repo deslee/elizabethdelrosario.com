@@ -41,6 +41,17 @@ export async function generateMetadata() {
       icon: data.favicon?.url,
       shortcut: data.favicon?.url,
     },
+    openGraph: {
+      title: data.title,
+      url: "https://elizabethdelrosario.com",
+      siteName: data.title,
+      locale: "en-US",
+      type: "website",
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+    },
   };
 }
 
@@ -89,6 +100,9 @@ export default async function RootLayout({
             ))}
             <Link className="nav-item" href="/bio">
               Bio
+            </Link>
+            <Link className="nav-item" href="/resume">
+              Resume
             </Link>
           </nav>
         </header>

@@ -44,6 +44,7 @@ export default function StrapiMedia(props: Props) {
             <Item
               key={file.id}
               original={file.url}
+              thumbnail={file.url}
               width={file.width}
               height={file.height}
               alt={file.alternativeText ?? ""}
