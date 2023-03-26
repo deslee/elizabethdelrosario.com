@@ -59,3 +59,36 @@ export const getSiteData = cache(async () => {
         .filter(filterNonNullish) ?? [],
   };
 })
+
+export const getFrontPageData = cache(async () => {
+  const query = graphql(/* GraphQL */`
+    query FrontPage {
+      frontPage {
+        data {
+          attributes {
+            featuredPosts {
+              data {
+                id
+                attributes {
+                  slug
+                  title
+                  body
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  const data = await graphQLClient.request(query);
+  const frontPage = data.frontPage?.data?.attributes;
+  if (!frontPage) {
+    throw new Error("Missing front page data");
+  }
+  return {
+    ...frontPage,
+    featuredPosts: frontPage.featuredPosts?.data.map(post => post.attributes ? { id: post.id, ...post.attributes } : undefined).filter(filterNonNullish) ?? []
+  }
+})

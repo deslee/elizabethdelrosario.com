@@ -52,6 +52,7 @@ export default function StrapiMedia(props: Props) {
                 <Image
                   ref={ref as React.MutableRefObject<HTMLImageElement>}
                   onClick={open}
+                  className="active:scale-95 transition-transform"
                   placeholder={file.placeholder ? "blur" : "empty"}
                   blurDataURL={file.placeholder ?? undefined}
                   src={file.url}

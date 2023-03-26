@@ -1,13 +1,19 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import { Fragment } from 'react'
+import { getFrontPageData } from "./data";
+import Post from "./[slug]/post";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+export default async function Home() {
+  const frontPage = await getFrontPageData();
   return (
     <Fragment>
-      hi
+      <div className="flex flex-col">
+        {frontPage.featuredPosts.map((post) => (
+          <div key={post.id} className="pb-24 mt-24 border-b">
+            {/* @ts-expect-error Server Component */}
+            <Post post={post} />
+          </div>
+        ))}
+      </div>
     </Fragment>
-  )
+  );
 }

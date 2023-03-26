@@ -77,6 +77,9 @@ export default async function RootLayout({
                 {category.name}
               </Link>
             ))}
+            <Link className="nav-item" href="/bio">
+              Bio
+            </Link>
           </nav>
         </header>
 
