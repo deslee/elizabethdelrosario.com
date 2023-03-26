@@ -10,6 +10,13 @@ export const getSiteData = cache(async () => {
         data {
           attributes {
             title
+            favicon {
+              data {
+                attributes {
+                  url
+                }
+              }
+            }
             header {
               data {
                 attributes {
@@ -47,6 +54,7 @@ export const getSiteData = cache(async () => {
   }
   return {
     ...siteData,
+    favicon: siteData.favicon?.data?.attributes,
     header: siteData.header?.data?.attributes,
     socials: siteData.socials?.map(social => {
       return social

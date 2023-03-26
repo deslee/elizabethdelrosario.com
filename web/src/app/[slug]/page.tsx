@@ -19,6 +19,13 @@ async function getData(slug: string) {
   }
 }
 
+export async function generateMetadata({ params }: { params: Params }) {
+  const data = await getData(params.slug);
+  return {
+    title: data?.__typename === "Category" ? data.name : data?.title,
+  };
+}
+
 export default async function Slug({ params }: { params: Params }) {
   const data = await getData(params.slug);
   if (data?.__typename === "Post") {
