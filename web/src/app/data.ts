@@ -28,6 +28,12 @@ export const getSiteData = cache(async () => {
                 }
               }
             }
+            footer
+            socials {
+              id
+              icon
+              url
+            }
           }
         }
       }
@@ -42,6 +48,9 @@ export const getSiteData = cache(async () => {
   return {
     ...siteData,
     header: siteData.header?.data?.attributes,
+    socials: siteData.socials?.map(social => {
+      return social
+    }).filter(filterNonNullish) ?? [],
     categories:
       siteData.categories?.data
         .map((category) => {

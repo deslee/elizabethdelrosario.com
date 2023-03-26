@@ -27,7 +27,7 @@ export default function OEmbed(props: Props) {
 
   return (
     <div
-      className="max-w-min mx-auto my-4"
+      className="max-w-min mx-auto my-4 not-prose"
       dangerouslySetInnerHTML={{ __html: data.html }}
     />
   );

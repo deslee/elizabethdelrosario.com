@@ -62,7 +62,7 @@ export default async function Post({
       <h1 className="text-center mx-auto text-6xl">
         <Link href={`/${post.slug}`}>{post.title}</Link>
       </h1>
-      <div className="text-center mx-auto mt-8">{content}</div>
+      <div className="text-center mx-auto mt-8 prose prose-xl">{content}</div>
     </div>
   );
 }

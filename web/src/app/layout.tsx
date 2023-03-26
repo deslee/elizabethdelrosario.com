@@ -2,6 +2,32 @@ import './globals.css'
 import Image from "next/image";
 import { getSiteData } from "./data";
 import Link from "next/link";
+import {
+  faEnvelope,
+  IconDefinition,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+  faFacebookF,
+  faImdb,
+  faInstagram,
+  faLinkedinIn,
+  faTwitter,
+  faVimeoV,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+import { Enum_Componentlayoutsocialicon_Icon } from "@/gql/graphql";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const iconMap: Record<Enum_Componentlayoutsocialicon_Icon, IconDefinition> = {
+  Email: faEnvelope,
+  Facebook: faFacebookF,
+  IMDb: faImdb,
+  Instagram: faInstagram,
+  LinkedIn: faLinkedinIn,
+  Twitter: faTwitter,
+  Vimeo: faVimeoV,
+  Youtube: faYoutube,
+};
 
 export const metadata = {
   title: "Create Next App",
@@ -54,7 +80,28 @@ export default async function RootLayout({
           </nav>
         </header>
 
-        {children}
+        <main>{children}</main>
+        <footer className="pt-16 pb-8 text-light tracking-widest uppercase text-center">
+          <div className="flex justify-center gap-4 my-8">
+            {data.socials.map((social) => {
+              const icon = iconMap[social.icon];
+              return (
+                <Link
+                  key={social.id}
+                  href={social.icon === 'Email' ? `mailto:${social.url}` : social.url}
+                  target="_blank"
+                  title={social.icon}
+                >
+                  <FontAwesomeIcon
+                    className="h-5 w-5 hover:text-primary"
+                    icon={icon}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+          <p className="text-xl">{data.footer}</p>
+        </footer>
       </body>
     </html>
   );

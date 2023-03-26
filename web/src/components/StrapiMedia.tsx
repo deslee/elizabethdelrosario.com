@@ -1,5 +1,6 @@
 "use client";
 
+import { Dialog } from "@headlessui/react";
 import clsx from "clsx";
 import Image from "next/image";
 import { Fragment, useMemo, useState } from "react";
@@ -37,8 +38,9 @@ export default function StrapiMedia(props: Props) {
     return (
       <Flipper
         flipKey={selectedMediaId}
+        portalKey="media-modal"
         className={clsx(
-          "mt-8 grid grid-flow-row gap-4 max-w-fit mx-auto relative",
+          "mt-8 grid grid-flow-row gap-4 max-w-fit mx-auto relative not-prose",
           files.length <= 1
             ? "grid-cols-1"
             : files.length === 2 || files.length === 4
@@ -79,25 +81,28 @@ export default function StrapiMedia(props: Props) {
         ))}
 
         {selectedMedia && (
-          <div
-            className="fixed inset-0 bg-black/40 cursor-pointer"
-            onClick={() => {
-              setSelectedMediaId(undefined);
-            }}
-          >
-            <Flipped flipId={selectedMedia.id}>
-              <div>
-                <Image
-                  placeholder={selectedMedia.placeholder ? "blur" : "empty"}
-                  blurDataURL={selectedMedia.placeholder ?? undefined}
-                  src={selectedMedia.url}
-                  width={selectedMedia.width}
-                  height={selectedMedia.height}
-                  alt={selectedMedia.alternativeText ?? ""}
-                />
-              </div>
-            </Flipped>
-          </div>
+          <Flipped flipId={selectedMedia.id}>
+            {(flippedProps) => (
+              <Dialog
+                open={!!selectedMedia}
+                className="fixed inset-0 bg-black/40 cursor-pointer"
+                onClose={() => setSelectedMediaId(undefined)}
+              >
+                <Dialog.Panel>
+                  <div {...flippedProps}>
+                    <Image
+                      placeholder={selectedMedia.placeholder ? "blur" : "empty"}
+                      blurDataURL={selectedMedia.placeholder ?? undefined}
+                      src={selectedMedia.url}
+                      width={selectedMedia.width}
+                      height={selectedMedia.height}
+                      alt={selectedMedia.alternativeText ?? ""}
+                    />
+                  </div>
+                </Dialog.Panel>
+              </Dialog>
+            )}
+          </Flipped>
         )}
       </Flipper>
     );

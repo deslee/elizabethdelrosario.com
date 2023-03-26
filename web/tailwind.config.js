@@ -7,9 +7,23 @@ module.exports = {
     extend: {
       colors: {
         primary: '#1ca086'
+      },
+      typography: ({ theme }) => {
+        return ({
+          DEFAULT: {
+            css: {
+              '--tw-prose-links': theme('colors.primary'),
+              'a': {
+                'text-decoration': 'none',
+              }
+            }
+          }
+        });
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 

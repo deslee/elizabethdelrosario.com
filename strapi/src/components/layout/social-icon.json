@@ -1,7 +1,8 @@
 {
   "collectionName": "components_layout_social_icons",
   "info": {
-    "displayName": "SocialIcon"
+    "displayName": "SocialIcon",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -16,10 +17,12 @@
         "Email",
         "Youtube",
         "IMDb"
-      ]
+      ],
+      "required": true
     },
     "url": {
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   }
 }
