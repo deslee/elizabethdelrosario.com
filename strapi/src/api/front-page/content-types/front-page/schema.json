@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "front_pages",
+  "info": {
+    "singularName": "front-page",
+    "pluralName": "front-pages",
+    "displayName": "Front Page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "featuredPosts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::post.post"
+    }
+  }
+}

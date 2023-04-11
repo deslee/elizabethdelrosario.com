@@ -1,0 +1,3 @@
+schema: 'web/gql/introspection.json'
+documents: 
+  - web/src/**/*.tsx

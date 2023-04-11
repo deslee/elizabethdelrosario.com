@@ -1,0 +1,19 @@
+.OembedPreview {
+  width: 100%;
+  border: 1px solid #4a4a6a;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.OembedPreview .toolbar {
+  display: flex;
+  gap: 4px;
+}
+
+.OembedPreview .toolbar button {
+  padding: 4px;
+  /* border: 1px solid #4a4a6a;
+  border-radius: 4px; */
+}

@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  strapi:
+    build: ./strapi
+    restart: unless-stopped
+    volumes:
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+      - uploads:/app/public/uploads
+      - db:/app/.tmp
+    networks:
+      private:
+      traefik:
+    environment:
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+      - HOST=0.0.0.0
+      - PORT=1337
+      - APP_KEYS=${APP_KEYS}
+      - API_TOKEN_SALT=${API_TOKEN_SALT}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      - TRANSFER_TOKEN_SALT=${TRANSFER_TOKEN_SALT}
+      - DATABASE_CLIENT=sqlite
+      - DATABASE_FILENAME=.tmp/data.db
+      - JWT_SECRET=MJ6dQPr2pXKEtv7yLd3Bjg==
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.edr-strapi.rule=Host(`admin.elizabethdelrosario.home.arpa`)
+      - traefik.http.routers.edr-strapi.entrypoints=https
+      - traefik.http.routers.edr-strapi.tls=true
+      - traefik.http.routers.edr-strapi.service=edr-strapi
+      - traefik.http.routers.edr-strapi.tls.certresolver=stepca
+      - traefik.http.routers.edr-strapi-public.rule=Host(`admin.elizabethdelrosario.com`)
+      - traefik.http.routers.edr-strapi-public.entrypoints=http-exposed
+      - traefik.http.routers.edr-strapi-public.service=edr-strapi
+      - traefik.http.services.edr-strapi.loadbalancer.server.port=1337
+    dns:
+      - 172.19.1.1
+
+  web:
+    build:
+      context: ./web
+      args: 
+        STRAPI_API_TOKEN: ${STRAPI_API_TOKEN}
+        STRAPI_BASE_URL: ${STRAPI_BASE_URL}
+    restart: unless-stopped
+    volumes:
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+    networks:
+      private:
+      traefik:
+    environment:
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+      - STRAPI_API_TOKEN=${STRAPI_API_TOKEN}
+      - STRAPI_BASE_URL=${STRAPI_BASE_URL}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.edr-web.rule=Host(`elizabethdelrosario.home.arpa`)
+      - traefik.http.routers.edr-web.entrypoints=https
+      - traefik.http.routers.edr-web.tls=true
+      - traefik.http.routers.edr-web.service=edr-web
+      - traefik.http.routers.edr-web.tls.certresolver=stepca
+      - traefik.http.routers.edr-web-public.rule=Host(`elizabethdelrosario.com`)
+      - traefik.http.routers.edr-web-public.entrypoints=http-exposed
+      - traefik.http.routers.edr-web-public.service=edr-web
+      - traefik.http.services.edr-web.loadbalancer.server.port=3000
+
+    dns:
+      - 172.19.1.1
+
+networks:
+  traefik:
+    external: true
+  private:
+    external: true
+
+volumes:
+  db:
+  uploads:

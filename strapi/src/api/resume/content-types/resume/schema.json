@@ -1,0 +1,48 @@
+{
+  "kind": "singleType",
+  "collectionName": "resumes",
+  "info": {
+    "singularName": "resume",
+    "pluralName": "resumes",
+    "displayName": "Resume",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "intro": {
+      "type": "text",
+      "required": true
+    },
+    "experience": {
+      "displayName": "Work Experience",
+      "type": "component",
+      "repeatable": true,
+      "component": "resume.work-experience",
+      "required": true
+    },
+    "software": {
+      "type": "component",
+      "repeatable": true,
+      "component": "resume.software",
+      "required": true
+    },
+    "education": {
+      "displayName": "Education",
+      "type": "component",
+      "repeatable": true,
+      "component": "resume.education",
+      "required": true
+    }
+  }
+}

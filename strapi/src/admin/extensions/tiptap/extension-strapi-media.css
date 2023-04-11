@@ -1,0 +1,33 @@
+.MediaImagePreview {
+  width: 100%;
+  border: 1px solid #4a4a6a;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.MediaImagePreview .preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.MediaImagePreview .preview .thumbs {
+  display: flex; 
+  gap: 4px;
+}
+
+.MediaImagePreview .preview .thumbs img {
+  height: 2rem;
+}
+
+.MediaImagePreview .toolbar {
+  display: flex;
+  gap: 4px;
+}
+
+.MediaImagePreview .toolbar button {
+  padding: 4px;
+  /* border: 1px solid #4a4a6a;
+  border-radius: 4px; */
+}

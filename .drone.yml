@@ -1,0 +1,158 @@
+kind: pipeline
+type: docker
+name: run
+
+steps:
+- name: discord notify start
+  image: plugins/webhook
+  when: 
+    status:
+      - success
+  settings:
+    urls:
+      from_secret: DISCORD_ALERTS_WEBHOOK
+    template: |
+      {
+        "content": "<@309151865818578944> Build initiated",
+        "username": "Build report",
+        "embeds": [
+          {
+            "title": "${DRONE_REPO_NAME} Build #${DRONE_BUILD_NUMBER}",
+            "type": "rich",
+            "description": "**Commit**: [${DRONE_COMMIT_SHA}](${DRONE_COMMIT_LINK})",
+            "color": 16776960,
+            "url": "${DRONE_BUILD_LINK}",
+            "fields": [
+              {
+                "name": "Branch",
+                "value": "${DRONE_COMMIT_BRANCH}",
+                "inline": true
+              },
+              {
+                "name": "Commit message",
+                "value": ${DRONE_COMMIT_MESSAGE},
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    debug: true
+# - name: build
+#   image: docker:dind
+#   volumes:
+#     - name: dockersock
+#       path: /var/run/docker.sock
+#   commands:
+#     - sleep 1 # give docker enough time to start
+#     - DOCKER_BUILDKIT=1 docker build -t registry.home.arpa/${DRONE_REPO_NAME}:${DRONE_BRANCH} -t registry.home.arpa/${DRONE_REPO_NAME}:${DRONE_COMMIT} --build-arg BUILDKIT_INLINE_CACHE=1 .
+#     - docker push registry.home.arpa/${DRONE_REPO_NAME}:${DRONE_BRANCH}
+#     - docker push registry.home.arpa/${DRONE_REPO_NAME}:${DRONE_COMMIT}
+- name: deploy
+  image: docker:dind
+  volumes:
+    - name: dockersock
+      path: /var/run/docker.sock
+  commands:
+    - docker compose -p elizabethdelrosario down
+    - docker compose -p elizabethdelrosario build strapi
+    - docker compose -p elizabethdelrosario up strapi -d
+    - docker compose -p elizabethdelrosario build web
+    - docker compose -p elizabethdelrosario up web -d
+  environment:
+    APP_KEYS:
+      from_secret: APP_KEYS
+    API_TOKEN_SALT:
+      from_secret: API_TOKEN_SALT
+    ADMIN_JWT_SECRET:
+      from_secret: ADMIN_JWT_SECRET
+    TRANSFER_TOKEN_SALT:
+      from_secret: TRANSFER_TOKEN_SALT
+    STRAPI_BASE_URL:
+      from_secret: STRAPI_BASE_URL
+    STRAPI_API_TOKEN:
+      from_secret: STRAPI_API_TOKEN
+- name: discord notify success
+  image: plugins/webhook
+  when: 
+    status:
+      - success
+  settings:
+    urls:
+      from_secret: DISCORD_ALERTS_WEBHOOK
+    template: |
+      {
+        "content": "<@309151865818578944> Build succeeded",
+        "username": "Build report",
+        "embeds": [
+          {
+            "title": "${DRONE_REPO_NAME} Build #${DRONE_BUILD_NUMBER}",
+            "type": "rich",
+            "description": "**Commit**: [${DRONE_COMMIT_SHA}](${DRONE_COMMIT_LINK})",
+            "color": 5763719,
+            "url": "${DRONE_BUILD_LINK}",
+            "fields": [
+              {
+                "name": "Branch",
+                "value": "${DRONE_COMMIT_BRANCH}",
+                "inline": true
+              },
+              {
+                "name": "Commit message",
+                "value": ${DRONE_COMMIT_MESSAGE},
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    debug: true
+- name: discord notify failure
+  image: plugins/webhook
+  when: 
+    status:
+      - failure
+  settings:
+    urls:
+      from_secret: DISCORD_ALERTS_WEBHOOK
+    template: |
+      {
+        "content": "<@309151865818578944> Alert: build failure 🚨",
+        "embeds": [
+          {
+            "title": "${DRONE_REPO_NAME} Build #${DRONE_BUILD_NUMBER}",
+            "username": "Build report",
+            "type": "rich",
+            "description": "**Commit**: [${DRONE_COMMIT_SHA}](${DRONE_COMMIT_LINK})",
+            "color": 15548997,
+            "url": "${DRONE_BUILD_LINK}",
+            "fields": [
+              {
+                "name": "Branch",
+                "value": "${DRONE_COMMIT_BRANCH}",
+                "inline": true
+              },
+              {
+                "name": "Commit message",
+                "value": ${DRONE_COMMIT_MESSAGE},
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    debug: true
+
+trigger:
+  event:
+    - push
+  branch: 
+    - main
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
+
+node:
+  host: core
